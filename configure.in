@@ -1,6 +1,6 @@
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 #
-# $Id: configure.in,v 1.38 2005/09/20 20:18:58 jao Exp $
+# $Id: configure.in,v 1.40 2006/03/12 23:23:38 jao Exp $
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -113,7 +113,7 @@ dnl Check for gtk+
 if test x$gui = xtrue; then
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.4.0 libglade-2.0 >= 2.0.0 pango >= 1.4,
                   [LIBS="$LIBS $GTK_LIBS" CFLAGS="$CFLAGS $GTK_CFLAGS"],
-                  [AC_MSG_WARN(Cannot find GTK+: the GUI shall not be built)
+                  [AC_MSG_WARN(Cannot find GTK+/Glade/Pango: the GUI shall not be built)
                   gui=false])
 fi
 
@@ -126,11 +126,7 @@ AC_REPLACE_FUNCS(getopt_long)
 
 AM_CONDITIONAL(MAKE_GUI, test x$gui = xtrue)
 
-dnl AC_CANONICAL_HOST
-case "${host_os}" in
-darwin*) CFLAGS="$CFLAGS -Wall -traditional-cpp";;
-*)  CFLAGS="$CFLAGS -Wall";;
-esac
+CFLAGS="$CFLAGS -Wall"
 
 AC_SUBST(CFLAGS)
 

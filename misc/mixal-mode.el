@@ -1,6 +1,6 @@
 ;;; mixal-mode.el --- Major mode for the mix asm language.
 
-;; Copyright (C) 2003, 2005 Free Software Foundation
+;; Copyright (C) 2003, 2004, 2005 Free Software Foundation
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -17,8 +17,8 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 ;; MA 02110-1301 USA
 
-;; Author: Pieter E.J. Pareit <pieter.pareit@skynet.be>
-;; Maintainer: Pieter E.J. Pareit <pieter.pareit@skynet.be>
+;; Author: Pieter E.J. Pareit <pieter.pareit@gmail.com>
+;; Maintainer: Pieter E.J. Pareit <pieter.pareit@gmail.com>
 ;; Created: 09 Nov 2002
 ;; Version: 0.1
 ;; Keywords: Knuth mix mixal asm mixvm "The Art Of Computer Programming"
@@ -45,6 +45,11 @@
 ;; Have fun.
 
 ;;; History:
+;; Version 0.3:
+;; 08/10/05: sync mdk and emacs cvs
+;;           from emacs: compile-command and require-final-newline
+;;           from mdk:   see version 0.2
+;;           correct my email address
 ;; Version 0.2:
 ;; 06/04/05: mixasm no longer needs -g option
 ;;           fontlocking of comments works in all? cases now
@@ -58,6 +63,7 @@
 ;; 09/11/02: started mixal-mode.
 
 ;;; Code:
+(defvar compile-command)
 
 ;;; Key map
 (defvar mixal-mode-map
@@ -146,11 +152,11 @@ value.")
 (defvar mixal-operation-codes-alist '()
   "Alist that contains all the possible operation codes for mix.
 Each elt has the form (OP-CODE GROUP FULL-NAME C-BYTE F-BYTE DESCRIPTION EXECUTION-TIME)
-Where OP-CODE is the text of the opcode as an symbol, FULL NAME is the human readable name
+Where OP-CODE is the text of the opcode as an symbol, FULL-NAME is the human readable name
 as a string, C-BYTE is the operation code telling what operation is to be performed, F-BYTE holds
 an modification of the operation code which can be a symbol or a number, DESCRIPTION contains
 an string with a description about the operation code and EXECUTION-TIME holds info
-about the time it takes, number or string")
+about the time it takes, number or string.")
 ; (makunbound 'mixal-operation-codes-alist)
 
 (defun mixal-add-operation-code (op-code group full-name C-byte F-byte description execution-time)
@@ -1311,8 +1317,9 @@ The converted character representation is stored in rAX."
   (set (make-local-variable 'compile-command) (concat "mixasm "
 						      buffer-file-name))
   ;; mixasm will do strange when there is no final newline,
-  ;; let emacs ensure that it is always there
-  (set (make-local-variable 'require-final-newline) t))
+  ;; so let Emacs ensure that it is always there
+  (set (make-local-variable 'require-final-newline)
+       mode-require-final-newline))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.mixal\\'" . mixal-mode))

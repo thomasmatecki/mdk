@@ -1,9 +1,9 @@
 /* -*-c-*- ---------------- mixgtk_device.c :
  * actual types for mixgtk devices
  * ------------------------------------------------------------------
- * $Id: mixgtk_device.c,v 1.26 2005/09/20 19:43:14 jao Exp $
+ * $Id: mixgtk_device.c,v 1.27 2005/09/29 21:12:07 jao Exp $
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2005 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ struct mixgtk_bin_device_t
 static void
 write_char_ (struct mixgtk_device_t *dev, const mix_word_t *block)
 {
-  enum {MAX_BLOCK = 16, BUFF_SIZE = MAX_BLOCK * 5 + 2};
+  enum {MAX_BLOCK = 24, BUFF_SIZE = MAX_BLOCK * 5 + 2};
   static gchar BUFFER[BUFF_SIZE];
 
   guint k, j;

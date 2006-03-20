@@ -1,9 +1,21 @@
 GNU MDK -- History of visible changes.
 
-Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, Free Software Foundation, Inc.
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, Free Software Foundation, Inc.
 See the end for copying conditions.
 
 Please send mdk bug reports to bug-mdk@gnu.org.
+
+---------------------------------------------------------------------------
+* Version 1.2.2
+
+** Bug fixes
+
+   - I1 and I2 in mixvm swapped to their correct position (closes #15746).
+   - Obsolete CFLAGS for Darwin removed.
+   - mixal-mode.el syncronised with Emacs CVS.
+   - Segmentation fault when clicking Memory title (closes #15910).
+   - Writing to char devices caused an out-of-bounds array access
+     (thanks to Aleix Conchillo).
 
 ---------------------------------------------------------------------------
 * Version 1.2.1 (20/09/05)
@@ -433,7 +445,7 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ---------------------------------------------------------------------------
 Copying information:
 
-Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
@@ -447,4 +459,4 @@ Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 
 
 ---
-$Id: NEWS,v 1.55 2005/09/20 20:18:58 jao Exp $
+$Id: NEWS,v 1.56 2006/03/16 00:59:44 jao Exp $

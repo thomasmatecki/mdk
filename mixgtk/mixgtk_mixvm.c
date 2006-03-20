@@ -1,9 +1,9 @@
 /* -*-c-*- -------------- mixgtk_mixvm.c :
  * Implementation of the functions declared in mixgtk_mixvm.h
  * ------------------------------------------------------------------
- * $Id: mixgtk_mixvm.c,v 1.16 2005/09/20 19:43:14 jao Exp $
+ * $Id: mixgtk_mixvm.c,v 1.17 2006/03/15 23:31:34 jao Exp $
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -440,7 +440,7 @@ cont_clicked_ (GtkWidget *w, GdkEvent *event, gpointer data)
   enum {SIZE = 30};
   static gchar BUFFER[SIZE];
 
-  if (event->type == GDK_BUTTON_PRESS)
+  if (event && event->type == GDK_BUTTON_PRESS)
     {
       GtkTreeIter iter;
       GtkTreeModel *model;
@@ -519,8 +519,8 @@ init_mem_ (void)
 
   gtk_tree_view_append_column (memory_, col);
 
-  g_signal_connect (G_OBJECT (memory_), "event-after",
-                    G_CALLBACK (cont_clicked_), NULL);
+  g_signal_connect_after (G_OBJECT (memory_), "event-after",
+                          G_CALLBACK (cont_clicked_), NULL);
 
   mixgtk_fontsel_set_font (MIX_FONT_MIXVM, GTK_WIDGET (memory_));
 
