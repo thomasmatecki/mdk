@@ -1,0 +1,175 @@
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+#
+# $Id: configure.in,v 1.38 2005/09/20 20:18:58 jao Exp $
+#
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+AC_INIT([GNU MDK],1.2.1,[bug-mdk@gnu.org],mdk)
+AM_INIT_AUTOMAKE(mdk,1.2.1)
+AM_CONFIG_HEADER(config.h)
+
+AM_MAINTAINER_MODE
+
+AC_ISC_POSIX
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_HEADER_STDC
+
+AM_PROG_LEX
+AC_PROG_RANLIB
+
+dnl additional c flags
+CFLAGS="$CFLAGS -fno-strict-aliasing"
+AC_SUBST(CFLAGS)
+
+dnl i18n stuff
+AM_GNU_GETTEXT_VERSION(0.14)
+AM_GNU_GETTEXT
+AC_PROG_INTLTOOL([0.30], [no-xml])
+
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
+
+AH_TEMPLATE(LOCALEDIR,[locale directory])
+AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/share/locale")
+
+dnl Check for readline and history
+AC_ARG_WITH(readline,
+[  --without-readline         build mixvm without readline support],
+[case "${withval}" in
+  yes) readl=true ;;
+  no)  readl=false ;;
+  *) AC_MSG_ERROR(bad value ${withval} for --with-readline) ;;
+esac], [readl=true])
+
+if test x$readl = xtrue; then
+  AC_CHECK_LIB(ncurses, initscr, ,
+               [AC_MSG_WARN(Cannot find ncurses lib); readl=false])
+fi
+
+if test x$readl = xtrue; then
+  AC_CHECK_LIB(readline, readline, ,
+               [AC_MSG_WARN(Cannot find GNU readline lib); readl=false])
+fi
+
+if test x$readl = xtrue; then
+AC_CHECK_LIB(history, add_history, ,
+             [AC_MSG_WARN(Cannot find GNU history lib); readl=false])
+dnl old versions of readline use completion_matches instead
+dnl of rl_completion_matches
+AC_CHECK_FUNCS(rl_completion_matches,,)
+fi
+
+dnl Check for guile
+AC_ARG_WITH(guile,
+[  --without-guile         build MDK without Guile support],
+[case "${withval}" in
+  yes) wguile=true ;;
+  no)  wguile=false ;;
+  *) AC_MSG_ERROR(bad value ${withval} for --with-guile) ;;
+esac], [wguile=true])
+
+if test x$wguile = xtrue; then
+dnl  AC_CHECK_HEADER(guile/gh.h,,wguile=false)
+  AC_MSG_CHECKING(for Guile)
+  guile-config link > /dev/null || {
+    AC_MSG_RESULT(no)
+    wguile=false
+  }
+fi
+
+if test x$wguile = xtrue; then
+  GUILE_CFLAGS="`guile-config compile`"
+  GUILE_LDFLAGS="`guile-config link`"
+  LIBS="$LIBS $GUILE_LDFLAGS"
+  CFLAGS="$CFLAGS $GUILE_CFLAGS"
+  AC_SUBST(MAKE_GUILE)
+  AC_MSG_RESULT(yes)
+fi
+
+AM_CONDITIONAL(MAKE_GUILE, test x$wguile = xtrue)
+
+dnl Check for glib
+PKG_CHECK_MODULES(GLIB,glib-2.0 >= 2.0)
+
+LIBS="$LIBS $GLIB_LIBS"
+CFLAGS="$CFLAGS $GLIB_CFLAGS -DG_DISABLE_DEPRECATED"
+
+dnl Check if the gtk gui is required
+AC_ARG_ENABLE(gui,
+[  --disable-gui          do not build the GTK+ GUI for mixvm (gmixvm)],
+[case "${enableval}" in
+  yes) gui=true ;;
+  no)  gui=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-gui) ;;
+esac],[gui=true])
+
+dnl Check for gtk+
+if test x$gui = xtrue; then
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.4.0 libglade-2.0 >= 2.0.0 pango >= 1.4,
+                  [LIBS="$LIBS $GTK_LIBS" CFLAGS="$CFLAGS $GTK_CFLAGS"],
+                  [AC_MSG_WARN(Cannot find GTK+: the GUI shall not be built)
+                  gui=false])
+fi
+
+if test x$gui = xtrue; then
+CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
+fi
+
+dnl use the provided getopt if gnu getopt is not available
+AC_REPLACE_FUNCS(getopt_long)
+
+AM_CONDITIONAL(MAKE_GUI, test x$gui = xtrue)
+
+dnl AC_CANONICAL_HOST
+case "${host_os}" in
+darwin*) CFLAGS="$CFLAGS -Wall -traditional-cpp";;
+*)  CFLAGS="$CFLAGS -Wall";;
+esac
+
+AC_SUBST(CFLAGS)
+
+AC_CONFIG_FILES(
+Makefile
+doc/Makefile
+doc/img/Makefile
+mixlib/Makefile
+mixlib/testsuite/Makefile
+mixguile/Makefile
+mixutils/Makefile
+mixgtk/Makefile
+lib/Makefile
+misc/Makefile
+samples/Makefile
+po/Makefile.in
+intl/Makefile
+)
+
+AC_OUTPUT
+
+if test x$readl = xtrue; then
+  rlinfo=", with readline support"
+fi
+
+if test x$wguile = xtrue; then
+  guileinfo=", with guile support"
+fi
+
+echo
+echo "*** $PACKAGE_NAME $VERSION has been successfully configured. ***"
+echo
+echo "Type 'make' to build the following utilities:"
+echo "    - mixasm (MIX assembler)"
+echo "    - mixvm (MIX virtual machine${rlinfo}${guileinfo})"
+if test x$gui = xtrue; then
+echo "    - gmixvm (mixvm GTK+ GUI${guileinfo})"
+fi
+if test x$wguile = xtrue; then
+echo "    - mixguile (the mixvm guile shell)"
+fi
+echo

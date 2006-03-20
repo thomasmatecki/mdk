@@ -1,0 +1,394 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_gmixvm.texi,v 1.18 2004/08/03 13:23:06 jao Exp $
+
+@node gmixvm, mixguile, mixvm, Top
+@comment  node-name,  next,  previous,  up
+@chapter @code{gmixvm}, the GTK virtual machine
+@cindex @code{gmixvm}
+@cindex GUI
+@cindex GTK+
+
+This chapter describes the graphical MIX virtual machine emulator
+shipped with @sc{mdk}. In addition to having all the command-oriented
+functionalities of the other virtual machines (@code{mixvm} and
+@code{mixguile}), @code{gmixvm} offers you a graphical interface
+displaying the status of the virtual machine, the source code of the the
+downloaded programs and the contents of the MIX devices.
+
+@menu
+* Invoking gmixvm::
+* MIXVM console::               Using @code{mixvm} commands.
+* MIX virtual machine::         The MIX virtual machine window.
+* MIXAL source view::           Viewing the MIXAL source code.
+* MIX devices view::            Device output.
+* Menu and status bars::        Available menu commands.
+@end menu
+
+@node Invoking gmixvm, MIXVM console, gmixvm, gmixvm
+@comment  node-name,  next,  previous,  up
+@section Invoking @code{gmixvm}
+
+If you have built @sc{mdk} with GTK+ support (@pxref{Installing MDK}), a
+graphical front-end for the MIX virtual machine will be available in
+your system. You can invoke it by typing
+
+@example
+gmixvm [-vhuq] [--version] [--help] [--usage] [--noinit]
+@end example
+@noindent
+at your command prompt, where the options have the following meanings:
+
+@defopt -v
+@defoptx --version
+Prints version and copyleft information and exits.
+@end defopt
+
+@defopt -h
+@defoptx --help
+@defoptx -u
+@defoptx --usage
+Prints a summary of available options and exits.
+@end defopt
+
+@defopt -q
+@defoptx --noinit
+Do not load the Guile initialisation file @code{~/.mdk/mixguile.scm} at
+startup. This file contains any local Scheme code to be executed by the
+embedded Guile interpreter at startup (@pxref{Using Scheme in mixvm and
+gmixvm}).
+@end defopt
+
+Typing @code{gmixvm} or @code{gmixvm -q} at your command prompt, the
+main window will appear, offering you a graphical interface to run and
+debug your MIX programs.
+
+@ifinfo
+@image{img/ss_mix, 400pt}
+@end ifinfo
+
+@ifhtml
+@image{../img/ss_mix, 400pt}
+@end ifhtml
+
+Apart from the menu and status bars, we can distinguish two zones (or
+halves) in this main window. In the upper half of @code{gmixvm}'s main
+window there is a notebook with three pages, namely,
+
+@itemize
+@item
+a MIX virtual machine view, which shows you the registers, flags, memory
+contents and time statistics of the virtual machine;
+@item
+a MIXAL source view, which shows the MIXAL file and lets you manage
+breakpoints;
+@item
+a Devices view, which shows you the output to character based MIX block
+devices.
+@end itemize
+
+@noindent
+These three windows can be detached from the notebook, using either
+the penultimate toolbar button (which detachs the currently visible
+notebook page) or the menu entries under @code{@w{View->Detached windows}}.
+
+@ifhtml
+Here is an screenshot showing how @code{gmixvm} looks like when running
+with a couple of detached windows:
+
+@image{../img/ss_split, 420pt}
+
+@end ifhtml
+
+On the other hand, the main window's lower half presents you a
+@code{mixvm} command prompt and a logging area where results of the
+issued commands are presented. These widgets implement a @code{mixvm}
+console which offers almost the same functionality as its
+@acronym{CLI} counterpart.
+
+When @code{gmixvm} is run, it creates a directory named @file{.mdk} in
+your home directory (if it does not already exist). The @file{.mdk}
+directory contains the program settings, the device files used by your
+MIX programs (@pxref{Devices}), and a command history file.
+
+The following sections describe the above mentioned components of
+@code{gmixvm}.
+
+@node MIXVM console, MIX virtual machine, Invoking gmixvm, gmixvm
+@comment  node-name,  next,  previous,  up
+@section MIXVM console
+
+In the lower half of the @code{gmixvm} main window, you will find a
+command text entry and, above it, an echo area. These widgets offer you
+the same functionality as its @acronym{CLI} counterpart, @code{mixvm}
+(@pxref{mixvm}). You can issue almost all @code{mixmv} commands at the
+@code{gmixvm}'s command prompt in order to manipulate the MIX virtual
+machine. Please refer to @xref{mixvm}, for a description of these
+commands, and to @xref{Getting started}, for a tutorial on using the MIX
+virtual machine. The command prompt offers command line completion for
+partially typed commands using the @key{TAB} key; e.g., if you type
+
+@example
+lo @key{TAB}
+@end example
+@noindent
+the command is automatically completed to @code{load}. If multiple
+completions are available, they will be shown in the echo area. Thus,
+typing
+
+@example
+p @key{TAB}
+@end example
+@noindent
+will produce the following output on the echo area:
+
+@example
+Completions:
+pc     psym     preg     pflags     pall
+pmem
+@end example
+@noindent
+which lists all the available commands starting with @code{p}. In
+addition, the command prompt maintains a history of typed commands,
+which can be recovered using the arrow up and down keys. As mentioned
+above, a file containing previous sessions' commands is stored in the
+configuration directory @file{~/.mdk}, and reloaded every time you start
+@code{gmixvm}.
+
+You can change the font used to display the issued commands and the
+messages in the echo area using the @code{@w{Settings->Change font->Command
+prompt}} and @code{@w{Settings->Change font->Command log}} menu commands.
+
+@node MIX virtual machine, MIXAL source view, MIXVM console, gmixvm
+@comment  node-name,  next,  previous,  up
+@section MIX virtual machine
+
+The first notebook's page displays the current status of the virtual
+machine. There you can find the registers' contents, the value of the
+comparison and overflow flags, the location pointer, a list with all MIX
+memory cells and their contents, and the time statistics (including
+total uptime, elapsed time since the last run command and total
+execution time for the currently loaded MIX program).
+
+If you click any register entry, you will be prompted for a new register's
+contents.
+
+@ifhtml
+The next figure shows the enter word dialog.
+
+@image{../img/ss_worddlg, 250pt}
+
+@end ifhtml
+
+In the same manner, click on any address of the memory cells list to be
+prompted for the new contents of the clicked cell. If you click the
+address column's title, a dialog asking you for a memory address will
+appear; if you introduce a valid address, this will be the first cell
+displayed in the scrollable list after you click the OK button.
+
+The register contents are shown as a list of MIX bytes plus sign. If you
+place the mouse pointer over any of them, the decimal value of this MIX
+word will appear inside a tooltip.
+
+You can change the font used to display the MIX virtual machine contents
+using the @code{@w{Settings->Change font->MIX}} menu command.
+
+@node MIXAL source view, MIX devices view, MIX virtual machine, gmixvm
+@comment  node-name,  next,  previous,  up
+@section MIXAL source view
+
+The second notebook's page, dubbed Source, shows you the MIXAL source of
+the currently loaded MIX file.
+
+@ifhtml
+@image{../img/ss_mixal, 400pt}
+@end ifhtml
+
+The information is presented in four columns. The first column
+displays little icons showing the current program pointer and any set
+breakpoints. The second and third columns show the address and memory
+contents of the compiled MIX instruction, while the last one displays
+its corresponding MIXAL representation, together with the source file
+line number. You can set/unset breakpoints by clicking on any line
+that has an associated memory address.
+
+You can change the font used to display the MIXAL source code
+using the @code{@w{Settings->Change font->MIXAL}} menu command.
+
+@node MIX devices view, Menu and status bars, MIXAL source view, gmixvm
+@comment  node-name,  next,  previous,  up
+@section MIX devices view
+
+The last notebook page, dubbed Devices, shows you the output/input
+to/from MIX block devices (the console, line printer, paper tape,
+disks, card and tapes @pxref{Devices}) produced by the running
+program.
+
+@ifhtml
+
+@image{../img/ss_devices, 400pt}
+
+@end ifhtml
+
+Input device contents is read from files located in the @file{~/.mdk}
+directory, and the output is also written to files at the same
+location. Note that device tabs will appear as they are used by the MIX
+program being run, and that loading a new MIX program will close all
+previously open devices.
+
+The input/output for binary block devices (tapes and disks) is a list
+of MIX words, which can be displayed either in decimal or word format
+(e.g. @w{- 67} or @w{- 00 00 00 01 03}). The format used by
+@code{gmixvm} can be configured using the @code{@w{Settings->Device output}}
+menu command for each binary device.
+
+You can change the font used to display the devices content
+using the @code{@w{Settings->Change font->Devices}} menu command.
+
+@node Menu and status bars,  , MIX devices view, gmixvm
+@comment  node-name,  next,  previous,  up
+@section Menu and status bars
+
+The menu bar gives you access to the following commands:
+
+@deffn File Load...
+Opens a file dialog that lets you specify a binary MIX file to be loaded
+in the virtual machine's memory. It is equivalent to the @code{mixvm}'s
+@code{load} command (@pxref{File commands}).
+@end deffn
+
+@deffn File Edit...
+Opens a file dialog that lets your specify a MIXAL source file to be
+edited. It is equivalent to the @code{mixvm}'s @code{edit} command
+(@pxref{File commands}). The program used for editing can be specified
+using the menu entry @code{@w{Settings->External programs}}, or using the
+@code{mixvm} command @code{sedit}.
+@end deffn
+
+@deffn File Compile...
+Opens a file dialog that lets your specify a MIXAL source file to be
+compiled. It is equivalent to the @code{mixvm}'s @code{compile} command
+(@pxref{File commands}). The command used for compiling can be specified
+using the menu entry @code{@w{Settings->External programs}}, or using the
+@code{mixvm} command @code{sasm}.
+@end deffn
+
+@deffn File Exit
+Exits the application.
+@end deffn
+
+@deffn Debug Run
+Runs the currently loaded MIX program, up to the next breakpoint. It is
+equivalent to the @code{mixvm}'s @code{run} command (@pxref{Debug
+commands}).
+@end deffn
+
+@deffn Debug Next
+Executes the next MIX instruction. It is equivalent to the
+@code{mixvm}'s @code{next} command (@pxref{Debug commands}).
+@end deffn
+
+@deffn Debug @w{Clear breakpoints}
+Clears all currently set breakpoints. It is equivalent to the
+@code{mixvm}'s @code{cabp} command.
+@end deffn
+
+@deffn Debug Symbols...
+Opens a dialog showing the list of symbols defined in the currently
+loaded MIX program. The font used to display this list can be
+customised using the meny entry @code{@w{Settings->Change font->Symbol
+list}}.
+
+@ifhtml
+
+@image{../img/ss_symbols, 250pt}
+
+@end ifhtml
+
+@end deffn
+
+@deffn View @w{Toolbar(s)}
+Toggles the toolbar(s) in the @code{gmixvm} window(s) (when notebook
+pages are detached, each one has its own toolbar).
+@end deffn
+
+@deffn View @w{Detached windows} @w{Virtual machine}
+@deffnx View @w{Detached windows} Source
+@deffnx View @w{Detached windows} Devices
+
+These toggles let you detach (or re-attach) the corresponding notebook
+page.
+
+@end deffn
+
+@deffn Settings @w{Change font}
+Lets you change the font used in the various @code{gmixv} widgets
+(i.e. commad prompt, command log, Virtual machine, Source, Devices and
+Symbol list). There is also an entry (@code{All}) to change all fonts
+at once.
+@end deffn
+
+@deffn Settings @w{Device output...}
+Opens a dialog that lets you specify which format shall be used to show
+the contents of MIX binary block devices.
+
+@ifhtml
+@image{../img/ss_devform, 250pt}
+@end ifhtml
+
+The available formats are decimal (e.g. @w{-1234}) and MIX word
+(e.g. @w{- 00 00 00 19 18}).
+@end deffn
+
+@deffn Settings @w{Devices dir...}
+Opens a dialog that lets you choose where the MIX device files will be
+stored (@file{~/.mdk} is the default location).
+
+@ifhtml
+@image{../img/ss_devdir, 250pt}
+@end ifhtml
+
+You can also specify the devices directory using the @code{mixvm}
+command @code{sddir} (@pxref{Configuration commands}).
+
+@end deffn
+
+@deffn Settings @w{External programs...}
+This menu command opens a dialog that lets you specify the commands used
+for editing and compiling MIXAL source files.
+
+@ifhtml
+@image{../img/ss_extprog, 250pt}
+@end ifhtml
+
+The commands are specified as template strings, where the control
+substring @code{%s} will be substituted by the actual file name. Thus,
+if you want to edit programs using @code{vi} running in an @code{xterm},
+you must enter the command template @code{@w{xterm -e vi %s}} in the
+corresponding dialog entry. These settings can also be changed using the
+@code{mixvm} commands @code{sedit} and @code{sasm} (@pxref{Configuration
+commands}).
+@end deffn
+
+
+@deffn Settings Save
+Saves the current settings.
+@end deffn
+
+@deffn Settings @w{Save on exit}
+Mark this checkbox if you want @code{gmixvm} to save its settings
+every time you quit the program.
+@end deffn
+
+@deffn Help About...
+Shows information about @code{gmixvm}'s version and copyright.
+@end deffn
+
+On the other hand, the status bar displays the name of the last loaded
+MIX file. In addition, when the mouse pointer is over a MIXAL source
+file line that contains symbols, a list of these symbols with their
+values will appear in the status bar.

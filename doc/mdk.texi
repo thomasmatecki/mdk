@@ -1,0 +1,248 @@
+\input texinfo  @c -*-texinfo-*-
+@c %**start of header
+@setfilename mdk.info
+@settitle GNU MIX Development Kit (mdk)
+@syncodeindex pg cp
+@finalout
+@setchapternewpage odd
+@c $Id: mdk.texi,v 1.28 2005/09/20 21:00:22 jao Exp $
+@c %**end of header
+
+@set UPDATED September, 2005
+@set EDITION 1.2.1
+@set VERSION 1.2.1
+@set JAO Jose Antonio Ortega Ruiz
+@set PHILIP Philip E. King
+@set PIETER Pieter E. J. Pareit
+@set MIKE Michael Scholz
+
+@copying
+This manual is for GNU MDK (version @value{VERSION}, @value{UPDATED}),
+a set of utilities for developing programs using Donald Knuth's MIX
+mythical computer and MIXAL, its assembly language.
+
+Copyright @copyright{} 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover Texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.  A copy of the
+license is included in the section entitled ``GNU Free Documentation
+License.''
+
+(a) The FSF's Back-Cover Text is: ``You have freedom to copy and modify
+this GNU Manual, like GNU software.  Copies published by the Free
+Software Foundation raise funds for GNU development.''
+@end quotation
+@end copying
+
+@dircategory GNU programming tools
+@direntry
+* MDK: (mdk).           The GNU MIX Development Kit.
+@end direntry
+
+
+@footnotestyle separate
+
+@titlepage
+@title GNU MDK
+@subtitle GNU MIX Development Kit
+@subtitle Edition @value{EDITION}, for GNU @sc{mdk} Version @value{VERSION}
+@subtitle @value{UPDATED}
+@author by @value{JAO} (@email{jao@@gnu.org})
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@shortcontents
+@contents
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+
+@insertcopying
+
+GNU MDK was written and designed by @value{JAO}.
+
+@value{PIETER} is the author of the Emacs @code{MIXAL} mode
+(@pxref{MIXAL mode}), and has also contributed many bug fixes.
+
+@value{PHILIP} has contributed to this package development with many
+helpful discussions, as well as actual code (@pxref{GUD integration}).
+
+@value{MIKE} is the author of the German translation of @sc{mdk}'s
+user interface.
+
+@end ifnottex
+
+@menu
+* Introduction::
+* Acknowledgments::
+* Installing MDK::              Installing GNU MDK from the source tarball.
+* MIX and MIXAL tutorial::      Learn the innards of MIX and MIXAL.
+* Getting started::             Basic usage of the @sc{mdk} tools.
+* Emacs tools::                 Programming the MIX using Emacs.
+* mixasm::                      Invoking the MIXAL assembler.
+* mixvm::                       Invoking and using the MIX virtual machine.
+* gmixvm::                      Invoking and using the GTK+ virtual machine.
+* mixguile::                    Invoking and using the Scheme virtual machine.
+* Problems::                    Reporting bugs.
+* Copying::                     @sc{mdk} licensing terms.
+* Concept Index::               Index of concepts.
+* Instructions and commands::   Index of MIXAL instructions and MIXVM commands.
+
+
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Installing @sc{mdk}
+
+* Download::
+* Requirements::
+* Basic installation::
+* Emacs support::
+* Special configure flags::
+* Supported platforms::
+
+MIX and MIXAL tutorial
+
+* The MIX computer::            Architecture and instruction set
+                                of the MIX computer.
+* MIXAL::                       The MIX assembly language.
+
+The MIX computer
+
+* MIX architecture::
+* MIX instruction set::
+
+MIX instruction set
+
+* Instruction structure::
+* Loading operators::
+* Storing operators::
+* Arithmetic operators::
+* Address transfer operators::
+* Comparison operators::
+* Jump operators::
+* Input-output operators::
+* Conversion operators::
+* Shift operators::
+* Miscellaneous operators::
+* Execution times::
+
+MIXAL
+
+* Basic structure::             Writing basic MIXAL programs.
+* MIXAL directives::            Assembler directives.
+* Expressions::                 Evaluation of expressions.
+* W-expressions::               Evaluation of w-expressions.
+* Local symbols::               Special symbol table entries.
+* Literal constants::           Specifying an immediate operand.
+
+Getting started
+
+* Writing a source file::       A sample MIXAL source file.
+* Compiling::                   Using @code{mixasm} to compile source
+                                files into binary format.
+* Running the program::         Running and debugging your programs.
+* Using mixguile::              Using the Scheme interpreter to run and
+                                debug your programs.
+* Using Scheme in mixvm and gmixvm::
+
+Running the program
+
+* Non-interactive mode::        Running your programs non-interactively.
+* Interactive mode::            Running programs interactively.
+* Debugging::                   Commands for debugging your programs.
+
+Using @code{mixguile}
+
+* The mixguile shell::          Using the Scheme MIX virtual machine.
+* Additional functions::        Scheme functions accessing the VM.
+* Defining new functions::      Defining your own Scheme functions.
+* Hook functions::              Using command and break hook functions.
+* Scheme scripts::
+
+Hook functions
+
+* Command hooks::
+* Break hooks::
+
+Emacs tools
+
+* MIXAL mode::                  Editing MIXAL files.
+* GUD integration::             Invoking @code{mixvm} within Emacs.
+
+MIXAL mode
+
+* Basics::                      Editing code, font locking and indentation.
+* Help system::                 Using the interactive help system.
+* Compiling and running::       Invoking compiler and/or virtual machine.
+
+@code{mixasm}, the MIXAL assembler
+
+* Invoking mixasm::
+
+@code{mixvm}, the MIX computer simulator
+
+* Invocation::
+* Commands::                    Commands available in interactive mode.
+* Devices::                     MIX block devices implementation.
+
+Interactive commands
+
+* File commands::               Loading and executing programs.
+* Debug commands::              Debugging programs.
+* State commands::              Inspecting the virtual machine state.
+* Configuration commands::      Changing and storing mixvm settings.
+* Scheme commands::
+
+@code{gmixvm}, the GTK virtual machine
+
+* Invoking gmixvm::
+* MIXVM console::               Using @code{mixvm} commands.
+* MIX virtual machine::         The MIX virtual machine window.
+* MIXAL source view::           Viewing the MIXAL source code.
+* MIX devices view::            Device output.
+* Menu and status bars::        Available menu commands.
+
+@code{mixguile}, the Scheme virtual machine
+
+* Invoking mixguile::           Command line options.
+* Scheme functions reference::  Scheme functions accessing the VM.
+
+Scheme functions reference
+
+* mixvm wrappers::              Functions invoking mixvm commands.
+* Hooks::                       Adding hooks to mixvm commands.
+* Additional VM functions::     Functions accessing the MIX virtual machine.
+
+Copying
+
+* GNU General Public License::
+* GNU Free Documentation License::
+
+@end detailmenu
+@end menu
+
+@include mdk_intro.texi
+@include mdk_ack.texi
+@include mdk_install.texi
+@include mdk_tut.texi
+@include mdk_gstart.texi
+@include mdk_emacs.texi
+@include mdk_mixasm.texi
+@include mdk_mixvm.texi
+@include mdk_gmixvm.texi
+@include mdk_mixguile.texi
+@include mdk_bugs.texi
+@include mdk_copying.texi
+@include mdk_index.texi
+@include mdk_findex.texi
+
+@bye
+

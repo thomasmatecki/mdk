@@ -1,0 +1,70 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_intro.texi,v 1.8 2004/08/03 13:23:06 jao Exp $
+
+@node Introduction, Acknowledgments, Top, Top
+@comment  node-name,  next,  previous,  up
+@unnumbered Introduction
+@cindex Introduction
+
+In his book series @cite{The Art of Computer Programming} (published by
+Addison Wesley), D. Knuth uses an imaginary computer, the MIX, and its
+associated machine-code and assembly languages to ilustrate the
+concepts and algorithms as they are presented.
+
+The MIX's architecture is a simplified version of those found in real
+CISC CPUs, and the MIX assembly language (MIXAL) provides a set of
+primitives that will be very familiar to any person with a minimum
+experience in assembly programming. The MIX/MIXAL definition is powerful
+and complete enough to provide a virtual development platform for
+writing quite complex programs, and close enough to real computers to be
+worth using when learning programming techniques. At any rate, if you
+want to learn or improve your programming skills, a MIX development
+environment would come in handy.
+
+The @sc{mdk} package aims at providing such virtual development
+environment on a GNU box. Thus, @sc{mdk} offers you a set of utilities
+to simulate the MIX computer and to write, compile, run and debug MIXAL
+programs. As of version @value{VERSION}, @sc{mdk} includes
+the following programs:
+
+@table @code
+@item mixasm
+MIXAL assembler. Assembler which translates MIXAL source files into
+programs that can be run (and debugged) by @code{mixvm}, @code{mixguile}
+or @code{gmixvm}.
+@item mixvm
+MIX virtual machine. Emulation of the MIX computer with a @acronym{CLI}.
+@item gmixvm
+A GTK+ GUI for the MIX virtual machine. Provides all of @code{mixvm}
+functionality accessible through a graphical interface.
+@item mixguile
+A Guile shell, with an embedded MIX virtual machine and built-in
+commands to manipulate it using Scheme.
+@item mixal-mode.el
+An Emacs major mode for MIXAL source files editing, providing syntax
+highlighting, documentation lookup and invocation of @code{mixvm}
+within Emacs.
+@item mixvm.el
+This elisp program allows running @code{mixvm} inside an Emacs GUD
+buffer, providing concurrent edition and debugging of MIXAL programs.
+@end table
+
+@code{mixvm} and @code{gmixvm} implement a simulator of the MIX
+computer, giving you a virtual machine for executing and debugging MIX
+programs. These binary programs could be written by hand, but it is
+easier to produce them compiling MIXAL source files, using the MIXAL
+assembler @code{mixasm}. On the other hand, @code{mixguile} offers you
+the possibility of manipulating a MIX virtual machine through a set of
+Scheme functions, so that you can use this programming language to
+interact with the virtual machine. In addition, @code{mixvm} and
+@code{gmixvm} are also able to interpret Scheme scripts (using an
+embedded Guile interpreter), that is, you can use Scheme as an extension
+language to add new functionalities to these programs.
+
+This manual gives you a tutorial of MIX and MIXAL, and a thorough
+description of the use of the @sc{mdk} utilities.

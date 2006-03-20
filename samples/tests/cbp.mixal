@@ -1,0 +1,14 @@
+* testing conditional breakpoints
+	ORIG	2000
+START	ENTA	100
+	STA	1000
+	ENTX	200
+	STX     1001
+	CMPA	1001 	* cmp flag changed
+	CMPX	1000    * cmp flag changed
+	DIV	1002    * over toggle
+	HLT
+	END	START
+
+	
+	

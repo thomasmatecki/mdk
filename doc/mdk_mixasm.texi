@@ -1,0 +1,89 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_mixasm.texi,v 1.10 2004/08/05 21:32:46 jao Exp $
+
+@node mixasm, mixvm, Emacs tools, Top
+@comment  node-name,  next,  previous,  up
+@chapter @code{mixasm}, the MIXAL assembler
+@cindex @code{mixasm}
+@cindex MIXAL
+@cindex assembler
+
+MIX programs, as executed by @code{mixvm}, are composed of binary
+instructions loaded into the virtual machine memory as MIX
+words. Although you could write your MIX programs directly as a series
+of words in binary format, you have at your disposal a more friendly
+assembly language, MIXAL (@pxref{MIXAL}) which is compiled into binary
+form by @code{mixasm}, the MIXAL assembler included in @sc{mdk}. In this
+chapter, you will find a complete description of @code{mixasm} options.
+
+@menu
+* Invoking mixasm::
+@end menu
+
+@node Invoking mixasm,  , mixasm, mixasm
+@comment  node-name,  next,  previous,  up
+@section Invoking @code{mixasm}
+
+In its simplest form, @code{mixasm} is invoked with a single argument,
+which is the name of the MIXAL file to be compiled, e.g.
+
+@example
+mixasm hello
+@end example
+
+@noindent
+will compile either @file{hello} or @file{hello.mixal}, producing a
+binary file named @file{hello.mix} if no errors are found.
+
+In addition, @code{mixasm} can be invoked with the following command
+line options (note, that, following GNU's conventions, we provide a long
+option name for each available single letter switch):
+
+@example
+mixasm [-vhulO] [-o OUTPUT_FILE] [--version] [--help] [--usage]
+       [--ndebug] [--output=OUTPUT_FILE] [--list[=LIST_FILE]] file
+@end example
+
+@noindent
+The meaning of these options is as follows:
+
+@defopt -v
+@defoptx --version
+Prints version and copyleft information and exits.
+@end defopt
+
+@defopt -h
+@defoptx --help
+@defoptx -u
+@defoptx --usage
+Prints a summary of available options and exits.
+@end defopt
+
+@defopt -O
+@defoptx --ndebug
+Do not include debugging information in the compiled file, saving
+space but disallowing breakpoint setting at source level and symbol
+table inspection under @code{mixvm}.
+@end defopt
+
+@defopt -o output_file
+@defoptx --output=output_file
+By default, the given source file @var{file.mixal} is compiled into
+@var{file.mix}. You can provide a different name for the output file
+using this option.
+@end defopt
+
+@defopt -l
+@defoptx @w{--list[=list_file]}
+@cindex .mls file
+This option causes @code{mixasm} to produce, in addion to the
+@file{.mix} file, an ASCII file containing a summary of the compilation
+results. The file is named after the MIXAL source file, changing its
+extension to @file{.mls} if no argument is provided; otherwise, the
+listing file is named according to the argument.
+@end defopt

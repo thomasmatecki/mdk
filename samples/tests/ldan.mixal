@@ -1,0 +1,5 @@
+VAR	ORIG	*+1
+BEGIN	LDAN	VAR(1:5)
+        LDXN    VAR(1:5)
+        HLT
+	END	BEGIN

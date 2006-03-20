@@ -1,0 +1,813 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_mixvm.texi,v 1.20 2005/09/19 21:29:42 jao Exp $
+
+@node mixvm, gmixvm, mixasm, Top
+@comment  node-name,  next,  previous,  up
+@chapter @code{mixvm}, the MIX computer simulator
+
+@cindex mixvm
+
+This chapter describes @code{mixvm}, the MIX computer
+simulator. @code{mixvm} is a command line interface programme which
+simulates the MIX computer (@pxref{The MIX computer}). It is able
+to run MIXAL programs (@pxref{MIXAL}) previously compiled with the MIX
+assembler (@pxref{mixasm}). The simulator allows inspection of the MIX
+computer components (registers, memory cells, comparison flag and overflow
+toggle), step by step execution of MIX programmes, and breakpoint
+setting to aid you in debugging your code. For a tutorial description of
+@code{mixvm} usage, @xref{Running the program}.
+
+@menu
+* Invocation::
+* Commands::                    Commands available in interactive mode.
+* Devices::                     MIX block devices implementation.
+@end menu
+
+@node Invocation, Commands, mixvm, mixvm
+@comment  node-name,  next,  previous,  up
+@section Invoking @code{mixvm}
+
+@code{mixvm} can be invoked with the following command line options
+(note that, following GNU's conventions, we provide a long option name
+for each available single letter switch):
+
+@example
+mixvm [-vhurdtq] [--version] [--help] [--usage] [--run] [--dump]
+      [--time] [--noinit]  [FILE[.mix]]
+@end example
+
+@noindent
+The meaning of these options is as follows:
+
+@defopt -v
+@defoptx --version
+Prints version and copyleft information and exits.
+@end defopt
+
+@defopt -h
+@defoptx --help
+@defoptx -u
+@defoptx --usage
+Prints a summary of available options and exits.
+@end defopt
+
+@defopt -r
+@defoptx --run
+Loads the specified @var{FILE} and executes it. After the program
+execution, @code{mixvm} exits. @var{FILE} must be the name of a binary
+@file{.mix} program compiled with @code{mixasm}. If your program does
+not produce any output, use the @code{-d} flag (see below) to peek at
+the virtual machine's state after execution.
+@end defopt
+
+@defopt -d
+@defoptx --dump
+This option must be used in conjuction with @code{-r}, and tells
+@code{mixvm} to print the value of the virtual machine's registers,
+comparison flag and overflow toggle after executing the program named
+@var{FILE}. See @xref{Non-interactive mode}, for sample usage.
+@end defopt
+
+@defopt -t
+@defoptx --time
+This option must be used in conjuction with @code{-r}, and tells
+@code{mixvm} to print virtual time statistics for the program's
+execution.
+@end defopt
+
+When run without the @code{-r} flag, @code{mixvm} enters its interactive
+mode, showing you a prompt like this one:
+
+@example
+MIX >
+@end example
+
+@noindent
+and waiting for your commands (@pxref{Commands}). If the
+optional @var{FILE} argument is given, the file @file{FILE.mix} will be
+loaded into the virtual machine memory before entering the interactive
+mode.
+
+The first time @code{mixvm} is invoked, a directory named @file{.mdk} is
+created in your home directory. It contains the @code{mixvm}
+configuration file, the command history file and (by default) the block
+devices files (@pxref{Devices}). Before showing you the command prompt,
+@code{mixvm} looks in the @file{~/.mdk} directory for a file named
+@code{mixguile.scm}; if it exists, it is read and evaluated by the
+embedded Guile interpreter (@pxref{Defining new functions}). You can use
+the @code{-q} command line option to skip this file loading:
+
+@defopt -q
+@defoptx --noinit
+Do not load the Guile initialisation file @code{~/.mdk/mixguile.scm} at
+startup.
+@end defopt
+
+@node Commands, Devices, Invocation, mixvm
+@comment  node-name,  next,  previous,  up
+@section Interactive commands
+
+You can enter the interactive mode of the MIX virtual machine by simply
+invoking @code{mixvm} without arguments. You will then be greeted by a shell
+prompt@footnote{The default command prompt, @samp{MIX > }, can be
+changed using the @code{prompt} command (@pxref{Configuration commands})}
+
+@example
+MIX >
+@end example
+
+@noindent
+which indicates that a new virtual machine has been initialised and is
+ready to execute your commands. As we have already mentioned, this
+command prompt offers you command line editing facilities which are
+described in the Readline user's manual (chances are that you are
+already familiar with these command line editing capabilities, as they
+are present in many GNU utilities, e.g. the @code{bash}
+shell)@footnote{The readline functionality will be available if you have
+compiled @sc{mdk} with readline support, i.e., if GNU readline is
+installed in your system. This is ofte the case in GNU/Linux and BSD
+systems}. In a nutshell, readline provides command completion using the
+@kbd{TAB} key and command history using the cursor keys. A history file
+containing the last commands typed in previous sessions is stored in the
+@sc{mdk} configuration directory (@file{~/.mdk}).
+
+As a beginner, your best friend will be the @code{help} command, which
+shows you a summary of all available MIX commands and their usage; its
+syntax is as follows:
+
+@deffn {@code{mixvm} command} help [command]
+Prints a short description of the given @var{command} and its usage. If
+@var{command} is omitted, @code{help} prints the short description for
+all available commands.
+@end deffn
+
+@menu
+* File commands::               Loading and executing programs.
+* Debug commands::              Debugging programs.
+* State commands::              Inspecting the virtual machine state.
+* Configuration commands::      Changing and storing mixvm settings.
+* Scheme commands::
+@end menu
+
+@node File commands, Debug commands, Commands, Commands
+@subsection File commands
+
+You have at your disposal a series of commands that let you load and
+execute MIX executable files, as well as manipulate MIXAL source files:
+
+@deffn {file command} load file[.mix]
+This command loads a binary file, @var{file.mix} into the virtual
+machine memory, and positions the program counter at the beginning of
+the loaded program. This address is indicated in the MIXAL source file
+as the operand of the @code{END} pseudoinstruction. Thus, if your
+@file{sample.mixal} source file contains the line:
+
+@example
+     END 3000
+@end example
+
+@noindent
+and you compile it with @code{mixasm} to produce the binary file
+@file{sample.mix}, you will load it into the virtual machine as follows:
+
+@example
+MIX > load sample
+Program loaded. Start address: 3000
+MIX >
+@end example
+
+@end deffn
+
+@deffn {file command} run [file[.mix]]
+When executed without argument, this command initiates or resumes
+execution of instructions from the current program counter
+address. Therefore, issuing this command after a successful @code{load},
+will run the loaded program until either a @code{HLT} instruction or a
+breakpoint is found. If you provide a MIX filename as argument, the
+given file will be loaded (as with @code{load} @var{file}) and
+executed. If @code{run} is invoked again after program execution
+completion (i.e., after the @code{HLT} instruction has been found in a
+previous run), the program counter is repositioned and execution starts
+again from the beginning (as a matter of fact, a @code{load} command
+preserving the currently set breakpoints is issued before resuming
+execution).
+@end deffn
+
+@deffn {file command} edit [file[.mixal]]
+The source file @var{file.mixal} is edited using the editor defined in
+the environment variable @var{MDK_EDITOR}. If this variable is not set,
+the following ones are tried out in order: @var{X_EDITOR}, @var{EDITOR}
+and @var{VISUAL}. If invoked without argument, the source file for the
+currently loaded MIX file is edited. The command used to edit source
+files can also be configured using the @code{sedit} command
+(@pxref{Configuration commands}).
+@end deffn
+
+@deffn {file command} compile file[.mixal]
+The source file @var{file.mixal} is compiled (with debug information
+enabled) using @code{mixasm}. If invoked without argument, the source
+file for the currently loaded MIX file is recompiled. The compilation
+command can be set using the @code{sasm} command (@pxref{Configuration
+commands}).
+@end deffn
+
+@deffn {file command} pprog
+@deffnx {file command} psrc
+Print the path of the currently loaded MIX program and its source file:
+
+@example
+MIX > load ../samples/primes
+Program loaded. Start address: 3000
+MIX > pprog
+../samples/primes.mix
+MIX > psrc
+/home/jao/projects/mdk/gnu/samples/primes.mixal
+MIx>
+@end example
+@end deffn
+
+Finally, you can use the @code{quit} command to exit @code{mixvm}:
+
+@deffn {file command} quit
+Exit @code{mixvm}, saving the current configuration parameters in
+@file{~/.mdk/mixvm.config}.
+@end deffn
+
+
+@node Debug commands, State commands, File commands, Commands
+@subsection Debug commands
+
+Sequential execution of loaded programs can be interrupted using the
+following debug commands:
+
+@deffn {debug command} next [ins_number]
+This command causes the virtual machine to fetch and execute  up to
+@var{ins_number} instructions, beginning from the current program
+counter position. Execution is interrupted either when the specified
+number of instructions have been fetched or a breakpoint is found,
+whatever happens first. If run without arguments, one instruction is
+executed. If @code{next} is invoked again after program execution
+completion (i.e., after the @code{HLT} instruction has been found in a
+previous run), the program counter is repositioned and execution starts
+again from the beginning (as a matter of fact, a @code{load} command
+preserving the currently set breakpoints is issued before resuming
+execution).
+@end deffn
+
+@deffn {debug command} sbp line_number
+@deffnx {debug command} cbp line_no
+Sets a breakpoint at the specified source file line number. If the line
+specified corresponds to a command or to a MIXAL pseudoinstruction which
+does not produce a MIX instruction in the binary file (such as
+@code{ORIG} or @code{EQU}) the breakpoint is set at the first source
+code line giving rise to a MIX instruction after the specified
+one. Thus, for our sample @file{hello.mixal} file:
+
+@example
+*                                                        (1)
+* hello.mixal: say 'hello world' in MIXAL                (2)
+*                                                        (3)
+* label ins    operand     comment                       (4)
+TERM    EQU    19          the MIX console device number (5)
+        ORIG   1000        start address                 (6)
+START   OUT    MSG(TERM)   output data at address MSG    (7)
+...
+@end example
+
+@noindent
+trying to set a breakpoint at line 5, will produce the following result:
+
+@example
+MIX > sbp 5
+Breakpoint set at line 7
+MIX >
+@end example
+
+@noindent
+since line 7 is the first one compiled into a MIX instruction (at
+address 3000).
+
+The command @code{cbp} clears a (previously set) breakpoint at the given
+source file line.
+@end deffn
+
+@deffn {debug command} spba address
+@deffnx {debug command} cbpa address
+Sets a breakpoint at the given memory @var{address}. The argument must
+be a valid MIX memory address, i.e., it must belong into the range
+@w{[0-3999]}. Note that no check is performed to verify that the
+specified address is reachable during program execution. No debug
+information is needed to set a breakpoint by address with @code{sbpa}.
+The command @code{cbpa} clears a (previously set) breakpoint at the
+given memory address.
+@end deffn
+
+@deffn {debug command} sbpr A | X | J | Ii
+@deffnx {debug command} cbpr A | X | J | Ii
+Sets a conditional breakpoint on the specified register change. For
+instance,
+
+@example
+sbpr I1
+@end example
+
+@noindent
+will cause an interruption during program execution whenever the
+contents or register @code{I1} changes. A previously set breakpoint is
+cleared using the @code{cbpr} command.
+@end deffn
+
+@deffn {debug command} sbpm address
+@deffnx {debug command} cbpm address
+Sets a conditional breakpoint on the specified memory cell change. The
+argument must be a valid MIX memory address, i.e., it must belong into
+the range @w{[0-3999]}. For instance,
+
+@example
+sbpm 1000
+@end example
+
+@noindent
+will cause an interruption during program execution whenever the
+contents or of the memory cell number 1000 changes. A previously set
+breakpoint is cleared using the @code{cbpm} command.
+@end deffn
+
+@deffn {debug command} sbpo
+@deffnx {debug command} cbpo
+Sets/clears a conditional breakpoint on overflow toggle change.
+@end deffn
+
+@deffn {debug command} sbpc
+@deffnx {debug command} cbpc
+Sets/clears a conditional breakpoint on comparison flag change.
+@end deffn
+
+@deffn {debug command} cabp
+Clears all currently set breakpoints.
+@end deffn
+
+@deffn {debug command} psym [symbol_name]
+MIXAL programs can define symbolic constants, using either the
+@code{EQU} pseudoinstruction or a label at the beginning of a
+line. Thus, in the program fragment
+
+@example
+VAR     EQU  2168
+        ORIG 4000
+START   LDA  VAR
+@end example
+
+@noindent
+the symbol @code{VAR} stands for the value 2168, while @code{START} is
+assigned the value 4000. The symbol table can be consulted from
+the @code{mixvm} command line using @code{psym} followed by the name of
+the symbol whose contents you are interested in. When run without
+arguments, @code{psym} will print all defined symbols and their values.
+@end deffn
+
+The virtual machine can also show you the instructions it is executing,
+using the following commands:
+
+@deffn {debug command} strace [on|off]
+@code{strace on} enables instruction tracing. When tracing is enabled,
+each time the virtual machine executes an instruction (due to your
+issuing a @code{run} or @code{next} command), it is printed in its
+canonical form (that is, with all expressions evaluated to their
+numerical values) and, if the program was compiled with debug
+information, as it was originally typed in the MIXAL source
+file. Instruction tracing is disabled with @code{strace off}
+command. A typical tracing session could be like this:
+
+@example
+MIX > strace on
+MIX > next
+3000: [OUT	3002,0(2:3)]	START	OUT	MSG(TERM)
+MIXAL HELLO WORLD
+Elapsed time: 1 /Total program time: 1 (Total uptime: 1)
+MIX > next
+3001: [HLT	0,0]		HLT
+End of program reached at address 3002
+Elapsed time: 10 /Total program time: 11 (Total uptime: 11)
+MIX > strace off
+MIX >
+@end example
+@noindent
+The executed instruction, as it was translated, is shown between square
+brackets after the memory address, and, following it, you can see the
+actual MIXAL code that was compiled into the executed instruction. The
+tracing behaviour is stored as a configuration parameter in @file{~/.mdk}.
+@end deffn
+
+@deffn {debug command} pline [LINE_NUMBER]
+Prints the requested source line (or the current one if
+@var{line_number} is omitted:
+
+@example
+MIX > load ../samples/hello
+Program loaded. Start address: 3000
+MIX > pline
+Line 5: START       OUT   MSG(TERM)
+MIX > pline 6
+Line 6:             HLT
+MIX >
+@end example
+@end deffn
+
+@deffn {debug command} pbt [INS_NUMBER]
+This command prints a backtrace of executed instructions. Its optional
+argument @var{ins_number} is the number of instructions to print. If it
+is omitted or equals zero, all executed instructions are printed. For
+instance, if you compile and load the following program (@file{bt.mixal}):
+
+@example
+    ORIG 0
+BEG JMP *+1
+    JMP *+1
+FOO JMP BAR
+BAR HLT
+    END BEG
+@end example
+
+@noindent
+you could get the following traces:
+
+@example
+MIX > load bt
+Program loaded. Start address: 0
+MIX > next
+MIX > pbt
+#0      BEG     in bt.mixal:2
+MIX > next
+MIX > pbt
+#0      1       in bt.mixal:3
+#1      BEG     in bt.mixal:2
+MIX > run
+Running ...
+... done
+MIX > pbt 3
+#0      BAR     in bt.mixal:5
+#1      FOO     in bt.mixal:4
+#2      1       in bt.mixal:3
+MIX > pbt
+#0      BAR     in bt.mixal:5
+#1      FOO     in bt.mixal:4
+#2      1       in bt.mixal:3
+#3      BEG     in bt.mixal:2
+MIX >
+@end example
+
+Note that the executed instruction trace gives you the label of the
+executed line or, if it has no label, its address.
+@end deffn
+
+As you have probably observed, @code{mixvm} prints timing statistics
+when running programs. This behaviour can be controlled using the
+@code{stime} command (@pxref{Configuration commands}).
+
+@code{mixvm} is also able of evaluating w-expressions
+(@pxref{W-expressions}) using the following command:
+
+@deffn {debug command} weval WEXP
+Evaluates the given w-expression, @var{WEXP}. The w-expression can
+contain any currently defined symbol. For instance:
+
+@example
+MIX > psym START
++ 00 00 00 46 56 (0000003000)
+MIX > weval START(0:1),START(3:4)
++ 56 00 46 56 00 (0939716096)
+MIX >
+@end example
+@end deffn
+
+New symbols can be defined using the @code{ssym} command:
+
+@deffn {debug command} ssym SYM WEXP
+Defines the symbol named @var{SYM} with the value resulting from
+evaluating @var{WEXP}, an w-expression. The newly defined symbol can be
+used in subsequent @code{weval} commands, as part of the expression to
+be evaluated. E.g.,
+
+@example
+MIX > ssym S 2+23*START
++ 00 00 18 19 56 (0000075000)
+MIX > psym S
++ 00 00 18 19 56 (0000075000)
+MIX > weval S(3:4)
++ 00 00 19 56 00 (0000081408)
+MIX >
+@end example
+@end deffn
+
+Finally, if you want to discover which is the decimal value of a MIX
+word expressed as five bytes plus sign, you can use
+
+@deffn {debug command} w2d WORD
+Computes the decimal value of the given word. @var{WORD} must be
+expressed as a sign (+/-) followed by five space-delimited, two-digit
+decimal values representing the five bytes composing the word. The
+reverse operation (showing the word representation of a decimal value)
+can be accomplished with @code{weval}. For instance:
+
+@example
+MIX > w2d - 01 00 00 02 02
+-16777346
+MIX > weval -16777346
+- 01 00 00 02 02 (0016777346)
+MIX >
+@end example
+@end deffn
+
+@node State commands, Configuration commands, Debug commands, Commands
+@subsection State commands
+
+Inspection and modification of the virtual machine state (memory,
+registers, overflow toggle and comparison flag contents) is accomplished
+using the following commands:
+
+@deffn {state command} pstat
+This commands prints the current virtual machine state, which can be one
+of the following:
+@itemize @minus
+@item
+No program loaded
+@item
+Program successfully loaded
+@item
+Execution stopped (@code{next} executed)
+@item
+Execution stopped: breakpoint encountered
+@item
+Execution stopped: conditional breakpoint encountered
+@item
+Program successfully terminated
+@end itemize
+@end deffn
+
+@deffn {state command} pc
+Prints the current value of the program counter, which stores the
+address of the next instruction to be executed in a non-halted program.
+@end deffn
+
+@deffn {state command} sreg A | X | J | I[1-6] value
+@deffnx {state command} preg [A | X | J | I[1-6]]
+@deffnx {state command} pall
+@code{preg} prints the contents of a given MIX register. For instance,
+@w{@code{preg} @var{A}} will print the contents of the A-register. When
+invoked without arguments, all registers shall be printed:
+
+@example
+MIX > preg
+rA: - 00 00 00 00 35 (0000000035)
+rX: + 00 00 00 15 40 (0000001000)
+rJ: + 00 00 (0000)
+rI1: + 00 00 (0000)	rI2: + 00 00 (0000)
+rI3: + 00 00 (0000)	rI4: + 00 00 (0000)
+rI5: + 00 00 (0000)	rI6: + 00 00 (0000)
+MIX >
+@end example
+
+As you can see in the above sample, the contents is printed as the sign
+plus the values of the MIX bytes stored in the register and, between
+parenthesis, the decimal representation of its module.
+
+@code{pall} prints the contents of all registers plus the comparison
+flag and overflow toggle.
+
+Finally, @code{sreg} Sets the contents of the given register to
+@var{value}, expressed as a decimal constant. If @var{value} exceeds the
+maximum value storable in the given register, @code{VALUE mod
+MAXIMU_VALUE} is stored, e.g.
+
+@example
+MIX > sreg I1 1000
+MIX > preg I1
+rI1: + 15 40 (1000)
+MIX > sreg I1 1000000
+MIX > preg I1
+rI1: + 09 00 (0576)
+MIX >
+@end example
+
+@end deffn
+
+
+@deffn {state command} pflags
+@deffnx {state command} scmp E | G | L
+@deffnx {state command} sover F | T
+@code{pflags} prints the value of the comparison flag and overflow
+toggle of the virtual machine, e.g.
+
+@example
+MIX > pflags
+Overflow: F
+Cmp: E
+MIX >
+@end example
+
+@noindent
+The values of the overflow toggle are either @var{F} (false) or @var{T}
+(true), and, for the comparison flag, @var{E}, @var{G}, @var{L} (equal,
+greater, lesser). @code{scmp} and @code{sover} are setters of the
+comparison flag and overflow toggle values.
+@end deffn
+
+@deffn {state command} pmem from[-to]
+@deffnx {state command} smem address value
+@code{pmem} prints the contents of memory cells in the address range
+@w{[@var{FROM}-@var{TO}]}. If the upper limit @var{to} is omitted, only
+the contents of the memory cell with address @var{FROM} is printed, as
+in
+
+@example
+MIX > pmem 3000
+3000: + 46 58 00 19 37 (0786957541)
+MIX >
+@end example
+
+The memory contents is displayed both as the set of five MIX bytes plus
+sign composing the stored MIX word and, between parenthesis, the decimal
+representation of the module of the stored value.
+
+@code{smem} sets the content of the memory cell with address
+@var{address} to @var{value}, expressed as a decimal constant.
+
+@end deffn
+
+@node Configuration commands, Scheme commands, State commands, Commands
+@subsection Configuration commands
+
+This section describes commands that allow you to configure the virtual
+machine behaviour. This configuration is stored in the @sc{mdk}
+directory @file{~/.mdk}.
+
+As you can see in their description, some commands print, as a side
+effect, informational messages to the standard output (e.g. @code{load}
+prints a message telling you the loaded program's start address): these
+messages can be enabled/disabled using @code{slog}:
+
+@deffn {config command} slog on|off
+Turns on/off the logging of informational messages. Note that error
+messages are always displayed, as well as state messages required using
+commands prefixed with @code{p} (@code{preg}, @code{pmem} and the like).
+@end deffn
+
+@deffn {config command} stime  on|off
+@deffnx {config command} ptime
+The @code{stime} command (un)sets the printing of timing statistics, and
+@code{ptime} prints their current value:
+
+@example
+MIX > ptime
+Elapsed time: 10 /Total program time: 11 (Total uptime: 11)
+MIX >
+@end example
+@end deffn
+
+@deffn {config command} sedit TEMPLATE
+@deffnx {config command} pedit
+@code{sedit} sets the command to be used to edit MIXAL source files with
+the @code{edit} command. @var{TEMPLATE} must contain the control
+characters @code{%s} to mark the place where the source's file name will
+be inserted. For instance, if you type
+
+@example
+MIX > sedit emacsclient %s
+MIX >
+@end example
+
+issuing the @code{mixvm} command @w{@code{edit foo.mixal}} will invoke
+the operating system command @w{@code{emacsclient foo.mixal}}.
+
+@code{pedit} prints the current value of the edit command template.
+
+@end deffn
+
+@deffn {config command} sasm TEMPLATE
+@deffnx {config command} pasm
+@code{sasm} sets the command to be used to compile MIXAL source files with
+the @code{compile} command. @var{template} must contain the control
+characters @code{%s} to mark the place where the source's file name will
+be inserted. For instance, if you type
+
+@example
+MIX > sasm mixasm -l %s
+MIX >
+@end example
+
+issuing the @code{mixvm} command @w{@code{compile foo.mixal}} will invoke
+the operating system command @w{@code{mixasm -l foo.mixal}}.
+
+@code{pasm} prints the current value of the compile command template.
+
+@end deffn
+
+@deffn {config command} sddir DIRNAME
+@deffnx {config command} pddir
+MIX devices (@pxref{Devices}) are implemented as regular files stored,
+by default, inside @file{~/.mdk}. The @code{sddir} command lets you
+specify an alternative location for storing these device files, while
+@code{pddir} prints the current device directory.
+@end deffn
+
+Finally, you can change the default command prompt, @samp{MIX > },
+using the @code{prompt} command:
+
+@deffn {config command} prompt PROMPT
+Changes the command prompt to @var{prompt}. If you want to include
+white space(s) at the end of the new prompt, bracket @var{prompt} using
+double quotes (e.g., @code{prompt ">> "}).
+@end deffn
+
+@node Scheme commands,  , Configuration commands, Commands
+@subsection Scheme commands
+
+If you have compiled @sc{mdk} with @code{libguile} support
+(@pxref{Special configure flags}), @code{mixvm} will start and
+initialise an embedded Guile Scheme interpret when it is invoked. That
+means that you have at your disposal, at @code{mixvm}'s command prompt,
+all the Scheme primitives described in @ref{Using mixguile} and
+@ref{mixguile}, as well as any other function or hook that you have
+defined in the initialisation file @file{~/.mdk/mixguile.scm}. To
+evaluate a Scheme function, simply type it at the @code{mixvm} command
+prompt (see @ref{Using Scheme in mixvm and gmixvm} for a
+sample). Compared to the @code{mixguile} program, this has only one
+limitation: the expressions used in @code{mixvm} cannot span more than
+one line. You can get over this inconvenience writing your multiline
+Scheme expressions in a file and loading it using the @code{scmf}
+command:
+
+@deffn {scheme command} scmf FILE_NAME
+Loads the given Scheme file and evaluates it using the embedded Guile
+interpreter.
+@end deffn
+
+
+@node Devices,  , Commands, mixvm
+@section MIX block devices
+
+The MIX computer comes equipped with a set of block devices for
+input-output operations (@pxref{Input-output operators}). @code{mixvm}
+implements these block devices as disk files, with the exception of
+block device no. 19 (typewriter terminal) which is redirected to
+standard input/output. When you request an output operation on any other
+(output) device, a file named according to the following table will be
+created, and the specified MIX words will be
+written to the file in binary form (for binary devices) or in ASCII (for
+char devices). Files corresponding to input block devices should be
+created and filled beforehand to be used by the MIX virtual machine (for
+input-output devices this creation can be accomplished by a MIXAL
+program writing to the device the required data, or, if you prefer, with
+your favourite editor). The device files are stored, by default, in the
+directory @file{~/.mdk}; this location can be changed using the
+@code{mixvm} command @code{devdir} (@pxref{Configuration commands}).
+
+@multitable {the device name} { xx-xx } {filename[x-x].dev} {bin  i/o/char }
+@item @emph{Device}  @tab @emph{No.} @tab @emph{filename} @tab @emph{type and block size}
+@item Tape @tab 0-7 @tab @file{tape[0-7].dev} @tab bin i/o - 100 words
+@item Disks @tab 8-15 @tab @file{disk[0-7].dev} @tab bin i/o - 100 words
+@item Card reader @tab 16 @tab @file{cardrd.dev} @tab char in - 16 words
+@item Card writer @tab 17 @tab @file{cardwr.dev} @tab char out - 16 words
+@item Line printer @tab 18 @tab @file{printer.dev} @tab char out - 24 words
+@item Terminal @tab 19 @tab @code{stdin/stdout} @tab char i/o - 14 words
+@item Paper tape @tab 20 @tab @file{paper.dev} @tab char in - 14 words
+@end multitable
+
+Devices of type @i{char} are stored as ASCII files, using one line per
+block. For instance, since the card reader has blocks of size 16, that
+is, 80 characters, it will be emulated by an ASCII file consisting of
+lines with length 80. If the reader finds a line with less than the
+required number of characters, it pads the memory with zeroes (MIX
+character 'space') to complete the block size.
+
+Note that the virtual machine automatically converts between the MIX and
+ASCII character encodings, so that you can manipulate char device files
+with any ASCII editor. In addition, the reader is not case-sensitive,
+i.e., it automatically converts lowercase letters to their uppercase
+counterparts (since the MIX character set does not include the former).
+
+The typewriter (device no. 19) lets you use the standard input and
+output in your MIXAL programs. For instance, here is a simple 'echo'
+program:
+
+@example
+* simple echo program
+TERM    EQU     19          the typewriter device
+BUF     EQU     500         input buffer
+        ORIG    1000
+START   IN      BUF(TERM)   read a block (70 chars)
+        OUT     BUF(TERM)   write the read chars
+        HLT
+        END     START
+@end example
+
+@noindent Input lines longer than 70 characters (14 words) are trimmed.
+On the other hand, if you type less than a block of characters,
+whitespace (MIX character zero) is used as padding.
+

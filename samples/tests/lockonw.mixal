@@ -1,0 +1,3 @@
+* test for bug #5654
+START	   CMPA =0=(1:4)
+	   END	START

@@ -1,0 +1,6 @@
+    ORIG 0
+BEG JMP *+1
+    JMP *+1
+FOO JMP BAR
+BAR HLT
+    END BEG

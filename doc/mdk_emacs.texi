@@ -1,0 +1,136 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@node Emacs tools, mixasm, Getting started, Top
+@chapter Emacs tools
+
+Everyone writing code knows how important a good editor is. Most
+systems already come with Emacs, and excellent programmer's editor.
+@sc{mdk} adds support to Emacs for both writing and debugging MIX
+programs. A major mode for MIXAL source files eases edition of your
+code, while integration with Emacs' debugging interface
+(@acronym{GUD}) lets you use @code{mixvm} without leaving your
+favourite text editor.
+
+This chapter shows how to use the Elisp modules included in @sc{mdk},
+assuming that you have followed the installation instructions in
+@xref{Emacs support}.
+
+@menu
+* MIXAL mode::                  Editing MIXAL files.
+* GUD integration::             Invoking @code{mixvm} within Emacs.
+@end menu
+
+@node MIXAL mode, GUD integration, Emacs tools, Emacs tools
+@section MIXAL mode
+
+The module @file{mixal-mode.el} provides a new mode, mixal-mode, for
+editing MIXAL source files@footnote{mixal-mode has been developed and
+documented by @value{PIETER}}. When everything is installed correctly,
+Emacs will select it as the major mode for editing files with extension
+@code{.mixal}. You can also activate mixal-mode in any buffer
+issuing the Emacs command @code{M-x mixal-mode}.
+
+@menu
+* Basics::                      Editing code, font locking and indentation.
+* Help system::                 Using the interactive help system.
+* Compiling and running::       Invoking compiler and/or virtual machine.
+@end menu
+
+@node Basics, Help system, MIXAL mode, MIXAL mode
+@comment node-name, next, previous, up
+@subsection Basics
+
+The mode for editing mixal source files is inherited from
+fundamental-mode, meaning that all your favorite editing operations
+will still work. If you want a short introduction to Emacs, type
+@kbd{C-h t} inside Emacs to start the tutorial.
+
+Mixal mode adds font locking. If you do not have font locking globally
+enabled, you can turn it on for mixal-mode by placing the following
+line in your @file{.emacs} file:
+
+@lisp
+(add-hook 'mixal-mode-hook 'turn-on-font-lock)
+@end lisp
+
+You can also customize the colors used to colour your mixal code by
+changing the requisite faces. This is the list of faces used by
+mixal-mode:
+
+@itemize
+@item @var{font-lock-comment-face}
+Face to use for comments.
+@item @var{mixal-font-lock-label-face}
+Face to use for label names.
+@item @var{mixal-font-lock-operation-code-face}
+Face to use for operation code names.
+@item @var{mixal-font-lock-assembly-pseudoinstruction-face}
+Face to use for assembly pseudo-instruction names.
+@end itemize
+
+@node Help system, Compiling and running, Basics, MIXAL mode
+@comment node-name, next, previous, up
+@subsection Help system
+
+When coding your program, you will be thinking, looking up
+documentation and editing files. Emacs already helps you with editing
+files, but Emacs can do much more. In particular, looking up
+documentation is one of its strong points. Besides the info system
+(which you are probably already using), mixal-mode defines commands
+for getting particular information about a MIX operation code.
+
+With @kbd{M-x mixal-describe-operation-code} (or its keyboard shortcut
+@kbd{C-h o}) you will get the documentation about a particular MIX
+operation code. Keep in mind that these are not assembly (MIXAL)
+pseudoinstructions. When the @code{point} is around a MIXAL
+pseudoinstruction in your source file, Emacs will recognize it and
+will suggest the right MIX operation code.
+
+@node Compiling and running,  , Help system, MIXAL mode
+@comment node-name, next, previous, up
+@subsection Compiling and running
+
+After you have written your MIXAL program, you'll probably want to
+test it. This can be done with the MIX virtual machine. First you will
+need to compile your code into MIX byte code. This can be done within
+Emacs with the command @kbd{M-x compile} (@kbd{C-c c}). In case of
+compilation errors, you can jump to the offending source code line
+with @kbd{M-x next-error}.
+
+Once the program compiles without errors, you can debug or run
+it. To invoke the debugger, use @kbd{M-x mixal-debug} (@kbd{C-c d}).
+Emacs will open a @code{GUD} buffer where you can
+use the debugging commands described in @xref{mixvm}.
+
+If you just want to execute the program, you can do so with @kbd{M-x
+mixal-run} (@kbd{C-c r}). This will invoke mixvm,
+execute the program and show its output in a separate buffer.
+
+@node GUD integration,  , MIXAL mode, Emacs tools
+@section GUD integration
+
+If you are an Emacs user and write your MIXAL programs using this
+editor, you will find the elisp program @file{mixvm.el} quite
+useful@footnote{@file{mixvm.el} has been kindly contributed by
+@value{PHILIP}. @file{mixvm.el} is based on a study of gdb, perldb, and
+pdb as found in @file{gud.el}, and @file{rubydb3x.el} distributed with
+the source code to the Ruby language.}. @file{mixvm.el} allows running
+the MIX virtual machine @code{mixvm} (@pxref{mixvm}) inside an Emacs
+@acronym{GUD} buffer, while visiting the MIXAL source file in another
+buffer.
+
+After installing @file{mixvm.el} (@pxref{Emacs support}), you can
+initiate an @sc{mdk}/@acronym{GUD} session inside Emacs with the command
+
+@example
+M-x mixvm
+@end example
+
+@noindent
+and you will have a @code{mixvm} prompt inside a newly created
+@acronym{GUD} buffer. @acronym{GUD} will reflect the current line in the
+corresponding source file buffer.

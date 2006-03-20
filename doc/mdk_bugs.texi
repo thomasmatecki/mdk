@@ -1,0 +1,24 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_bugs.texi,v 1.6 2004/08/03 13:23:06 jao Exp $
+
+@node Problems, Copying, mixguile, Top
+@chapter Reporting Bugs
+@cindex bugs
+@cindex problems
+@cindex questions
+@cindex suggestions
+
+If you have any questions, comments or suggestions, please send
+electronic mail to @email{jao@@gnu.org, the author}.
+
+If you find a bug in @sc{mdk}, please send electronic mail to
+@email{bug-mdk@@gnu.org, the @sc{mdk} bug list}.
+
+In your report, please include the version number, which you can find by
+running @w{@samp{mixasm --version}}.  Also include in your message the
+output that the program produced and the output you expected.

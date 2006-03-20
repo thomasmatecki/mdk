@@ -1,0 +1,450 @@
+GNU MDK -- History of visible changes.
+
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, Free Software Foundation, Inc.
+See the end for copying conditions.
+
+Please send mdk bug reports to bug-mdk@gnu.org.
+
+---------------------------------------------------------------------------
+* Version 1.2.1 (20/09/05)
+
+** MIXAL compliance improvements (Sergey Poznyakoff):
+
+   - w-expressions in literals are now admitted (e.g. LDA  =8(1:1)=)
+   - ALF now accepts non-quoted arguments (in addition to quoted
+   - ones), as in the original TAOCP definition.
+
+** German translation updated (thanks to Jens Seidel)
+
+** mixal.el improvements (Pieter Pareit)
+
+** Bug fixes:
+
+   - gmixvm's failure to dynamically link with libglade (#13661)
+     (thanks to Sascha Wilde)
+   - mixal.el calls mixasm with obsolete -g option (#14569) (thanks to
+     Sascha Wilde)
+   - mixasm -g causes a coredump (#14579) (Pieter Pareit)
+
+---------------------------------------------------------------------------
+* Version 1.2 (05/08/04)
+
+** Graphical user interface (gmixvm) updated to gtk+ 2.4.x
+
+   - gmixvm now uses the latest version of the gtk+ toolkit, including
+     antialiased Pango fonts.
+   - Individually detachable windows for the virtual machine, the
+     source window and the devices notebook (there is no 'split mode'
+     anymore).
+   - Detachable toolbars.
+   - Current source line and breakpoints are now marked via icons.
+   - New menu option to change all fonts at once.
+
+** German i18n available (thanks to Mike Scholz). Set LANG to
+   de_DE.UTF-8 to use it.
+
+** mixasm includes debug info in compiled mix files by default: the
+   options -g and --debug are gone; if you want to compile without
+   debug info, use -O or --ndebug.
+
+---------------------------------------------------------------------------
+* Version 1.1 (12/06/04)
+
+** The typewriter device (19) is now input/output, so that you can
+   read characters from standard input (mixvm) or a popup dialog
+   (gmixvm) in your MIXAL programs (see samples/echo.mixal for a
+   simple usage sample).
+
+** Input character device files may now contain lines with less than the
+   required block size; the virtual machine pads the missing
+   characters in memory using 0 (MIX char 'space').
+
+** The paper tape device (20) was incorrectly defined as an output
+   device. It is now an input char device (cf. TAOCP vol.1 p. 133,
+   where it is mentioned as the 'paper tape reader'; thanks to Michael
+   Talbot-Wilson).
+
+** Listings produced by mixasm improved: better layout, and correct
+   identification of 'ALF' and 'CON' instructions (including those
+   added by the compiler as a result of local constant definitions and
+   future references.
+
+** Local constants can now be modified by a field spec or an index,
+   as in, say, CMPA =0=,1(3:2) (closes #5654).
+
+** The virtual machine reader is now case-insensitive, i.e., it
+   automatically converts lowercase characters in input char device
+   files to their uppercase counterparts (which are the only ones
+   admitted by MIX). The ASCII representation for MIX chars delta,
+   sigma and pi is now ~, [ and #.
+
+** Bug fix: mixvm prompt's ending whitespace is now correctly set.
+
+** Bug fix: blocks in input char devices (e.g. the card reader) are
+   now expected to be separated by newlines, mirroring char output,
+   which is done so (i.e. with one ASCII line per block).
+
+** Improved virtual machine error messages (bad memory address, device
+   no., fspec, etc.).
+
+** Bug fix: undefined symbols are transformed to new addresses just
+   before the end of a compiled program (as per TAOCP v1 p. 156;
+   thanks to WeiZeng).
+
+** Bug fix: the vm no longer blows up on memory access violations
+   (thanks to Joel R. Holveck; closes #5649).
+
+** Bug fix: LDAN, LDXN and LDiN always negate the result, even if zero
+   (thanks to Ruslan Batdalov; closes Debian's #247392).
+
+---------------------------------------------------------------------------
+* Version 1.0.1 (09/06/03)
+
+** New misc/mixal-mode.el for emacs (and associated docs), written by
+   Pieter Pareit.
+
+** Error message for unquoted ALF operand improved.
+
+** Fixed bug that caused (g)mixvm to segfault when reading a false MIX
+   file.
+
+** All translatable strings are ready for i18n.
+
+** Portability fixes to extend supported platforms.
+
+** When the program counter reaches address 4000 during program
+   execution, it is set back to its maximum value, 3999, and the
+   program halts, to avoid infinite loops.
+
+** Minor documentation improvements.
+
+** Minor bug fixes.
+
+---------------------------------------------------------------------------
+* Version 1.0 (08/04/02)
+
+** The stable release.
+
+** New command line option added to 'mixvm': -t (--time) to turn on
+   virtual execution time printing (it is now off by default).
+
+** New 'mixvm' command: prompt, lets you change the mixvm command
+   prompt ("MIX > " by default).
+
+** When the program counter reaches address 4000 during program
+   execution, it wraps up to value 0, to keep always a valid
+   address. Caveat: a program missing the HLT instruction can loop
+   indefinitely.
+
+** New supported platform: Mac OS X.
+
+** User manual reviewed and updated.
+
+** Bug fix: 'configure' libraries detection now works properly.
+
+** Bug fix: missing #includes added to avoid compilation errors in
+   some platforms (RedHat 7.1, ia64 with gcc 3.0).
+
+---------------------------------------------------------------------------
+* Version 0.5 (29/09/01)
+
+** Added Guile support:
+       - New utility 'mixguile': a Guile shell with an embedded MIX
+       virtual machine.
+       - gmixvm and mixvm have an embedded Guile interpreter: Scheme
+       can be used as an extension language.
+       - See the updated User's Manual for details.
+
+** New (g)mixvm commands:
+       - psrc: print the current program's source file path
+       - pprog: print the current program's path
+       - pline: print the current program line
+       - pstat: print the current virtual machine status
+       - slog: set on/off the logging of info messages to stdout (or
+         the command log in gmixvm)
+
+** For the sake of coherence, the following (g)mixvm commands
+   have been renamed:
+       - tracing -> strace
+       - timing -> stime (set on/off timing),
+                   ptime (print timing stats)
+       - devdir -> sddir (set the devices dir),
+                   pddir (print the devices dir)
+
+** Major documentation update to include Guile support and various
+   cosmetic corrections for pretty ps and pdf manuals (provided in the
+   distribution in addition to the html format).
+
+** In gmixvm, when a font specified in the config file cannot be
+   loaded, it is removed from the configuration.
+
+** gmixvm now accepts the standard command line options -vuh
+
+** Bug fix: when the MIX font is changed in gmixvm, the loc widget
+   font is correctly updated.
+
+** Bug fix: help messages are now correctly aligned in (g)mixvm.
+
+** Bug fix: timing statitics for the MOVE instruction are correctly
+   computed.
+
+** Bug fix: pressing return at an empty 'MIX >' prompt does not
+   produce an error message.
+
+** Bug fix: the configure script now correctly detects the absence of
+   libglade (needed by gmixvm).
+
+** Bug fix: makefiles corrected so that mdk accepts a VPATH build
+   ('make distcheck' works now)
+
+---------------------------------------------------------------------------
+* Version 0.4.2 (17/08/01)
+
+** New toolbars for gmixvm windows.
+
+** Toolbars can be hidden, using View->Toolbar checkbox.
+
+** New icon for the "goto loc pointer address" button.
+
+** The menu entry "Split windows" has been moved from "Settings" to
+   "View" main menu, and renamed to "One window" in split mode.
+
+** In split mode, the MIXAL window has its own statusbar to display
+   symbol values in it (instead of in the main window toolbar).
+
+** Bug fix: the visibility of split windows when changing mode is now
+   correctly handled.
+
+** Bug fix: the devices window is now correctly destroyed, avoiding
+   GTK warnings on gmixvm exit.
+
+---------------------------------------------------------------------------
+* Version 0.4 (22/07/01)
+
+** Split mode: gmixvm can now be run with the MIXVM, MIXAL and Devices
+   windows detached (instead of arranged in a notebook).
+
+** When running in split mode, the MIXVM, MIXAL and Devices windows
+   can be hidden.
+
+** Conditional breakpoints can be set in mixvm and gmixvm using the
+   commands 'sbp[rmco]', which cause the execution to stop when a
+   given register, memory cell contents, comparison flag or overflow
+   toggle change (e.g. 'sbpr A' will set a breakpoint on register A
+   contents change). Conditional breakpoints can be deleted using the
+   new commands 'cbp[rmco]'.
+
+** New vm command 'pbt' which prints a backtrace of the last executed
+   instructions.
+
+** The gmixvm main window displays the path to the current MIX file in
+   its title bar.
+
+** The mixvm and gmixvm configuration files are now stored in ~/.mdk
+   (instead of ~/.gmixvm).
+
+** The default device files directory is also ~/.mdk. It can be
+   configured using the new command 'devdir' or (in gmixvm) with the
+   new Settings->Devices dir menu command.
+
+** The commands 'tron' and 'troff' have been substituted by 'tracing
+   on|off'.
+
+** The trace flag is saved as a configuration parameter in mixvm and
+   gmixvm.
+
+** New vm commands:  'pedit'/'sedit' (print/set editor command) and
+   'pasm'/'sasm' (print/set compile command). Their value is stored as
+   a config param also in mixvm.
+
+** New command 'timing' for setting on/off and printing the timing
+   statistics (both in gmixvm and mixvm). Its value is also stored as
+   a config param.
+
+** mixvm and gmixvm now save a history file so that they remember
+   commands typed in previous sessions.
+
+** Bug fix: changes in the device format are now correctly stored (gmixvm).
+
+---------------------------------------------------------------------------
+* Version 0.3.5 (23/06/01)
+
+** In gmixvm, when the mouse pointer is over a MIXAL source line, the
+   status bar shows the value of the variables appearing in this line.
+
+** The current symbol table can be displayed, in gmixvm, using the menu
+   command Debug->Symbols...
+
+** Bug fix: the load, compile and run file dialogs now get the correct
+   filename under linux.
+
+** Bug fix: fonts used by gmixvm are now always correctly saved.
+
+** Bug fix: 'psym' now works correctly in gmixvm.
+
+** Bug fix: the symbol table for a MIX file is now correctly recovered
+   both in gmixvm and mixvm (negative values where incorrectly
+   converted to a positive value).
+
+---------------------------------------------------------------------------
+* Version 0.3.4 (12/06/01)
+
+** Bug fix for a segfault which made gmixvm unusable in version 0.3.3.
+
+---------------------------------------------------------------------------
+* Version 0.3.3 (10/06/01)
+
+** The output of the contents of binary devices in gmixvm can be
+   configured to be in decimal or word format (for each block device).
+
+** The main gmixvm window is not shown until it is completely drawn.
+
+** The commands 'edit' and 'compile' are now understood by gmixvm. The
+   external programs used can be configured using the menu entry
+   Settings->External programs.
+
+** The commands 'edit' and 'compile' can be now executed without
+   argument (both in mixvm and gmixvm). When no argument is given, the
+   MIXAL source file corresponding to the currently loaded MIX program
+   is edited/compiled.
+
+** Bug in CON fixed : 'CON wexpr' didn't compile correctly unless wexpr
+   represented a valid instruction; now, wexpr can evaluate to an
+   arbitrary value (Vasilij Ozmetelenko).
+
+** The completion key for the gmixvm command prompt is now TAB
+   (instead of RETURN).
+
+** The gmixvm command prompt maintains now a history of previously
+   typed commands, which can be visited using the arrow keys (UP for
+   previous command, DOWN for next one).
+
+** When a file is reloaded by the virtual machine (both in mixvm and
+   gmixvm), the currently set breakpoints are conserved.
+
+** When compiling a source file which is not in the current directory, the
+   correct path is now stored in the compiled file.
+
+** Fixed a bug which caused gmixvm to segfault when creating the
+   virtual machine (Andrew Hood)
+
+** The GNU MDK documentation is now distributed under the GFDL
+   license.
+
+---------------------------------------------------------------------------
+* Version 0.3.2 (10/05/01)
+
+** The colors used for highlighting MIXAL source lines in gmixvm are now
+   customizable.
+
+** The fonts used in the different gmixvm widgets are now
+   customizable.
+
+** Input/output for all MIX block devices is shown in gmixvm.
+
+** All gmixvm customizations are stored in a configuration file
+   (inside ~/.gmixvm directory).
+
+** Device files used by gmixvm are stored in ~/.gmixvm, instead of the
+   working directory.
+
+** Output to binary devices works now correctly.
+
+** Bug on pmem fixed (thanks to Christoph von Nathusius and Jason
+   Uhlenkott).
+
+---------------------------------------------------------------------------
+* Version 0.3.1 (9/04/01)
+
+** New binary and html RPMs (RedHat) contributed by Agustin Navarro
+   <anp@cantv.net>.
+
+** The package can be correctly build in FreeBSD 4.2 (Ying-Chieh Liao)
+
+** Fixed configuration process when included gettext is used.
+
+** The info files are now properly categorized in a dir entry, so that
+   they can be properly installed.
+
+** Compilation warnings fixed.
+
+** getopt implementation provided for systems missing it.
+
+---------------------------------------------------------------------------
+* Version 0.3 (28/03/01)
+
+** MDK is now an official GNU package.
+
+** New GTK+ interface for the virtual machine (gmixvm).
+
+** New mixvm-Emacs/GUD interface via mixvm.el (Philip King).
+
+** Readline and history support for mixvm are now optional features.
+
+** JRED is now properly implemented (bug pointed out by
+   Vasilij Ozmetelenko).
+
+---------------------------------------------------------------------------
+* Version 0.2 (07/01/01)
+
+** mixvm provides virtual execution time statistics after each
+   invocation of run or next.
+
+** mixvm can trace instructions as they are executed. tron/troff
+   commands turn on/off instruction tracing.
+
+** mixvm accepts a new command, w2d, which computes the
+   decimal value of a MIX word given as a series of
+   bytes (e.g. - 01 00 34 32 22).
+
+** Symbols can be defined at the mixvm prompt with the
+   new command ssym.
+
+** mixvm accepts a new command, weval, which allows the
+   evaluation of MIXAL w-expressions.
+
+** Expressions containing strings of successive '*' are now
+   correctly evaluated.
+
+** When using block devices in mixvm, the buffers are now
+   flushed after each OUT operation.
+
+---------------------------------------------------------------------------
+* Version 0.1.1 (18/11/00)
+
+** MDK is now compilable in rpm-based linuxes.
+** MDK fully compliant with Knuth's specification. In particular,
+   local symbols are now properly handled in special cases such as
+     3H ORIG 3B
+   instructions. See samples/stress{1,2}.mixal.
+** Future references affected by unary minus are accepted
+   with a warning (they are banned in Knuth's specification).
+   Also future refs in EQU directives are now properly handled.
+   See samples/stress{3,4}.mixal.
+** When mixvm executes a program and reaches the end of the
+   available memory without encountering a HALT instruction,
+   it halts anyway.
+
+---------------------------------------------------------------------------
+* Version 0.1 (31/10/00)
+
+** Initial version
+
+---------------------------------------------------------------------------
+Copying information:
+
+Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+
+   Permission is granted to anyone to make or distribute verbatim copies
+   of this document as received, in any medium, provided that the
+   copyright notice and this permission notice are preserved,
+   thus giving the recipient permission to redistribute in turn.
+
+   Permission is granted to distribute modified versions
+   of this document, or of portions of it,
+   under the above conditions, provided also that they
+   carry prominent notices stating who last changed them.
+
+
+---
+$Id: NEWS,v 1.55 2005/09/20 20:18:58 jao Exp $

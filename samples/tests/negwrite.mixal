@@ -1,0 +1,4 @@
+* test for bug #5649: invalid address in OUT
+START	   OUT	-1(18)
+	   HLT
+	   END	START

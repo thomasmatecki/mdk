@@ -1,0 +1,59 @@
+Acknowledgements
+****************
+
+   Many people have further contributed to MDK by reporting problems,
+suggesting various improvements, or submitting actual code. Here is a
+list of these people. Help me keep it complete and exempt of errors.
+
+   * Richard Stallman (<rms@gnu.org>) suggested various improvements to
+     the documentation and has always kept an eye on every MDK release.
+
+   * Philip Ellis King (<pking@pdq.net>) provided MIXAL test programs
+     pinpointing bugs in the first MDK release, and useful discussions
+     as well. Philip has also contributed with the Emacs port of
+     `mixvm' and influenced the `gmixvm' GUI design with insightful
+     comments and prototypes.
+
+   * Pieter E.J. Pareit (<pieter.pareit@skynet.be>) is the author of
+     the Emacs MIXAL mode, and has also contributed many bug fixes.
+
+   * Michael Scholz (<scholz-micha@gmx.de>) is the author of the
+       German translation of MDK's user interface.
+
+   * Sergey Poznyakoff(<gray@gnu.org>) provided patches to
+     mixlib/mix_scanner.l improving MIXAL compliance.
+
+   * Francesc Xavier Noria (<fxn@retemail.es>) kindly and thoroughly
+     reviewed the MDK documentation, providing insightful advice.
+
+   * Agustin Navarro (<anp@cantv.net>), Ying-Chieh Liao
+     (<ijliao@csie.nctu.edu.tw>), Adrian Bunk (<bunk@fs.tum.de>),
+     Baruch Even (<baruch@debian.org>) and Ronald Cole
+     (<ronald@forte-intl.com>) created and/or maintain packages of MDK
+     for different operating systems.
+
+   * Jason Uhlenkott, Andrew Hood (<ajhood@fl.net.au>), Radu Butnaru
+     (<rbb@email.ro>), Aleix Conchillo (<aleix@member.fsf.org>),
+     Ruslan Batdalov (<linnando@tolkien.ru>), WeiZheng
+     (<pro_zw@lol365.com>) and Sascha Wilde reported (sometimes with
+     fixes) several bugs in MDK.
+
+   * Nelson H. F. Beebe (<beebe@math.utah.edu>,
+     http://www.math.utah.edu/~beebe) has tested MDK in a lot of Unix
+     platforms, suggesting portability enhancements to the source
+     code.
+
+   * Christoph von Nathusius (<nathusiu@gmx.net>), Stephen Ramsay
+     (<sjr3a@virginia.edu>) and Johan Swanljung (<johanswa@yahoo.com>)
+     tested MDK on different platforms.
+
+   * Eli Bendersky (<spur4444@yahoo.com>), Milan Bella
+     (<milanbella@hotmail.com>) and Jens Seidel reported several
+     documentation bugs.
+
+   * MDK was inspired by Darius Bacon's MIXAL program
+     (http://www.accesscom.com/~darius/).
+
+--
+$Id: THANKS,v 1.20 2005/09/20 19:14:16 jao Exp $
+

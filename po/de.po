@@ -1,0 +1,1553 @@
+# German translation for GNU MDK.
+# Copyright (C) 2000-2005 Free Software Foundation, Inc.
+# This file is distributed under the same license as the GNU MDK package.
+# Michael Scholz <scholz-micha@gmx.de>, 2003-2004
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GNU MDK 1.2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-02 10:21+0200\n"
+"PO-Revision-Date: 2005-09-19 22:56+0200\n"
+"Last-Translator: Michael Scholz <scholz-micha@gmx.de>\n"
+"Language-Team: German (no team)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: mixutils/mixasm.c:59
+#, c-format
+msgid ""
+"Usage: %s [-vhulO] [-o OUTPUT_FILE] [--version] [--help]\n"
+"\t[--usage] [--ndebug] [--output=OUTPUT_FILE] [--list[=LIST_FILE]] file\n"
+msgstr ""
+"Aufruf: %s [-vhulO] [-o OUTPUT_FILE] [--version] [--help]\n"
+"\t[--usage] [--ndebug] [--output=OUTPUT_FILE] [--list[=LIST_FILE]] file\n"
+
+#: mixutils/mixasm.c:103 mixutils/mixvm.c:116
+#, c-format
+msgid "(Try: %s -h)\n"
+msgstr "(Versuche: %s -h)\n"
+
+#: mixutils/mixasm.c:112
+#, c-format
+msgid "*** Error: Missing source file.\n"
+msgstr "*** Fehler: Quelldatei fehlt.\n"
+
+#: mixutils/mixasm.c:117 mixutils/mixvm.c:131
+#, c-format
+msgid "*** Error: Too many input files.\n"
+msgstr "*** Fehler: Zu viele Eingabedateien.\n"
+
+#: mixutils/mixasm_comp.c:38
+#, c-format
+msgid "*** Unable to open source file %s\n"
+msgstr "*** Kann Quelldatei %s nicht öffnen\n"
+
+#: mixutils/mixasm_comp.c:45
+#, c-format
+msgid "(%d warning(s))\n"
+msgstr "(%d Warnung(en))\n"
+
+#: mixutils/mixasm_comp.c:48
+#, c-format
+msgid "*** Error writing output code file: %s\n"
+msgstr "*** Fehler beim Schreiben der Ausgabedatei: %s\n"
+
+#: mixutils/mixasm_comp.c:56
+#, c-format
+msgid "*** Error writing listing file: %s\n"
+msgstr "*** Fehler beim Schreiben der Listingdatei: %s\n"
+
+#: mixutils/mixasm_comp.c:63
+#, c-format
+msgid "(%d warning(s), %d error(s))\n"
+msgstr "(%d Warnungen, %d Fehler)\n"
+
+#: mixutils/mixvm.c:69
+#, c-format
+msgid ""
+"Usage: %s [-vhurdqt] [--version] [--help] [--noinit] [--usage]\n"
+"\t[--run] [--dump] [--time] [MIX_FILE]\n"
+msgstr ""
+"Aufruf: %s [-vhurdqt] [--version] [--help] [--noinit] [--usage]\n"
+"\t[--run] [--dump] [--time] [MIX_FILE]\n"
+
+#: mixutils/mixvm_command.c:81
+msgid "Set command prompt"
+msgstr "Kommandoprompt setzen"
+
+#: mixutils/mixvm_command.c:82
+msgid "Execute shell command"
+msgstr "Shellkommando ausführen"
+
+#: mixutils/mixvm_command.c:83
+msgid "Quit the program"
+msgstr "Programm beenden"
+
+#: mixutils/mixvm_command.c:166
+msgid "Quitting ..."
+msgstr "Beenden ..."
+
+#: mixutils/mixvm_command.c:229
+msgid "Failed initialisation (no memory resources)"
+msgstr "Initialisierungsfehler (keine Speicherressourcen)"
+
+#: mixlib/mix.c:66
+#, c-format
+msgid ""
+"%s (GNU MDK %s)\n"
+"\n"
+msgstr ""
+"%s (GNU MDK %s)\n"
+"\n"
+
+#: mixlib/mix.c:84
+#, c-format
+msgid "Error creating %s dir %s: %s"
+msgstr "Fehler beim Erzeugen von %s, Verzeichnis %s: %s"
+
+#: mixlib/mix.c:93
+#, c-format
+msgid "Error setting %s dir: %s is not a directory"
+msgstr "Fehler beim Setzen von %s: %s ist kein Verzeichnis"
+
+#: mixlib/mix_config.c:216
+#, c-format
+msgid "Unable to open config file %s (%s)"
+msgstr "Kann Konfigurationsdatei nicht öffnen %s (%s)"
+
+#: mixlib/mix_parser.c:37
+msgid "successful compilation"
+msgstr "Kompilation erfolgreich"
+
+#: mixlib/mix_parser.c:38
+msgid "file not yet compiled"
+msgstr "Datei ist noch nicht kompiliert"
+
+#: mixlib/mix_parser.c:39
+msgid "internal error"
+msgstr "Interner Fehler"
+
+#: mixlib/mix_parser.c:40
+msgid "unable to open MIX source file"
+msgstr "kann MIX-Quelldatei nicht öffnen"
+
+#: mixlib/mix_parser.c:41
+msgid "unable to open MIX output file"
+msgstr "kann MIX-Ausgabedatei nicht öffnen"
+
+#: mixlib/mix_parser.c:42
+msgid "unexpected end of file"
+msgstr "unerwartetes Dateiende"
+
+#: mixlib/mix_parser.c:43
+msgid "invalid location field"
+msgstr "ungültiges Location-Feld"
+
+#: mixlib/mix_parser.c:44
+msgid "duplicated symbol"
+msgstr "Symbol ist doppelt"
+
+#: mixlib/mix_parser.c:45
+msgid "symbol too long"
+msgstr "Symbol ist zu lang"
+
+#: mixlib/mix_parser.c:46
+msgid "missing operator field"
+msgstr "Operator-Feld fehlt"
+
+#: mixlib/mix_parser.c:47
+msgid "unexpected location symbol"
+msgstr "unerwartetes Location-Symbol"
+
+#: mixlib/mix_parser.c:48
+msgid "invalid address field"
+msgstr "ungültiges Adreßfeld"
+
+#: mixlib/mix_parser.c:49
+msgid "invalid index field"
+msgstr "ungültiges Index-Feld"
+
+#: mixlib/mix_parser.c:50
+msgid "invalid f-specification"
+msgstr "ungültige F-Spezifikation"
+
+#: mixlib/mix_parser.c:51
+msgid "invalid operation field"
+msgstr "ungültiges Operation-Feld"
+
+#: mixlib/mix_parser.c:52
+msgid "invalid expression"
+msgstr "ungültiger Ausdruck"
+
+#: mixlib/mix_parser.c:53
+msgid "undefined symbol"
+msgstr "Symbol nicht definiert"
+
+#: mixlib/mix_parser.c:54
+msgid "mismatched parenthesis"
+msgstr "Klammerfehler"
+
+#: mixlib/mix_parser.c:55
+msgid "unexpected f-specfication"
+msgstr "unerwartete F-Spezifikation"
+
+#: mixlib/mix_parser.c:56
+msgid "missing symbol name"
+msgstr "Symbolname fehlt"
+
+#: mixlib/mix_parser.c:57
+msgid "symbol is an instruction name"
+msgstr "Symbol ist ein Instruktionsname"
+
+#: mixlib/mix_parser.c:58
+msgid "failed write access to code file"
+msgstr "kein Schreibzugriff auf Code-Datei"
+
+#: mixlib/mix_parser.c:59
+msgid "operand of ALF pseudo instruction has less than 5 chars"
+msgstr "Operand von ALF-Pseudoinstruktion hat weniger als 5 Zeichen"
+
+#: mixlib/mix_parser.c:60
+msgid "operand of ALF pseudo instruction has more than 5 chars"
+msgstr "Operand von ALF-Pseudoinstruktion hat mehr als 5 Zeichen"
+
+#: mixlib/mix_parser.c:61
+msgid "operand of ALF pseudo instruction must be quoted"
+msgstr "Operand von ALF-Pseudoinstruktion muß in Anführungszeichen"
+
+#: mixlib/mix_parser.c:136
+msgid "No system resources"
+msgstr "Keine Systemressourcen"
+
+#: mixlib/mix_parser.c:381
+#, c-format
+msgid "\t%s\n"
+msgstr "\t%s\n"
+
+#: mixlib/mix_parser.c:381
+msgid "UNKNOWN"
+msgstr "UNBEKANNT"
+
+#: mixlib/mix_parser.c:406
+#, c-format
+msgid ""
+"*** %s%s: compilation summary ***\n"
+"\n"
+msgstr ""
+"*** %s%s: Kompilerzusammenfassung ***\n"
+"\n"
+
+#: mixlib/mix_parser.c:410
+msgid "Src     Address  Compiled word           Symbolic rep\n"
+msgstr "Src     Address  Compiled word           Symbolic rep\n"
+
+#: mixlib/mix_parser.c:415
+#, c-format
+msgid ""
+"\n"
+"*** Start address:\t%d\n"
+"*** End address:\t%d\n"
+msgstr ""
+"\n"
+"*** Startadresse:\t%d\n"
+"*** Endadresse:\t%d\n"
+
+#: mixlib/mix_parser.c:418
+#, c-format
+msgid ""
+"\n"
+"*** Symbol table\n"
+msgstr ""
+"\n"
+"*** Symboltabelle\n"
+
+#: mixlib/mix_parser.c:421
+#, c-format
+msgid ""
+"\n"
+"*** End of summary ***\n"
+msgstr ""
+"\n"
+"*** Ende der Zusammenfassung ***\n"
+
+#: mixlib/mix_parser.c:598
+msgid "warning"
+msgstr "Warnung"
+
+#: mixlib/mix_parser.c:598
+msgid "error"
+msgstr "Fehler"
+
+#: mixlib/mix_predicate.c:176
+#, c-format
+msgid "Register A changed to %s%ld"
+msgstr "Register A geändert zu %s%ld"
+
+#: mixlib/mix_predicate.c:181
+#, c-format
+msgid "Register X changed to %s%ld"
+msgstr "Register X geändert zu %s%ld"
+
+#: mixlib/mix_predicate.c:186
+#, c-format
+msgid "Register J changed to %d"
+msgstr "Register J geändert zu %d"
+
+#: mixlib/mix_predicate.c:191
+#, c-format
+msgid "Register I%d changed to %s%d"
+msgstr "Register I%d geändert zu %s%d"
+
+#: mixlib/mix_predicate.c:197
+#, c-format
+msgid "Comparison flag changed to %s"
+msgstr "Comparision Flag geändert zu %s"
+
+#: mixlib/mix_predicate.c:201
+#, c-format
+msgid "Overflow toggled %s"
+msgstr "Overflow gewechselt zu %s"
+
+#: mixlib/mix_predicate.c:205
+#, c-format
+msgid "Memory address %d changed to %s%ld"
+msgstr "Speicheradresse %d geändert zu %s%ld"
+
+#: mixlib/mix_vm_dump.c:113
+#, c-format
+msgid "Overflow: %s\n"
+msgstr "Overflow: %s\n"
+
+#: mixlib/mix_vm_dump.c:134
+#, c-format
+msgid "Cmp: %s\n"
+msgstr "Cmp: %s\n"
+
+#: mixlib/mix_vm_command.c:480
+#, c-format
+msgid "Unknown command. Try: help\n"
+msgstr "Unbekanntes Kommando.  Versuche: help\n"
+
+#: mixlib/mix_eval.c:29
+msgid "Successful evaluation"
+msgstr "Erfolgreiche Berechnung"
+
+#: mixlib/mix_eval.c:30
+msgid "Syntax error in expression"
+msgstr "Syntaxfehler im Ausdruck"
+
+#: mixlib/mix_eval.c:31
+msgid "Out of range F-specification"
+msgstr "Außerhalb des Bereiches F-Spezifikation"
+
+#: mixlib/mix_eval.c:32
+msgid "Mismatched parenthesis"
+msgstr "Klammerfehler"
+
+#: mixlib/mix_eval.c:33
+msgid "Undefined symbol"
+msgstr "Undefiniertes Symbol"
+
+#: mixlib/mix_eval.c:34
+msgid "Internal error"
+msgstr "Interner Fehler"
+
+#: mixlib/xmix_vm_handlers.c:29
+msgid "Display this text"
+msgstr "Zeigt diesen Text"
+
+#: mixlib/xmix_vm_handlers.c:30
+msgid "Load a MIX code file"
+msgstr "Eine MIX-Datei laden"
+
+#: mixlib/xmix_vm_handlers.c:31 mixgtk/mixgtk.glade:68
+msgid "Edit a MIXAL source file"
+msgstr "Eine MIXAL-Quelldatei bearbeiten"
+
+#: mixlib/xmix_vm_handlers.c:32
+msgid "Print the external editor command"
+msgstr "Externen Editor ausgeben"
+
+#: mixlib/xmix_vm_handlers.c:33
+msgid "Set the external editor command"
+msgstr "Externen Editor setzen"
+
+#: mixlib/xmix_vm_handlers.c:35 mixgtk/mixgtk.glade:91
+msgid "Compile a MIXAL source file"
+msgstr "Eine MIXAL-Quelldatei kompilieren"
+
+#: mixlib/xmix_vm_handlers.c:37
+msgid "Print the compile command"
+msgstr "Kompilerkommando ausgeben"
+
+#: mixlib/xmix_vm_handlers.c:38
+msgid "Set the compile command"
+msgstr "Kompilerkommando setzen"
+
+#: mixlib/xmix_vm_handlers.c:40
+msgid "Run loaded or given MIX code file"
+msgstr "Starte geladene oder angegebene MIX-Datei"
+
+#: mixlib/xmix_vm_handlers.c:42
+msgid "Execute next instruction(s)"
+msgstr "Nächste Instruktion(en) ausführen"
+
+#: mixlib/xmix_vm_handlers.c:44
+msgid "Print current vm status"
+msgstr "Aktuellen VM-Status anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:45
+msgid "Print program counter value"
+msgstr "Programm-Zählerwert anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:46
+msgid "Print symbol value"
+msgstr "Symbolwert anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:47
+msgid "Print register value"
+msgstr "Registerwert anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:49
+msgid "Print comparison and overflow flags"
+msgstr "Comparison- und Overflow-Flag anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:51
+msgid "Print all registers and flags"
+msgstr "Alle Register und Flags anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:52
+msgid "Print memory contents in address range"
+msgstr "Speicherinhalt im Adreßbereich anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:54
+msgid "Set register value"
+msgstr "Registerwert setzen"
+
+#: mixlib/xmix_vm_handlers.c:56
+msgid "Set comparison flag value"
+msgstr "Comparison-Flag setzen"
+
+#: mixlib/xmix_vm_handlers.c:57
+msgid "Set overflow flag value"
+msgstr "Overflow-Flag setzen"
+
+#: mixlib/xmix_vm_handlers.c:58
+msgid "Set memory contents in given address"
+msgstr "Speicherinhalt in angegebener Adresse setzen"
+
+#: mixlib/xmix_vm_handlers.c:60
+msgid "Set a symbol's value"
+msgstr "Einen Symbolwert setzen"
+
+#: mixlib/xmix_vm_handlers.c:61
+msgid "Set break point at given line"
+msgstr "Breakpoint bei angegebener Zeile setzen"
+
+#: mixlib/xmix_vm_handlers.c:62
+msgid "Clear break point at given line"
+msgstr "Breakpoint bei angegebener Zeile löschen"
+
+#: mixlib/xmix_vm_handlers.c:63
+msgid "Set break point at given address"
+msgstr "Breakpoint bei angegebener Adresse setzen"
+
+#: mixlib/xmix_vm_handlers.c:65
+msgid "Clear break point at given address"
+msgstr "Breakpoint bei angegebener Adresse löschen"
+
+#: mixlib/xmix_vm_handlers.c:67
+msgid "Set conditional breakpoint on register change"
+msgstr "Conditional Breakpoint bei Registeränderung setzen"
+
+#: mixlib/xmix_vm_handlers.c:69
+msgid "Clear conditional breakpoint on register change"
+msgstr "Conditional Breakpoint bei Registeränderung löschen"
+
+#: mixlib/xmix_vm_handlers.c:71
+msgid "Set conditional breakpoint on mem cell change"
+msgstr "Conditional Breakpoint bei Speicherzellenänderung setzen"
+
+#: mixlib/xmix_vm_handlers.c:73
+msgid "Clear conditional breakpoint on mem cell change"
+msgstr "Conditional Breakpoint bei Speicherzellenänderung löschen"
+
+#: mixlib/xmix_vm_handlers.c:76
+msgid "Set conditional breakpoint on comparison flag change"
+msgstr "Conditional Breakpoint bei Comparison-Flag-Änderung setzen"
+
+#: mixlib/xmix_vm_handlers.c:78
+msgid "Clear conditional breakpoint on comparison flag change"
+msgstr "Conditional Breakpoint bei Comparison-Flag-Änderung löschen"
+
+#: mixlib/xmix_vm_handlers.c:80 mixlib/xmix_vm_handlers.c:82
+msgid "Set conditional breakpoint on overflow toggled"
+msgstr "Conditional Breakpoint bei Overflow-Änderung setzen"
+
+#: mixlib/xmix_vm_handlers.c:83
+msgid "Clear all breakpoints"
+msgstr "Alle Breakpoints löschen"
+
+#: mixlib/xmix_vm_handlers.c:84
+msgid "Evaluate a given W-expression"
+msgstr "W-Ausdruck berechnen"
+
+#: mixlib/xmix_vm_handlers.c:85
+msgid "Convert a MIX word to its decimal value"
+msgstr "MIX-Wort in seinen dezimalen Wert konvertieren"
+
+#: mixlib/xmix_vm_handlers.c:87
+msgid "Turn on/off instruction tracing"
+msgstr "Instruktionsmitschnitt an/aus"
+
+#: mixlib/xmix_vm_handlers.c:89
+msgid "Print backtrace of executed instructions"
+msgstr "Letzte ausgeführte Instruktionen anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:91
+msgid "Turn on/off timing statistics"
+msgstr "Zeitstatistik an/aus"
+
+#: mixlib/xmix_vm_handlers.c:93
+msgid "Print current time statistics"
+msgstr "Aktuelle Zeitstatistik anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:94
+msgid "Set devices directory"
+msgstr "Device-Verzeichnis setzen"
+
+#: mixlib/xmix_vm_handlers.c:95
+msgid "Print current devices directory"
+msgstr "Aktuelles Device-Verzeichnis anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:96
+msgid "Turn on/off message logging"
+msgstr "Message-Aufzeichnung an/aus"
+
+#: mixlib/xmix_vm_handlers.c:97
+msgid "Print the current program path"
+msgstr "Aktuellen Programmpfad anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:98
+msgid "Print the current program source path"
+msgstr "Aktuellen Programmquellpfad anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:100
+msgid "Print the current (or a given) program source line"
+msgstr "Aktuelle (oder angegebene) Programmquellzeile anzeigen"
+
+#: mixlib/xmix_vm_handlers.c:167
+#, c-format
+msgid "Elapsed time: %ld /Total program time: %ld (Total uptime: %ld)\n"
+msgstr ""
+"Vergangene Zeit: %ld /Gesamte Programmzeit: %ld (Gesamte Uptime: %ld)\n"
+
+#: mixlib/xmix_vm_handlers.c:194
+#, c-format
+msgid ""
+"%-15s%s.\n"
+"%-15sUsage: %s\n"
+msgstr ""
+"%-15s%s.\n"
+"%-15sAufruf: %s\n"
+
+#: mixlib/xmix_vm_handlers.c:198
+#, c-format
+msgid "No commands match `%s'\n"
+msgstr "Kein Kommando `%s'\n"
+
+#: mixlib/xmix_vm_handlers.c:204
+#, c-format
+msgid "Possible commands are:\n"
+msgstr "Mögliche Kommandos sind:\n"
+
+#: mixlib/xmix_vm_handlers.c:218
+msgid "Missing file name"
+msgstr "Dateiname fehlt"
+
+#: mixlib/xmix_vm_handlers.c:225
+#, c-format
+msgid "Cannot load %s: "
+msgstr "Kann %s nicht laden: "
+
+#: mixlib/xmix_vm_handlers.c:227
+msgid "Wrong file format"
+msgstr "Falsches Dateiformat"
+
+#: mixlib/xmix_vm_handlers.c:242
+#, c-format
+msgid "Program loaded. Start address: %d"
+msgstr "Programm geladen.  Startadresse: %d"
+
+#: mixlib/xmix_vm_handlers.c:254
+msgid "Editor not specified (use sedit)"
+msgstr "Editor nicht angegeben (verwende sedit)"
+
+#: mixlib/xmix_vm_handlers.c:260 mixlib/xmix_vm_handlers.c:285
+msgid "MIXAL source file path not found"
+msgstr "MIXAL Quelldateipfad nicht gefunden"
+
+#: mixlib/xmix_vm_handlers.c:268
+msgid " ...done"
+msgstr " ...fertig"
+
+#: mixlib/xmix_vm_handlers.c:279
+msgid "MIX assembler not specified (use sasm)"
+msgstr "MIX-Assembler nicht angegeben (verwende sasm)"
+
+#: mixlib/xmix_vm_handlers.c:293
+msgid "Successful compilation"
+msgstr "Kompilation erfolgreich"
+
+#: mixlib/xmix_vm_handlers.c:307
+msgid "Running ..."
+msgstr "Arbeite ..."
+
+#: mixlib/xmix_vm_handlers.c:312
+msgid "... done"
+msgstr "... fertig"
+
+#: mixlib/xmix_vm_handlers.c:320
+#, c-format
+msgid "... stopped: breakpoint at line %ld (address %d)"
+msgstr "... angehalten: Breakpoint bei Zeile %ld (Adresse %d)"
+
+#: mixlib/xmix_vm_handlers.c:323
+#, c-format
+msgid "... stopped: breakpoint at address %d"
+msgstr "... angehalten: Breakpoint bei Adresse %d"
+
+#: mixlib/xmix_vm_handlers.c:332
+#, c-format
+msgid "... stopped: %s (line %ld, address %d)"
+msgstr "... angehalten: %s (Zeile %ld, Adresse %d)"
+
+#: mixlib/xmix_vm_handlers.c:336
+#, c-format
+msgid "... stopped: %s (address %d)"
+msgstr "... angehalten: %s (Adresse %d)"
+
+#: mixlib/xmix_vm_handlers.c:342 mixlib/xmix_vm_handlers.c:389
+#, c-format
+msgid "%s:"
+msgstr "%s:"
+
+#: mixlib/xmix_vm_handlers.c:368 mixlib/xmix_vm_handlers.c:472
+#: mixlib/xmix_vm_handlers.c:536 mixlib/xmix_vm_handlers.c:605
+#: mixlib/xmix_vm_handlers.c:631 mixlib/xmix_vm_handlers.c:654
+#: mixlib/xmix_vm_handlers.c:695 mixlib/xmix_vm_handlers.c:740
+#: mixlib/xmix_vm_handlers.c:772 mixlib/xmix_vm_handlers.c:800
+#: mixlib/xmix_vm_handlers.c:834
+#, c-format
+msgid "Invalid argument: %s"
+msgstr "Ungültiges Argument: %s"
+
+#: mixlib/xmix_vm_handlers.c:383
+#, c-format
+msgid "End of program reached at address %d"
+msgstr "Ende des Programmes erreicht bei Adresse %d"
+
+#: mixlib/xmix_vm_handlers.c:412
+msgid "Symbol table not available"
+msgstr "Symboltabelle fehlt"
+
+#: mixlib/xmix_vm_handlers.c:423
+#, c-format
+msgid "%s: symbol not defined\n"
+msgstr "%s: Symbol nicht definiert\n"
+
+#: mixlib/xmix_vm_handlers.c:464
+#, c-format
+msgid "Invalid I index: %d"
+msgstr "Ungültiger I-Index: %d"
+
+#: mixlib/xmix_vm_handlers.c:505
+msgid "Missing memory address"
+msgstr "Speicheradresse fehlt"
+
+#: mixlib/xmix_vm_handlers.c:540
+#, c-format
+msgid "Invalid range: %ld-%ld"
+msgstr "Ungültiger Bereich: %ld-%ld"
+
+#: mixlib/xmix_vm_handlers.c:708
+msgid "Missing arguments"
+msgstr "Argumente fehlen"
+
+#: mixlib/xmix_vm_handlers.c:725
+msgid "Wrong argument number"
+msgstr "Falsche Argumenteanzahl"
+
+#: mixlib/xmix_vm_handlers.c:747
+#, c-format
+msgid "Line number %ld too high"
+msgstr "Zeilennummer %ld zu hoch"
+
+#: mixlib/xmix_vm_handlers.c:750 mixlib/xmix_vm_handlers.c:782
+#: mixlib/xmix_vm_handlers.c:810
+msgid "Could not set breakpoint: internal error"
+msgstr "Kann Breakpoint nicht setzen: Interner Fehler"
+
+#: mixlib/xmix_vm_handlers.c:753
+msgid "Could not set breakpoint: no debug info available"
+msgstr "Kann Breakpoint nicht setzen: Debuginformationen fehlen"
+
+#: mixlib/xmix_vm_handlers.c:758
+#, c-format
+msgid "Breakpoint set at line %ld"
+msgstr "Breakpoint bei Zeile %ld gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:779 mixlib/xmix_vm_handlers.c:841
+#, c-format
+msgid "Invalid address %ld"
+msgstr "Ungültige Adresse %ld"
+
+#: mixlib/xmix_vm_handlers.c:786
+#, c-format
+msgid "Breakpoint set at address %ld"
+msgstr "Breakpoint bei Adresse %ld gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:807
+#, c-format
+msgid "No breakpoint set at line %ld"
+msgstr "Kein Breakpoint bei Zeile %ld gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:813
+msgid "No debug info available"
+msgstr "Debuginformationen fehlen"
+
+#: mixlib/xmix_vm_handlers.c:817
+#, c-format
+msgid "Breakpoint cleared at line %ld"
+msgstr "Breakpoint bei Zeile %ld gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:844
+msgid "Could not clear breakpoint: internal error"
+msgstr "Kann Breakpoint nicht löschen: Interner Fehler"
+
+#: mixlib/xmix_vm_handlers.c:848
+#, c-format
+msgid "Breakpoint cleared at address %ld"
+msgstr "Breakpoint bei Adresse %ld gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:860 mixlib/xmix_vm_handlers.c:1203
+#: mixlib/xmix_vm_handlers.c:1218 mixlib/xmix_vm_handlers.c:1238
+#: mixlib/xmix_vm_handlers.c:1253
+#, c-format
+msgid "Unexpected argument: %s"
+msgstr "Unerwartetes Argument: %s"
+
+#: mixlib/xmix_vm_handlers.c:872 mixlib/xmix_vm_handlers.c:904
+msgid "Missing expression"
+msgstr "Ausdruck fehlt"
+
+#: mixlib/xmix_vm_handlers.c:893
+#, c-format
+msgid ""
+"\n"
+"Evaluation error: %s\n"
+msgstr ""
+"\n"
+"Ausführungsfehler: %s\n"
+
+#: mixlib/xmix_vm_handlers.c:920
+#, c-format
+msgid "Incorrect byte specification: %s"
+msgstr "Falsche Bytespezifikation: %s"
+
+#: mixlib/xmix_vm_handlers.c:935
+#, c-format
+msgid "The expression %s does not fit in a word"
+msgstr "Der Ausdruck %s paßt nicht in ein Wort"
+
+#: mixlib/xmix_vm_handlers.c:958 mixlib/xmix_vm_handlers.c:982
+#: mixlib/xmix_vm_handlers.c:1022 mixlib/xmix_vm_handlers.c:1045
+#: mixlib/xmix_vm_handlers.c:1055
+msgid "Missing argument"
+msgstr "Argument fehlt"
+
+#: mixlib/xmix_vm_handlers.c:971 mixlib/xmix_vm_handlers.c:995
+#: mixlib/xmix_vm_handlers.c:1320
+msgid "Wrong argument: "
+msgstr "Falsches Argument: "
+
+#: mixlib/xmix_vm_handlers.c:1011
+#, c-format
+msgid "Edit command: %s\n"
+msgstr "Editor: %s\n"
+
+#: mixlib/xmix_vm_handlers.c:1013
+#, c-format
+msgid "Edit command not set (use sedit)\n"
+msgstr "Editor nicht gesetzt (verwende sedit)\n"
+
+#: mixlib/xmix_vm_handlers.c:1034
+#, c-format
+msgid "Compile command: %s\n"
+msgstr "Kompiler: %s\n"
+
+#: mixlib/xmix_vm_handlers.c:1036
+#, c-format
+msgid "Compile command not set (use sasm)\n"
+msgstr "Kompiler nicht gesetzt (verwende sasm)\n"
+
+#: mixlib/xmix_vm_handlers.c:1064
+#, c-format
+msgid "Device directory: %s\n"
+msgstr "Device-Verzeichnis: %s\n"
+
+#: mixlib/xmix_vm_handlers.c:1111
+#, c-format
+msgid "Conditional breakpoint on r%s change set"
+msgstr "Conditional Breakpoint bei r%s-Änderung gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1116 mixlib/xmix_vm_handlers.c:1140
+#, c-format
+msgid "Invalid argument %s"
+msgstr "Ungültiges Argument %s"
+
+#: mixlib/xmix_vm_handlers.c:1131
+#, c-format
+msgid "Conditional breakpoint on r%s change removed"
+msgstr "Conditional Breakpoint bei r%s-Änderung gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:1135
+#, c-format
+msgid "No breakpoint set on r%s change"
+msgstr "Keinen Breakpoint bei r%s-Änderung gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1152 mixlib/xmix_vm_handlers.c:1177
+#, c-format
+msgid "Invalid memory address: %s"
+msgstr "Ungültige Speicheradresse: %s"
+
+#: mixlib/xmix_vm_handlers.c:1165
+#, c-format
+msgid "Conditional breakpoint on mem cell no. %d set"
+msgstr "Conditional Breakpoint bei Speicherzelle %d gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1188
+#, c-format
+msgid "Conditional breakpoint on mem cell no. %d removed"
+msgstr "Conditional Breakpoint bei Speicherzelle %d gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:1193
+#, c-format
+msgid "No conditional breakpoint set at address %d"
+msgstr "Keinen Conditional Breakpoint bei Adresse %d gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1209
+msgid "Conditional breakpoint on overflow toggled set"
+msgstr "Conditional Breakpoint beim Overflow-Flag gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1226
+msgid "Conditional breakpoint on overflow toggled removed."
+msgstr "Conditional Breakpoint beim Overflow-Flag gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:1229
+msgid "No breakpoint set on overflow toggle"
+msgstr "Keinen Breakpoint beim Overflow-Flag gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1244
+msgid "Conditional breakpoint on comparison flag changed set"
+msgstr "Conditional Breakpoint beim Comparison-Flag gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1262
+msgid "Conditional breakpoint on comparison flag changed removed."
+msgstr "Conditional Breakpoint beim Comparison-Flag gelöscht"
+
+#: mixlib/xmix_vm_handlers.c:1265
+msgid "No breakpoint set on comparison flag change"
+msgstr "Keinen Breakpoint beim Comparison-Flag gesetzt"
+
+#: mixlib/xmix_vm_handlers.c:1328
+#, c-format
+msgid "No program currently loaded"
+msgstr "Zur Zeit kein Programm geladen"
+
+#: mixlib/xmix_vm_handlers.c:1337
+#, c-format
+msgid "No program currently loaded\n"
+msgstr "Zur Zeit kein Programm geladen\n"
+
+#: mixlib/xmix_vm_handlers.c:1352
+msgid "Invalid argument"
+msgstr "Ungültiges Argument"
+
+#: mixlib/xmix_vm_handlers.c:1375
+msgid "Error loading or executing file"
+msgstr "Fehler beim Laden oder Ausführen der Datei"
+
+#: mixlib/xmix_vm_handlers.c:1376
+msgid "Execution stopped: breakpoint encountered"
+msgstr "Ausführung angehalten: auf Breakpoint gestoßen"
+
+#: mixlib/xmix_vm_handlers.c:1377
+msgid "Execution stopped: conditional breakpoint encountered"
+msgstr "Ausführung angehalten: auf Conditional Breakpoint gestoßen"
+
+#: mixlib/xmix_vm_handlers.c:1378
+msgid "Program successfully terminated"
+msgstr "Programm erfolgreich beendet"
+
+#: mixlib/xmix_vm_handlers.c:1379
+msgid "Execution stopped"
+msgstr "Ausführung angehalten"
+
+#: mixlib/xmix_vm_handlers.c:1380
+msgid "Program successfully loaded"
+msgstr "Programm erfolgreich geladen"
+
+#: mixlib/xmix_vm_handlers.c:1381
+msgid "No program loaded"
+msgstr "Kein Programm geladen"
+
+#: mixgtk/mixgtk_device.c:543
+msgid "Devices folder"
+msgstr "Device-Verzeichnis"
+
+#: mixgtk/mixgtk_gen_handlers.c:97
+msgid "Load MIX program..."
+msgstr "MIX-Programm laden..."
+
+#: mixgtk/mixgtk_gen_handlers.c:110
+msgid "Edit MIXAL source file..."
+msgstr "MIXAL-Quelldatei bearbeiten..."
+
+#: mixgtk/mixgtk_gen_handlers.c:124
+msgid "Compile MIXAL source file..."
+msgstr "MIXAL-Quelldatei kompilieren..."
+
+#: mixgtk/mixgtk_mixal.c:340 mixgtk/mixgtk_mixal.c:341
+msgid "N/A"
+msgstr "N/A"
+
+#: mixgtk/mixgtk_mixal.c:364
+msgid "Source not available"
+msgstr "Quelle fehlt"
+
+#: mixgtk/mixgtk_mixvm.c:328
+msgid "Register A"
+msgstr "Register A"
+
+#: mixgtk/mixgtk_mixvm.c:331
+msgid "Register X"
+msgstr "Register X"
+
+#: mixgtk/mixgtk_mixvm.c:334
+msgid "Register J"
+msgstr "Register J"
+
+#: mixgtk/mixgtk_mixvm.c:340
+#, c-format
+msgid "Register I%d"
+msgstr "Register I%d"
+
+#: mixgtk/mixgtk_mixvm.c:456
+#, c-format
+msgid "Memory cell no. %d"
+msgstr "Speicherzelle %d"
+
+#: mixgtk/gmixvm.c:97
+msgid "gmixvm, GTK MIX virtual machine"
+msgstr "gmixvm, GTK MIX virtuelle Maschine"
+
+#: mixgtk/mixgtk.c:45
+msgid "Unable to load gmixvm configuration"
+msgstr "Kann gmixvm-Konfiguration nicht laden"
+
+#: mixgtk/mixgtk.c:50
+msgid "Unable to initialise application: missing glade file"
+msgstr "Kann Applikation nicht initialisieren: Glade-Datei fehlt"
+
+#: mixgtk/mixgtk.c:56
+msgid "Unable to initialise application\n"
+msgstr "Kann Applikation nicht initialisieren\n"
+
+#: mixgtk/mixgtk.glade:7
+msgid "gmixvm"
+msgstr "gmixvm"
+
+#: mixgtk/mixgtk.glade:36
+msgid "_File"
+msgstr "Datei"
+
+#: mixgtk/mixgtk.glade:45
+msgid "Load a MIX file"
+msgstr "Lade eine MIX-Datei"
+
+#: mixgtk/mixgtk.glade:46
+msgid "_Load..."
+msgstr "_Laden..."
+
+#: mixgtk/mixgtk.glade:69
+msgid "_Edit..."
+msgstr "Bearbeiten..."
+
+#: mixgtk/mixgtk.glade:92
+msgid "_Compile..."
+msgstr "Kompilieren..."
+
+#: mixgtk/mixgtk.glade:120
+msgid "Exit application"
+msgstr "Applikation beenden"
+
+#: mixgtk/mixgtk.glade:121
+msgid "E_xit"
+msgstr "Beenden"
+
+#: mixgtk/mixgtk.glade:147
+msgid "De_bug"
+msgstr "De_bug"
+
+#: mixgtk/mixgtk.glade:156
+msgid "Run program"
+msgstr "Starte Programm"
+
+#: mixgtk/mixgtk.glade:157
+msgid "_Run"
+msgstr "Starte"
+
+#: mixgtk/mixgtk.glade:179
+msgid "Execute next instruction"
+msgstr "Führe nächste Instruktion aus"
+
+#: mixgtk/mixgtk.glade:180
+msgid "_Next"
+msgstr "Weiter"
+
+#: mixgtk/mixgtk.glade:202
+msgid "Clear all set breakpoints"
+msgstr "Alle gesetzten Breakpoints löschen"
+
+#: mixgtk/mixgtk.glade:203
+msgid "_Clear breakpoints"
+msgstr "Breakpoints löschen"
+
+#: mixgtk/mixgtk.glade:225
+msgid "Show the symbol table"
+msgstr "Zeige Symboltabelle"
+
+#: mixgtk/mixgtk.glade:226
+msgid "_Symbols..."
+msgstr "_Symbole..."
+
+#: mixgtk/mixgtk.glade:252
+msgid "Vie_w"
+msgstr "Ansicht"
+
+#: mixgtk/mixgtk.glade:261
+msgid "_Toolbars"
+msgstr "_Toolbar"
+
+#: mixgtk/mixgtk.glade:270
+msgid "_Detached windows"
+msgstr "_Detached Fenster"
+
+#: mixgtk/mixgtk.glade:291 mixgtk/mixgtk.glade:356
+msgid "_Virtual machine"
+msgstr "_Virtuelle Maschine"
+
+#: mixgtk/mixgtk.glade:300 mixgtk/mixgtk.glade:365
+msgid "_Source"
+msgstr "Quelle"
+
+#: mixgtk/mixgtk.glade:309 mixgtk/mixgtk.glade:392
+msgid "_Devices"
+msgstr "_Devices"
+
+#: mixgtk/mixgtk.glade:326
+msgid "S_ettings"
+msgstr "W_erte"
+
+#: mixgtk/mixgtk.glade:335
+msgid "Change _font"
+msgstr "Font ändern"
+
+#: mixgtk/mixgtk.glade:374
+msgid "Command _prompt"
+msgstr "Kommando_prompt"
+
+#: mixgtk/mixgtk.glade:383
+msgid "Command l_og"
+msgstr "K_ommandoaufzeichnung"
+
+#: mixgtk/mixgtk.glade:401
+msgid "Symbol _list"
+msgstr "Symbol_liste"
+
+#: mixgtk/mixgtk.glade:416
+msgid "Change all fonts at once"
+msgstr "Alle Fonts auf einmal ändern"
+
+#: mixgtk/mixgtk.glade:417
+msgid "_All"
+msgstr "_Alles"
+
+#: mixgtk/mixgtk.glade:430
+msgid "Change format of binary devices output"
+msgstr "Format für binäre Device-Ausgabe ändern"
+
+#: mixgtk/mixgtk.glade:431
+msgid "_Device output..."
+msgstr "_Device-Ausgabe..."
+
+#: mixgtk/mixgtk.glade:452
+msgid "De_vices dir..."
+msgstr "De_vices-Verzeichnis..."
+
+#: mixgtk/mixgtk.glade:473
+msgid "E_xternal programs..."
+msgstr "E_xterne Programm..."
+
+#: mixgtk/mixgtk.glade:500
+msgid "Save current settings"
+msgstr "Aktuellen Werte speichern"
+
+#: mixgtk/mixgtk.glade:501
+msgid "_Save"
+msgstr "_Speichern"
+
+#: mixgtk/mixgtk.glade:522
+msgid "Toogle save settings on exit"
+msgstr "Speichern beim Beenden an/aus"
+
+#: mixgtk/mixgtk.glade:523
+msgid "Save on _exit"
+msgstr "Speichern beim B_eenden"
+
+#: mixgtk/mixgtk.glade:537
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: mixgtk/mixgtk.glade:546
+msgid "_About..."
+msgstr "Über..."
+
+#: mixgtk/mixgtk.glade:593
+msgid "Load MIX program"
+msgstr "Lade MIX-Programm"
+
+#: mixgtk/mixgtk.glade:594
+msgid "Open"
+msgstr "Öffnen"
+
+#: mixgtk/mixgtk.glade:611
+msgid "Compile MIXAL source"
+msgstr "MIXAL-Quelle kompilieren"
+
+#: mixgtk/mixgtk.glade:612
+msgid "Compile"
+msgstr "Kompilieren"
+
+#: mixgtk/mixgtk.glade:629
+msgid "Edit MIXAL source"
+msgstr "MIXAL-Quelle bearbeiten"
+
+#: mixgtk/mixgtk.glade:630
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: mixgtk/mixgtk.glade:647 mixgtk/mixgtk.glade:648 mixgtk/mixgtk.glade:2147
+#: mixgtk/mixgtk.glade:2148
+msgid "Run"
+msgstr "Start"
+
+#: mixgtk/mixgtk.glade:665 mixgtk/mixgtk.glade:666 mixgtk/mixgtk.glade:2165
+msgid "Next"
+msgstr "Weiter"
+
+#: mixgtk/mixgtk.glade:683 mixgtk/mixgtk.glade:2183
+msgid "Clear breakpoints"
+msgstr "Breakpoints löschen"
+
+#: mixgtk/mixgtk.glade:684 mixgtk/mixgtk.glade:2184
+msgid "Clear"
+msgstr "Löschen"
+
+#: mixgtk/mixgtk.glade:701 mixgtk/mixgtk.glade:1969 mixgtk/mixgtk.glade:2201
+msgid "Symbol table"
+msgstr "Symboltabelle"
+
+#: mixgtk/mixgtk.glade:702 mixgtk/mixgtk.glade:2202
+msgid "Symbols"
+msgstr "Symbole"
+
+#: mixgtk/mixgtk.glade:732 mixgtk/mixgtk.glade:2362
+msgid "Device directory"
+msgstr "Device-Verzeichnis"
+
+#: mixgtk/mixgtk.glade:733
+msgid "Devdir"
+msgstr "Dev-Verz"
+
+#: mixgtk/mixgtk.glade:750 mixgtk/mixgtk.glade:2380
+msgid "Output format"
+msgstr "Ausgabeformat"
+
+#: mixgtk/mixgtk.glade:751 mixgtk/mixgtk.glade:1683
+msgid "Format"
+msgstr "Format"
+
+#: mixgtk/mixgtk.glade:768 mixgtk/mixgtk.glade:1785
+msgid "External programs"
+msgstr "Externe Programme"
+
+#: mixgtk/mixgtk.glade:769
+msgid "Programs"
+msgstr "Programme"
+
+#: mixgtk/mixgtk.glade:799
+msgid "Detach window"
+msgstr "Detach-Fenster"
+
+#: mixgtk/mixgtk.glade:800
+msgid "Detach"
+msgstr "Detach"
+
+#: mixgtk/mixgtk.glade:817
+msgid "Attach all windows"
+msgstr "Alle Fenster zuordnen"
+
+#: mixgtk/mixgtk.glade:906
+msgid "Enter MIXVM command here"
+msgstr "MIXVM-Kommando hier eingeben"
+
+#: mixgtk/mixgtk.glade:914 mixgtk/mixgtk.glade:1050 mixgtk/mixgtk.glade:1073
+#: mixgtk/mixgtk.glade:1096 mixgtk/mixgtk.glade:1119 mixgtk/mixgtk.glade:1142
+#: mixgtk/mixgtk.glade:1165 mixgtk/mixgtk.glade:1188 mixgtk/mixgtk.glade:1475
+#: mixgtk/mixgtk.glade:1867 mixgtk/mixgtk.glade:1920 mixgtk/mixgtk.glade:2585
+#: mixgtk/mixgtk.glade:2843 mixgtk/mixgtk.glade:2869 mixgtk/mixgtk.glade:2895
+#: mixgtk/mixgtk.glade:3077 mixgtk/mixgtk.glade:3103 mixgtk/mixgtk.glade:3129
+#: mixgtk/mixgtk.glade:3155 mixgtk/mixgtk.glade:3181 mixgtk/mixgtk.glade:3213
+#: mixgtk/mixgtk.glade:3452 mixgtk/mixgtk.glade:3892
+msgid "*"
+msgstr "*"
+
+#: mixgtk/mixgtk.glade:955 mixgtk/mixgtk.glade:1248
+msgid "Enter value"
+msgstr "Wert eingeben"
+
+#: mixgtk/mixgtk.glade:1048 mixgtk/mixgtk.glade:1071 mixgtk/mixgtk.glade:1094
+#: mixgtk/mixgtk.glade:1117 mixgtk/mixgtk.glade:1140 mixgtk/mixgtk.glade:1163
+#: mixgtk/mixgtk.glade:3450
+msgid "0"
+msgstr "0"
+
+#: mixgtk/mixgtk.glade:1186
+msgid "+"
+msgstr "+"
+
+#: mixgtk/mixgtk.glade:1204 mixgtk/mixgtk.glade:1757
+msgid "Decimal"
+msgstr "Dezimal"
+
+#: mixgtk/mixgtk.glade:1226
+msgid "Bytes"
+msgstr "Bytes"
+
+#: mixgtk/mixgtk.glade:1276
+msgid "MDK"
+msgstr "MDK"
+
+#: mixgtk/mixgtk.glade:1306
+msgid "GNU MIX Development Kit"
+msgstr "GNU MIX Development Kit"
+
+#: mixgtk/mixgtk.glade:1328
+msgid "label223"
+msgstr "Label 223"
+
+#: mixgtk/mixgtk.glade:1350
+msgid ""
+" Copyright (C) 2001, 2002, 2003 , 2004\n"
+"Free Software Foundation, Inc.\n"
+"\n"
+"Please, send bug reports to\n"
+"bug-mdk@gnu.org"
+msgstr ""
+" Copyright (C) 2001, 2002, 2003, 2004\n"
+"Free Software Foundation, Inc.\n"
+"\n"
+"Bitte senden Sie Bug-Reports an\n"
+"bug-mdk@gnu.org"
+
+#: mixgtk/mixgtk.glade:1375
+msgid "Go to memory cell"
+msgstr "Gehe zur Speicherzelle"
+
+#: mixgtk/mixgtk.glade:1447
+msgid "Go to address:"
+msgstr "Gehe zu Adresse:"
+
+#: mixgtk/mixgtk.glade:1497
+msgid "Select Font"
+msgstr "Wähle Font"
+
+#: mixgtk/mixgtk.glade:1546
+msgid "abcdefghijk ABCDEFGHIJK"
+msgstr "abcdefghijk ABCDEFGHIJK"
+
+#: mixgtk/mixgtk.glade:1557
+msgid "Device output format"
+msgstr "Device-Ausgabeformat"
+
+#: mixgtk/mixgtk.glade:1642
+msgid "Set all devices to current format"
+msgstr "Alle Devices auf das aktuelle Format setzen"
+
+#: mixgtk/mixgtk.glade:1644
+msgid "S_et all"
+msgstr "Alles S_etzen"
+
+#: mixgtk/mixgtk.glade:1661
+msgid "Device"
+msgstr "Device"
+
+#: mixgtk/mixgtk.glade:1705
+msgid ""
+"tape0\n"
+"tape1\n"
+"tape2\n"
+"tape3\n"
+"tape4\n"
+"tape5\n"
+"tape6\n"
+"tape7\n"
+"disk0\n"
+"disk1\n"
+"disk2\n"
+"disk3\n"
+"disk4\n"
+"disk5\n"
+"disk6\n"
+"disk7"
+msgstr ""
+"tape0\n"
+"tape1\n"
+"tape2\n"
+"tape3\n"
+"tape4\n"
+"tape5\n"
+"tape6\n"
+"tape7\n"
+"disk0\n"
+"disk1\n"
+"disk2\n"
+"disk3\n"
+"disk4\n"
+"disk5\n"
+"disk6\n"
+"disk7"
+
+#: mixgtk/mixgtk.glade:1734
+msgid "Show output as MIX words"
+msgstr "Zeige Ausgabe als MIX-Wörter"
+
+#: mixgtk/mixgtk.glade:1736
+msgid "Word"
+msgstr "Wort"
+
+#: mixgtk/mixgtk.glade:1755
+msgid "Show output as decimal numbers"
+msgstr "Zeige Ausgabe als dezimale Zahlen"
+
+#: mixgtk/mixgtk.glade:1865
+msgid "xterm -e vi %s"
+msgstr "xterm -e vi %s"
+
+#: mixgtk/mixgtk.glade:1881
+msgid "Editor command (e.g xterm -e vi %s)"
+msgstr "Editor-Befehl (z.B. xterm -e vi %s)"
+
+#: mixgtk/mixgtk.glade:1918
+msgid "mixasm %s"
+msgstr "mixasm %s"
+
+#: mixgtk/mixgtk.glade:1934
+msgid "MIX sssembler command (e.g. mixasm %s)"
+msgstr "MIX-Assembler-Befehl (z.B. mixasm %s)"
+
+#: mixgtk/mixgtk.glade:2045
+msgid "_Close"
+msgstr "Schließen"
+
+#: mixgtk/mixgtk.glade:2107
+msgid "MIXAL source"
+msgstr "MIXAL Quelle"
+
+#: mixgtk/mixgtk.glade:2166
+msgid "Step"
+msgstr "Schritt"
+
+#: mixgtk/mixgtk.glade:2232
+msgid "Source code font"
+msgstr "Quellcodefont"
+
+#: mixgtk/mixgtk.glade:2233 mixgtk/mixgtk.glade:2412 mixgtk/mixgtk.glade:2662
+msgid "Font"
+msgstr "Font"
+
+#: mixgtk/mixgtk.glade:2263
+msgid "Attach window"
+msgstr "Attach-Fenster"
+
+#: mixgtk/mixgtk.glade:2319
+msgid "Devices"
+msgstr "Devices"
+
+#: mixgtk/mixgtk.glade:2363 mixgtk/mixgtk.glade:2558
+msgid "Directory"
+msgstr "Verzeichnis"
+
+#: mixgtk/mixgtk.glade:2381
+msgid "Output"
+msgstr "Ausgabe"
+
+#: mixgtk/mixgtk.glade:2411
+msgid "Output font"
+msgstr "Ausgabefont"
+
+#: mixgtk/mixgtk.glade:2485
+msgid "Devices directory"
+msgstr "Device-Verzeichnis"
+
+#: mixgtk/mixgtk.glade:2623
+msgid "Virtual machine"
+msgstr "Virtuelle Maschine"
+
+#: mixgtk/mixgtk.glade:2758
+msgid "A"
+msgstr "A"
+
+#: mixgtk/mixgtk.glade:2784
+msgid "I1"
+msgstr "I1"
+
+#: mixgtk/mixgtk.glade:2810
+msgid "I2"
+msgstr "I2"
+
+#: mixgtk/mixgtk.glade:2915
+msgid "X"
+msgstr "X"
+
+#: mixgtk/mixgtk.glade:2941
+msgid "I3"
+msgstr "I3"
+
+#: mixgtk/mixgtk.glade:2967
+msgid "I4"
+msgstr "I4"
+
+#: mixgtk/mixgtk.glade:2993
+msgid "I5"
+msgstr "I5"
+
+#: mixgtk/mixgtk.glade:3019
+msgid "I6"
+msgstr "I6"
+
+#: mixgtk/mixgtk.glade:3045
+msgid "J"
+msgstr "J"
+
+#: mixgtk/mixgtk.glade:3244
+msgid "Registers "
+msgstr "Register "
+
+#: mixgtk/mixgtk.glade:3294
+msgid "Greater"
+msgstr "Größer"
+
+#: mixgtk/mixgtk.glade:3296
+msgid "G"
+msgstr "G"
+
+#: mixgtk/mixgtk.glade:3318
+msgid "Equal"
+msgstr "Gleich"
+
+#: mixgtk/mixgtk.glade:3320
+msgid "E"
+msgstr "E"
+
+#: mixgtk/mixgtk.glade:3343
+msgid "Lesser"
+msgstr "Kleiner"
+
+#: mixgtk/mixgtk.glade:3345
+msgid "L"
+msgstr "L"
+
+#: mixgtk/mixgtk.glade:3378
+msgid "Overflow"
+msgstr "Overflow"
+
+#: mixgtk/mixgtk.glade:3399
+msgid "Flags "
+msgstr "Flags "
+
+#: mixgtk/mixgtk.glade:3466
+msgid "View loc address"
+msgstr "Zeige Positionsadresse"
+
+#: mixgtk/mixgtk.glade:3496
+msgid "Location "
+msgstr "Position "
+
+#: mixgtk/mixgtk.glade:3547
+msgid "Uptime:"
+msgstr "Uptime:"
+
+#: mixgtk/mixgtk.glade:3570
+msgid "00000000"
+msgstr "00000000"
+
+#: mixgtk/mixgtk.glade:3593
+msgid "Elapsed:"
+msgstr "Verbraucht"
+
+#: mixgtk/mixgtk.glade:3616 mixgtk/mixgtk.glade:3662
+msgid "000000"
+msgstr "000000"
+
+#: mixgtk/mixgtk.glade:3639
+msgid "Program:"
+msgstr "Programm:"
+
+#: mixgtk/mixgtk.glade:3685
+msgid "Times "
+msgstr "Times "
+
+#: mixgtk/mixgtk.glade:3750
+msgid "Memory "
+msgstr "Speicher "
+
+#: mixgtk/mixgtk.glade:3779
+msgid "MIX Virtual Machine "
+msgstr "MIX virtuelle Maschine"
+
+#: mixgtk/mixgtk.glade:3807
+msgid "MIX Console input"
+msgstr "MIX-Konsoleeingabe"
+
+#: mixgtk/mixgtk.glade:3865
+msgid "Enter up to 70 characters"
+msgstr "Bis zu 70 Zeichen eingeben"
+
+#: mixguile/mixguile.c:74
+#, c-format
+msgid "mixguile bootstrap file %s not found\n"
+msgstr "Mixguile-Bootstrap-Datei %s nicht gefunden\n"
+
+#: mixguile/mixguile_cmd_dispatcher.c:52
+msgid "Eval Scheme command using Guile"
+msgstr "Führe Scheme-Kommando aus mit Guile"
+
+#: mixguile/mixguile_cmd_dispatcher.c:53
+msgid "Eval Scheme file using Guile"
+msgstr "Führe Scheme-Datei aus mit Guile"

@@ -1,0 +1,445 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_mixguile.texi,v 1.5 2004/08/03 13:23:06 jao Exp $
+
+@node mixguile, Problems, gmixvm, Top
+@chapter @code{mixguile}, the Scheme virtual machine
+@cindex @code{mixguile}
+
+This chapter provides a reference to using @code{mixguile} and the
+Scheme function library giving access to the MIX virtual machine in the
+@sc{mdk} emulators (@code{mixguile}, @code{mixvm} and @code{gmixvm}). See
+@ref{Using mixguile} for a tutorial, step by step introduction to
+@code{mixguile} and using Scheme as an extension language for the
+@sc{mdk} MIX virtual machines.
+
+@menu
+* Invoking mixguile::           Command line options.
+* Scheme functions reference::  Scheme functions accessing the VM.
+@end menu
+
+@node Invoking mixguile, Scheme functions reference, mixguile, mixguile
+@section Invoking @code{mixguile}
+@cindex @code{mixguile} options
+
+Invoking @code{mixguile} without arguments will enter the Guile REPL
+(read-eval-print loop) after loading, if it exists, the user's
+initialisation file (@file{~/.mdk/mixguile.scm}).
+
+@code{mixguile} accepts the same command line options than Guile:
+
+@example
+mixguile [-s SCRIPT] [-c EXPR] [-l FILE] [-e FUNCTION] [-qhv]
+         [--help] [--version]
+@end example
+
+The meaning of these options is as follows:
+
+@defopt -h
+@defoptx --help
+Prints usage summary and exits.
+@end defopt
+
+@defopt -v
+@defoptx --version
+Prints version and copyleft information and exits.
+@end defopt
+
+@defopt -s SCRIPT
+Loads Scheme code from @var{script}, evaluates it and exits. This option
+can be used to write executable Scheme scripts, as described in
+@ref{Scheme scripts}.
+@end defopt
+
+@defopt -c EXPR
+Evaluates the given Scheme expression and exits.
+@end defopt
+
+@defopt -l FILE
+Loads the given Scheme file and enters the REPL (read-eval-print loop).
+@end defopt
+
+@defopt -e FUNCTION
+After reading the script, executes the given function using the provided
+command line arguments. For instance, you can write the following Scheme
+script:
+
+@example
+#! /usr/bin/mixguile \
+-e main -s
+!#
+
+;;; execute a given program and print the registers.
+
+(define main
+  (lambda (args)
+    ;; load the file provided as a command line argument
+    (mix-load (cadr args))
+    ;; execute it
+    (mix-run)
+    ;; print the contents of registers
+    (mix-pall)))
+
+@end example
+@noindent
+save it in a file called, say, @file{foo}, make it executable, and run
+it as
+
+@example
+$ ./foo hello
+@end example
+@noindent
+This invocation will cause the evaluation of the @code{main} function
+with a list of command line parameters as its argument (@code{("./foo"
+"hello")} in the above example. Note that command line options to
+mixguile must be written in their own line after the @code{\} symbol.
+@end defopt
+
+@defopt -q
+Do not load user's initialisation file. When @code{mixguile} starts up,
+it looks for a file named @file{mixguile.scm} in the user's @sc{mdk}
+configuration directory (@file{~/.mdk}), and loads it if it exists. This
+option tells @code{mixguile} to skip this initialisation file loading.
+@end defopt
+
+
+@node Scheme functions reference,  , Invoking mixguile, mixguile
+@section Scheme functions reference
+
+As we have previously pointed out, @code{mixguile} embeds a MIX virtual
+machine that can be accessed through a set of Scheme functions, that is,
+of a Scheme library. Conversely, @code{mixvm} and @code{gmixvm} contain
+a Guile interpreter, and are able to use this same Scheme library, as
+well as all the other Guile/Scheme primitives and any user defined
+function. Therefore, you have at your disposal a powerful programming
+language, Scheme, to extend the @sc{mdk} virtual machine emulators (see
+@ref{Using Scheme in mixvm and gmixvm} for samples of how to do it).
+
+The following subsections describe available functions the MIX/Scheme
+library.
+
+@menu
+* mixvm wrappers::              Functions invoking mixvm commands.
+* Hooks::                       Adding hooks to mixvm commands.
+* Additional VM functions::     Functions accessing the MIX virtual machine.
+@end menu
+
+@node mixvm wrappers, Hooks, Scheme functions reference, Scheme functions reference
+@subsection @code{mixvm} command wrappers
+
+For each of the @code{mixvm} commands listed in @ref{Commands}, there is
+a corresponding Scheme function named by prefixing the command name with
+@code{mix-} (e.g., @code{mix-load}, @code{mix-run} and so on). These
+command wrappers are implemented using a generic command dispatching
+function:
+
+@defun mixvm-cmd command argument
+Dispatchs the given @var{command} to the MIX virtual appending the
+provided @var{argument}. Both @var{command} and @code{argument} must be
+strings. The net result is as writing "@var{command} @var{argument}" at
+the @code{mixvm} or @code{gmixvm} command prompt.
+@end defun
+
+For instance, you can invoke the @code{run} command at the @code{mixvm}
+prompt in three equivalent ways:
+
+@example
+MIX > run hello
+MIX > (mix-run "hello")
+MIX > (mixvm-cmd "run" "hello")
+@end example
+@noindent
+(only the two last forms can be used at the @code{mixguile} prompt or
+inside a Scheme script).
+
+The @code{mix-} functions evaluate to a unspecified value. If you want
+to check the result of the last @code{mixvm} command invocation, use the
+@code{mix-last-result} function:
+
+@defun mix-last-result
+Returns @var{#t} if the last @code{mixvm} command invocation was
+successful, @var{#f} otherwise.
+@end defun
+@noindent
+Using this function, we could improve the script for running a program
+presented in the previous section by adding error checking:
+
+
+@example
+#! /usr/bin/mixguile \
+-e main -s
+!#
+
+;;; Execute a given program and print the registers.
+
+(define main
+  (lambda (args)
+    ;; load the file provided as a command line argument
+    (mix-load (cadr args))
+    ;; execute it if mix-load succeeded
+    (if (mix-last-result) (mix-run))
+    ;; print the contents of registers if the above commands succeded
+    (if (mix-last-result) (mix-pall))))
+@end example
+
+Please, refer to @ref{Commands} for a list of available commands. Given
+the description of a @code{mixvm}, it is straightforward to use its
+Scheme counterpart and, therefore, we shall not give a complete
+description of these functions here. Instead, we will only mention those
+wrappers that exhibit a treatment of their differing from that of their
+command counterpart.
+
+@defun mix-preg [register]
+@defunx mix-sreg register value
+The argument @var{register} of these functions can be either a string or
+a symbol representing the desired register. For instance, the following
+invocations are equivalent:
+
+@example
+(mix-preg 'I1)
+(mix-preg "I1")
+@end example
+@end defun
+
+@defun mix-pmem from [to]
+The command @code{pmem} takes a single argument which can be either a
+cell number or a range of the form @code{FROM-TO}. This function takes
+one argument to ask for a single memory cell contents, or two parameters
+to ask for a range. For instance, the following commands are equivalent:
+
+@example
+MIX > pmem 10-12
+0010: + 00 00 00 00 00 (0000000000)
+0011: + 00 00 00 00 00 (0000000000)
+0012: + 00 00 00 00 00 (0000000000)
+MIX > (mix-pmem 10 12)
+0010: + 00 00 00 00 00 (0000000000)
+0011: + 00 00 00 00 00 (0000000000)
+0012: + 00 00 00 00 00 (0000000000)
+MIX >
+@end example
+@end defun
+
+@defun mix-sover #t|#f
+The command @code{sover} takes as argument either the string @code{T} or
+the string @code{F}, to set, respectively, the overflow toggle to true
+or false. Its Scheme counterpart, @code{mix-sover}, takes as argument
+a Scheme boolean value: @code{#t} (true) or @code{#f}.
+@end defun
+
+For the remaining functions, you simply must take into account that when
+the command arguments are numerical, the corresponding Scheme function
+takes as arguments Scheme number literals. On the other hand, when the
+command argument is a string, the argument of its associated Scheme
+function will be a Scheme string. By way of example, the following
+invocations are pairwise equivalent:
+
+@example
+MIX > load ../samples/hello
+MIX > (mix-load "../samples/hello")
+
+MIX > next 5
+MIX > (mix-next 5)
+@end example
+
+@node Hooks, Additional VM functions, mixvm wrappers, Scheme functions reference
+@subsection Hook functions
+
+Hooks are functions evaluated before or after executing a @code{mixvm}
+command (or its corresponding Scheme function wrapper), or after an
+explicit or conditional breakpoint is found during the execution of a
+MIX program. The following functions let you install hooks:
+
+@defun mix-add-pre-hook command hook
+Adds a function to the list of pre-hooks associated with the give
+@var{command}. @var{command} is a string naming the corresponding @code{mixvm}
+command, and @var{hook} is a function which takes a single argument: a
+string list of the commands arguments. The following scheme code defines
+a simple hook and associates it with the @code{run} command:
+
+@example
+(define run-hook
+  (lambda (args)
+    (display "argument list: ")
+    (display args)
+    (newline)))
+(mix-add-pre-hook "run" run-hook)
+@end example
+
+Pre-hooks are executed, in the order they are added, before invoking the
+corresponding command (or its associated Scheme wrapper function).
+@end defun
+
+@defun mix-add-post-hook command hook
+Adds a function to the list of pre-hooks associated with the give
+@var{command}. The arguments have the same meaning as in
+@code{mix-add-pre-hook}.
+@end defun
+
+@defun mix-add-global-pre-hook hook
+@defunx mix-add-global-post-hook hook
+Global pre/post hooks are executed before/after any @code{mixvm} command
+or function wrapper invocation. In this case, @var{hook} takes two
+arguments: a string with the name of the command being invoked, and a
+string list with its arguments.
+@end defun
+
+@defun mix-add-break-hook hook
+@defunx mix-add-cond-break hook
+Add a hook funtion to be executed when an explicit (resp. conditional)
+breakpoint is encountered during program execution. @var{hook} is a
+function taking two arguments: the source line number where the hook has
+occurred, and the current program counter value. The following code
+shows a simple definition and installation of a break hook:
+
+@example
+(define break-hook
+  (lambda (line address)
+    (display "Breakpoint at line ") (display line)
+    (display " and address ") (display address)
+    (newline)))
+(mix-add-break-hook break-hook)
+@end example
+
+Break hook functions are entirely implemented in Scheme using regular
+post-hooks for the @code{next} and @code{run} commands. If you are
+curious, you can check the Scheme source code at
+@file{@emph{prefix}/share/mdk/mixguile-vm-stat.scm} (where @emph{prefix}
+stands for your root install directory, usualy @code{/usr} or
+@code{/usr/local}.
+@end defun
+
+
+See @ref{Hook functions} for further examples on using hook functions.
+
+
+@node Additional VM functions,  , Hooks, Scheme functions reference
+@subsection Additional VM functions
+
+When writing non-trivial Scheme extensions using the MIX/Scheme library,
+you will probably need to evaluate the contents of the virtual machine
+components (registers, memory cells and so on). For instance, you may
+need to store the contents of the @code{A} register in a variable. The
+Scheme functions described so far are of no help: you can print the
+contents of @code{A} using @code{(mix-preg 'A)}, but you cannot define a
+variable containing the contents of @code{A}. To address this kind of
+problems, the MIX/Scheme library provides the following additional
+functions:
+
+@defun mixvm-status
+@defunx mix-vm-status
+Return the current status of the virtual machine, as a number
+(@code{mixvm-status}) or as a symbol (@code{mix-vm-status}). Posible
+return values are:
+@multitable {aamixvmaastatusaa} {aamixvmastatusaaaaaaa} {return valuesaaaaaaaaaaaaaaaaaaaaaaaaaa}
+@item @code{(mixvm-status)} @tab @code{(mix-vm-status)} @tab
+@item 0 @tab MIX_ERROR @tab Loading or execution error
+@item 1 @tab MIX_BREAK @tab Breakpoint encountered
+@item 2 @tab MIX_COND_BREAK @tab Conditional breakpoint
+@item 3 @tab MIX_HALTED @tab Execution terminated
+@item 4 @tab MIX_RUNNING @tab Execution stopped after @code{next}
+@item 5 @tab MIX_LOADED @tab Program successfully loaded
+@item 6 @tab MIX_EMPTY @tab No program loaded
+@end multitable
+@end defun
+
+@defun mix-vm-error?
+@defunx mix-vm-break?
+@defunx mix-vm-cond-break?
+@defunx mix-vm-halted?
+@defunx mix-vm-running?
+@defunx mix-vm-loaded?
+@defunx mix-vm-empty?
+Predicates asking whether the current virtual machine status is
+@code{MIX_ERROR}, @code{MIX_BREAK}, etc.
+@end defun
+
+@defun mix-reg register
+@defunx mix-set-reg! register value
+@code{mix-reg} evaluates to a number which is the contents of the
+specified @var{register}. @code{mix-set-reg} sets the contents of the
+given @var{register} to @var{value}. The register can be specified
+either as a string (@code{"A"}, @code{"X"}, etc.) or as a symbol
+(@code{'A}, @code{'X}, etc.). For instance,
+
+@example
+guile> (mix-reg 'A)
+2341
+guile> (mix-set-reg! "A" 2000)
+ok
+guile> (define reg-a (mix-reg 'A))
+guile> (display reg-a)
+2000
+guile>
+@end example
+@end defun
+
+@defun mix-cell cell_no
+@defunx mix-set-cell! cell_no value
+Evaluate and set the contents of the memory cell number
+@var{cell_no}. Both @var{cell_no} and @var{value} are Scheme numbers.
+@end defun
+
+@defun mix-loc
+Evaluates to the value of the location counter (i.e., the address of the
+next instruction to be executed).
+@end defun
+
+@defun mix-over
+@defunx mix-set-over! #t|#f
+@code{mix-over} evaluates to @code{#t} if the overflow toggle is set,
+and to @code{#f} otherwise. The value of the overflow toggle can be
+modified using @code{mix-set-over!}.
+@end defun
+
+@defun mix-cmp
+@defunx mix-set-cmp! 'L|'E|'G
+Evaluate and set the comparison flag. Possible values are the scheme
+symbols @code{L} (lesser), @code{E} (equal) and @code{G} (greater).
+@end defun
+
+@defun mix-up-time
+Evaluates to the current virtual machine uptime.
+@end defun
+
+@defun mix-lap-time
+Evaluates to the current virtual machine lapsed time, i.e., the time
+elapsed since the last @code{run} or @code{next} command.
+@end defun
+
+@defun mix-prog-time
+Evaluates to the total time spent executing the currently loaded program.
+@end defun
+
+@defun mix-prog-name
+Evaluates to a string containing the basename (without any leading path)
+of the currently loaded MIX program.
+@end defun
+
+@defun mix-prog-path
+Evaluates to a string containing the full path to the currently loaded
+MIX program.
+@end defun
+
+@defun mix-src-path
+Evaluates to a string containing the full path to the source file of the
+currently loaded MIX program.
+@end defun
+
+@defun mix-src-line [lineno]
+@defunx mix-src-line-no
+@code{mix-src-line-no} evaluates to the current source file number
+during the execution of a program.  @code{mix-src-line} evaluates to a
+string containing the source file line number @var{lineno}; when
+invoked without argument, it evaluates to @code{(mix-src-line
+(mix-src-line-no))}.
+@end defun
+
+@defun mix-ddir
+Evaluates to a string containing the full path of the current device
+directory.
+@end defun

@@ -1,0 +1,287 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@node Installing MDK, MIX and MIXAL tutorial, Acknowledgments, Top
+@comment  node-name,  next,  previous,  up
+@chapter Installing @sc{mdk}
+
+@menu
+* Download::
+* Requirements::
+* Basic installation::
+* Emacs support::
+* Special configure flags::
+* Supported platforms::
+@end menu
+
+@node Download, Requirements, Installing MDK, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Download the source tarball
+
+GNU @sc{mdk} is distributed as a source tarball available for download in
+the following @acronym{URL}s:
+
+@itemize @bullet
+@item
+@url{ftp://ftp.gnu.org/pub/gnu/mdk}
+@item
+@uref{http://www.gnu.org/prep/ftp.html, GNU mirrors}
+@item
+@uref{http://sourceforge.net/project/showfiles.php?group_id=13897}
+@end itemize
+
+The above sites contain the latest stable releases of @sc{mdk}. The
+development branch is available at:
+
+@itemize @bullet
+@item
+@uref{https://savannah.gnu.org/cvs/?group_id=118}
+@end itemize
+
+After you have downloaded the source tarball, unpack it in a directory
+of your choice using the command:
+
+@example
+tar xfvz mdk-X.Y.tar.gz
+@end example
+
+@noindent
+where @var{X.Y} stands for the downloaded version (the current stable
+release being version @value{VERSION}).
+
+@node Requirements, Basic installation, Download, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Requirements
+
+In order to build and install @sc{mdk}, you will need the following
+libraries installed in your system:
+
+@itemize @minus
+@item
+@uref{http://www.gtk.org, GLIB 2.4.0} (required)
+@item
+@uref{http://www.gnu.org/software/flex/flex.html, GNU Flex 2.5} (required)
+@item
+@uref{http://www.gtk.org, GTK 2.4.0} (optional)
+@item
+@uref{http://ftp.gnome.org/pub/GNOME/sources/libglade/2.4/, Libglade
+2.4.0}
+(optional)
+@item
+@uref{http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html, GNU
+Readline}
+(optional)
+@item
+@uref{http://www.gnu.org/software/guile, GNU Libguile 1.6} (optional)
+@end itemize
+
+If present, readline and history are used to provide command completion
+and history management to the command line MIX virtual machine, @code{mixvm}.
+GTK+ and libglade are needed if you want to build the graphical
+interface to the MIX virtual machine, @code{gmixvm}. Finally, if
+libguile is found, the @sc{mdk} utilities will be compiled with Guile
+support and will be extensible using Scheme.
+
+@strong{Please note}: you need both the libraries @emph{and} the
+headers; this means both the library package and the @file{-dev} package
+if you do not compile your libraries yourself (ex: installing
+@file{libgtk2.0-0} and @file{libgtk2.0-0-dev} on Debian).
+
+@node Basic installation, Emacs support, Requirements, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Basic installation
+
+@sc{mdk} uses GNU Autoconf and Automake tools, and, therefore, should
+be built and installed without hassle using the following commands
+inside the source directory:
+
+@example
+./configure
+make
+make install
+@end example
+
+@noindent
+where the last one must be run as root.
+
+The first command, @code{configure}, will setup the makefiles for your
+system. In particular, @code{configure} will look for GTK+ and libglade,
+and, if they are present, will generate the appropiate makefiles for
+building the @code{gmixvm} graphical user interface. Upon completion,
+you should see a message with the configuration results like the
+following:
+
+@example
+*** GNU MDK 1.2 has been successfully configured. ***
+
+Type 'make' to build the following utilities:
+    - mixasm (MIX assembler)
+    - mixvm (MIX virtual machine, with readline support,
+             with guile support)
+    - gmixvm (mixvm GTK+ GUI, with guile support)
+    - mixguile (the mixvm guile shell)
+@end example
+
+@noindent
+where the last lines may be missing if you lack the above mentioned
+libraries.
+
+The next command, @code{make}, will actually build the @sc{mdk} programs
+in the following locations:
+
+@itemize @minus
+@item
+@file{mixutils/mixasm}
+@item
+@file{mixutils/mixvm}
+@item
+@file{mixgtk/gmixvm}
+@item
+@file{mixguile/mixguile}
+@end itemize
+
+You can run these programs from within their directories, but I
+recommend you to install them in proper locations using @code{make
+install} from a root shell.
+
+@node Emacs support, Special configure flags, Basic installation, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Emacs support
+
+@sc{mdk} includes extensive support for Emacs. Upon installation, all
+the elisp code is installed in @file{PREFIX/share/mdk}, where
+@file{PREFIX} stands for your installation root directory (e.g.
+@file{/usr/local}). You can copy the elisp files to a directory that
+is in your load-path, or you can add the above directory to it.
+Assuming that the installing prefix is @file{/usr/local},
+you can do it by adding to your @file{.emacs} file the following line:
+
+@lisp
+(setq load-path (cons "/usr/local/share/mdk" load-path))
+@end lisp
+
+@code{MIXAL} programs can be written using Emacs and the elisp program
+@file{share/mdk/mixal-mode.el}, contributed by @value{PIETER}. It
+provides font locking, interactive help, compiling assistance and
+invocation of the @code{MIX} virtual machine via a new major mode
+called @code{mixal-mode}. To start @code{mixal-mode} automatically
+whenever you edit a @code{MIXAL} source file, add the following lines
+to your @file{.emacs} file:
+
+@lisp
+(autoload 'mixal-mode "mixal-mode" t)
+(add-to-list 'auto-mode-alist '("\\.mixal\\'" . mixal-mode))
+@end lisp
+
+In addition, @code{mixvm} can be run within an Emacs @acronym{GUD}
+buffer using the elisp program @file{share/mdk/mixvm.el}, contributed
+by @value{PHILIP}. @file{mixvm.el} provides an interface between
+@sc{mdk}'s @code{mixvm} and Emacs, via @acronym{GUD}. Place this file
+in your load-path, optionally adding the following line to your
+@file{.emacs} file:
+
+@lisp
+(autoload 'mixvm "mixvm" "mixvm/gud interaction" t)
+@end lisp
+
+
+@node Special configure flags, Supported platforms, Emacs support, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Special configure flags
+
+You can fine-tune the configuration process using the following
+switches with configure:
+
+@defopt @w{--enable-gui[=yes|no]}
+@defoptx --disable-gui
+Enables/disables the build of the MIX virtual machine GUI
+(@code{gmixvm}). If the required libraries are missing
+(@pxref{Requirements}) the configure script with automatically disable
+this feature.
+@end defopt
+
+@defopt @w{--with-guile[=yes|no]}
+@defoptx --without-guile
+Enables/disables the Guile support for @code{mixvm} and @code{gmixvm},
+and the build of @code{mixguile}.  If the
+required libraries are missing (@pxref{Requirements}) the configure
+script with automatically disable this feature.
+@end defopt
+
+@defopt @w{--with-readline[=yes|no]}
+@defoptx --without-readline
+Enables/disables the GNU Readline support for @code{mixvm}.  If the
+required libraries are missing (@pxref{Requirements}) the configure
+script with automatically disable this feature.
+@end defopt
+
+For additional, boilerplate configure options, see the @file{INSTALL}
+file, or run
+
+@example
+configure --help
+@end example
+
+@node Supported platforms,  , Special configure flags, Installing MDK
+@comment  node-name,  next,  previous,  up
+@section Supported platforms
+
+GNU MDK has been tested in the following platforms:
+
+@itemize
+@item
+Debian GNU/Linux 2.2, 2.3, 3.0, 3.1, 3.2
+@item
+Redhat GNU/Linux 8.0 (Ronald Cole), 7.0 (Agustin Navarro), 6.2
+(Roberto Ferrero)
+@item
+Mandrake 8.0 (Agustin Navarro)
+@item
+FreeBSD 4.2, 4.3, 4.4, 4.5 (Ying-Chieh Liao), 5.2
+@item
+Solaris 2.8/gcc 2.95.3 (Stephen Ramsay)
+@item
+MS Windows 98 SE/Cygwin 1.1.8-2 (Christoph von
+Nathusius)@footnote{Caveats: Christoph has only tested @code{mixvm} and
+@code{mixasm} on this platform, using @code{gcc} 2.95.3-2, @code{GLIB}
+1.2.10 and @code{GNUreadline} 4.1-2. He has reported missing history
+functionalities on a first try. If you find problems with
+history/readline functionality, please try a newer/manually installed
+readline version.}
+@item
+Mac OS X 10.1.2 (Johan Swanljung)
+@item
+AMD Athlon, GNU/Linux version 2.4.2-2smp (Red Hat 7.1 (Seawolf)) (N.
+H. F. Beebe)
+@item
+Apple PowerPC G3, GNU/Linux 2.2.18-4hpmac (Red Hat Linux/PPC
+2000 Q4) (N. H. F. Beebe)
+@item
+DEC Alpha, GNU/Linux 2.2.19-6.2.1 (Red Hat 6.2) (N. H. F. Beebe)
+@item
+Compaq/DEC Alpha OSF/1 4.0F [ONLY after adding rsync's snprintf()
+implementation] (N. H. F. Beebe)
+@item
+IBM PowerPC AIX 4.2 (N. H. F. Beebe)
+@item
+Intel Pentium III, GNU/Linux 2.4.9-31smp (Red Hat 7.2 (Enigma)) (N. H.
+F. Beebe)
+@item
+SGI Origin 200, IRIX 6.5 (N.
+H. F. Beebe)
+@item
+Sun SPARC, GNU/Linux 2.2.19-6.2.1 (Red Hat 6.2) (N. H. F. Beebe)
+@item
+Sun SPARC, Solaris 2.8 (N. H. F. Beebe)
+@end itemize
+
+@sc{mdk} will probably work on any GNU/Linux or BSD platform. If you
+try it in a platform not listed above, please send a mail to
+@email{jao@@gnu.org, the author}.
+
+
+
+

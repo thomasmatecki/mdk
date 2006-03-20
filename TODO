@@ -1,0 +1,19 @@
+-*- mode: outline -*-
+
+* Version 1.2.2
+** gmixvm: list of last loaded programs
+** gmixvm: history in terminal input dialog
+** Add entries to concept index
+** Sync docs with published book
+
+* Misc
+** MIX types manipulation library in Scheme
+** Macro recorder (implemented in Scheme)
+** Add scheme functions to remove installed hooks
+
+** Allow MIXAL instructions as commands at the mixvm prompt
+  (e.g. MIX > exec LDA 2000)
+
+** gtkhtml for help system
+
+* $Id: TODO,v 1.12 2005/09/20 20:18:58 jao Exp $

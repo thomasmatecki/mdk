@@ -1,0 +1,14 @@
+Authors of GNU MDK.
+See also the files THANKS and ChangeLog.
+
+Jose A. Ortega Ruiz designed and implemented mdk.
+
+Pieter E. J. Pareit designed, implemented and documented
+mixal-mode.el, and fixed bugs in other mdk code.
+
+Philip E. King designed and implemented mixvm.el.
+
+Michael Scholz wrote the German translation po/de.po.
+
+Sergey Poznyakoff provided patches to mixlib/mix_scanner.l improving
+MIXAL compliance.

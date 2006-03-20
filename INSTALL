@@ -1,0 +1,339 @@
+Installing MDK
+**************
+
+Download the source tarball
+===========================
+
+   GNU MDK is distributed as a source tarball available for download in
+the following URLs:
+
+   * <ftp://ftp.gnu.org/pub/gnu/mdk> (or one of its mirrors
+     (http://www.gnu.org/prep/ftp.html))
+
+   * `http://sourceforge.net/project/showfiles.php?group_id=13897'
+
+   The above sites contain the latest stable releases of MDK. The
+development branch is available at:
+
+   * `https://savannah.gnu.org/cvs/?group_id=118'
+
+   After you have downloaded the source tarball, unpack it in a
+directory of your choice using the command:
+
+     tar xfvz mdk-X.Y.tar.gz
+
+where X.Y stands for the downloaded version (the current stable release
+being version 1.2.1).
+
+Requirements
+============
+
+   In order to build and install MDK, you will need the following
+libraries installed in your system:
+
+   - GLIB 2.4.0 (http://www.gtk.org) (required)
+
+   - GNU Flex 2.5 (http://www.gnu.org/software/flex/flex.html)
+     (required)
+
+   - GTK 2.4.0 (http://www.gtk.org) (optional)
+
+   - Libglade 2.4.0 (http://ftp.gnome.org/pub/GNOME/sources/libglade/2.4/)
+     (optional)
+
+   - GNU Readline
+     (http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html)
+     (optional)
+
+   - GNU Libguile 1.6 (http://www.gnu.org/software/guile) (optional)
+
+   If present, readline and history are used to provide command
+completion and history management to the command line MIX virtual
+machine, `mixvm'.  GTK+ and libglade are needed if you want to build
+the graphical interface to the MIX virtual machine, `gmixvm'. Finally,
+if libguile is found, the MDK utilities will be compiled with Guile
+support and will be extensible using Scheme.
+
+   *Please note*: you need both the libraries _and_ the headers; this
+means both the library package and the `-dev' package if you do not
+compile your libraries yourself (ex: installing `libgtk2.0' and
+`libgtk2.0-dev' on Debian).
+
+Basic installation
+==================
+
+   MDK uses GNU Autoconf and Automake tools, and, therefore, should be
+built and installed without hassle using the following commands inside
+the source directory:
+
+     ./configure
+     make
+     make install
+
+where the last one must be run as root.
+
+   The first command, `configure', will setup the makefiles for your
+system. In particular, `configure' will look for GTK+ and libglade,
+and, if they are present, will generate the appropiate makefiles for
+building the `gmixvm' graphical user interface. Upon completion, you
+should see a message with the configuration results like the following:
+
+     *** GNU MDK 1.2.1 has been successfully configured. ***
+
+     Type 'make' to build the following utilities:
+         - mixasm (MIX assembler)
+         - mixvm (MIX virtual machine, with readline support,
+	          with guile support)
+         - gmixvm (mixvm GTK+ GUI, with guile support)
+         - mixguile (the mixvm guile shell)
+
+where the last lines may be missing if you lack the above mentioned
+libraries.
+
+   The next command, `make', will actually build the MDK programs in
+the following locations:
+
+   - `mixutils/mixasm'
+
+   - `mixutils/mixvm'
+
+   - `mixgtk/gmixvm'
+
+   - `mixguile/mixguile'
+
+   You can run these programs from within their directories, but I
+recommend you to install them in proper locations using `make install'
+from a root shell.
+
+Emacs support
+=============
+
+   `mixvm' can be run within an Emacs GUD buffer using the elisp
+program `misc/mixvm.el', kindly contributed by {No value for `PHILIP'}.
+
+   `mixvm.el' provides an interface between MDK's `mixvm' and Emacs,
+via GUD.  Place this file in your load-path, optionally adding the
+following line to your `.emacs' file:
+
+     (autoload 'mixvm "mixvm" "mixvm/gud interaction" t)
+
+Special configure flags
+=======================
+
+   You can fine tunning the configuration process using the following
+switches with configure:
+
+ - User Option: -enable-gui[=yes|no]
+ - User Option: -disable-gui
+     Enables/disables the build of the MIX virtual machine GUI
+     (`gmixvm'). If the required libraries are missing (*note
+     Requirements::) the configure script with automatically disable
+     this feature.
+
+ - User Option: -with-guile[=yes|no]
+ - User Option: -without-guile
+     Enables/disables the Guile support for `mixvm' and `gmixvm', and
+     the build of `mixguile'.  If the required libraries are missing
+     (*note Requirements::) the configure script with automatically
+     disable this feature.
+
+ - User Option: -with-readline[=yes|no]
+ - User Option: -without-readline
+     Enables/disables the GNU Readline support for `mixvm'.  If the
+     required libraries are missing (*note Requirements::) the configure
+     script with automatically disable this feature.
+
+   For additional, boilerplate configure options, see the
+   `Generic configure help' below, or run
+
+     configure --help
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+Generic configure help
+**********************
+
+
+Basic Installation
+==================
+
+    For more information specific to this package, please read the README
+file. This source code distribution  is autoconfiguring and you should be
+able to compile it and install it without manual interventions such as
+editing Makefiles, configuration files, and so on. These are generic
+instructions for people who are not familiar with installing autoconfiguring
+software.
+
+The simplest way to compile this package is to enter the source code
+main directory and do the following:
+
+  1. Configure the source code by typing:
+        % sh ./configure
+
+     If you're planning to install the package into your home directory
+     or to a location other than `/usr/local' then add the flag
+     `--prefix=PATH' to `configure'. For example, if your home directory
+     is `/home/luser' you can configure the package to install itself there
+     by invoking:
+        % sh ./configure --prefix=/home/luser
+
+     While running, `configure' prints some messages telling which
+     features is it checking for.
+
+  2. Compile the package by typing:
+        % make
+     Running `make' takes a while. If this is a very large package, now
+     is the time to go make some coffee.
+
+  3. Some packages are bundled with self-tests for source-code
+     verification. If this package includes such tests, you can
+     optionally run them after compilation by typing
+        % make check
+
+  4. Type `make install' to install the programs and any data files and
+     documentation. Type `make uninstall' to undo the installation.
+     During installation, the following files go to the following directories:
+        Executables          -> /prefix/bin
+        Libraries            -> /prefix/lib
+        Public header files  -> /prefix/include
+        Man pages            -> /prefix/man/man?
+        Info files           -> /prefix/info
+     where `prefix' is either `/usr/local' or the PATH that you specified
+     in the `--prefix' flag.
+
+     If any of these directories do not presently exist, they will be
+     created on demand.
+
+     If you are installing in your home directory make sure that
+     `/home/luser/bin' is in your path. If you're using the bash shell
+     add this line at the end of your .cshrc file:
+        PATH="/home/luser/bin:${PATH}"
+        export PATH
+     If you are using csh or tcsh, then use this line instead:
+        setenv PATH /home/luser/bin:${PATH}
+     By prepending your home directory to the rest of the PATH you can
+     override systemwide installed software with your own custom installation.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.
+
+Compiler configuration
+======================
+
+   The `configure' shell script is responsible for choosing and configuring
+the compiler(s).
+
+The following options allow you to specify whether you
+want to enable or disable various debugging mechanisms:
+
+`--with-warnings'
+      Make the compilers very picky about warnings. Try this whenever you
+      write new code since it may catch a few bugs. This is not active by
+      default because all too often warnings can be too picky and scare
+      the end-user.
+
+`--disable-assert'
+      Compile without using assertions. This results in faster code,
+      but should not be used during developerment, or to run `make check'
+      which depends on assertions. It should only be used for production
+      runs on code that you believe is bug free.
+
+All programs are compiled with optimization level 2 by default (-O2).
+Occasionally that confuses the debugger when code is inlined. To disable
+optimization and enable debugging, set the shell environment variables
+CFLAGS, CXXFLAGS, FFLAGS to `-g'. On the bash shell, you can do this
+like this:
+  $ export CFLAGS="-g"
+  $ export CXXFLAGS="-g"
+  $ export FFLAGS="-g"
+On the tcsh shell, use the `setenv' command instead:
+  % setenv CFLAGS "-g"
+  ...etc...
+For other shell, please consult your shell's documentation.
+
+Similarly, you can increase the optimization level by assigning these
+variables to "-g -O3".
+
+The following options allow you to reconsider the `configure' shell script's
+choice of Fortran compilers.
+
+`--with-f2c'
+      Compile the Fortran code by translating it to C, even if a native
+      Fortran compiler is available. A copy of the f2c translator should be
+      bundled in the distribution. It will be compiled and then used to
+      compile your Fortran code.
+`--with-g77'
+      Compile the Fortran code with g77 even if a proprietary Fortran
+      compiler is available
+`--with-f77=F77'
+      Compile the Fortran code with the specified Fortran compiler.
+
+Depending on what languages the package uses, some of these options may
+or may not be available. To see what is available, type:
+    % sh ./configure --help
+
+About the configure script
+==========================
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, a file
+`config.cache' that saves the results of its tests to speed up
+reconfiguring, and a file `config.log' containing compiler output
+(useful mainly for debugging `configure').
+
+   If you need to do unusual things to compile the package, please try
+to figure out how `configure' could check whether to do them, and mail
+diffs or instructions to the address given in the `README' so they can
+be considered for the next release.  If at some point `config.cache'
+contains results you don't want to keep, you may remove or edit it.
+
+   The file `configure.in' is used to create `configure' by a program
+called `autoconf'.  You only need `configure.in' if you want to change
+it or regenerate `configure' using a newer version of `autoconf'.
+
+Advanced installation options.
+==============================
+
+   The `configure' script also understands the following more advanced
+options, to handle situations for which `--prefix' alone is not sufficient.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+give `configure' the option `--exec-prefix=PATH', the package will use
+PATH as the prefix for installing programs and libraries.
+Documentation and other data files will still use the regular prefix.
+
+   In addition, if you use an unusual directory layout you can give
+options like `--bindir=PATH' to specify different values for particular
+kinds of files.  Run `configure --help' for a list of the directories
+you can set and what kinds of files go in them.
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+Optional Features
+=================
+
+   Some packages pay attention to `--enable-FEATURE' options to
+`configure', where FEATURE indicates an optional part of the package.
+They may also pay attention to `--with-PACKAGE' options, where PACKAGE
+is something like `gnu-as' or `x' (for the X Window System).  The
+`README' should mention any `--enable-' and `--with-' options that the
+package recognizes.
+
+   For packages that use the X Window System, `configure' can usually
+find the X include and library files automatically, but if it doesn't,
+you can use the `configure' options `--x-includes=DIR' and
+`--x-libraries=DIR' to specify their locations.
+
+----
+
+$Id: INSTALL,v 1.7 2005/09/20 20:18:58 jao Exp $

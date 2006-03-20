@@ -1,0 +1,1319 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_tut.texi,v 1.14 2005/09/20 00:26:00 jao Exp $
+
+@node MIX and MIXAL tutorial, Getting started, Installing MDK, Top
+@comment  node-name,  next,  previous,  up
+@chapter MIX and MIXAL tutorial
+@cindex MIX
+@cindex MIXAL
+
+In the book series @cite{The Art of Computer Programming}, by D. Knuth,
+a virtual computer, the MIX, is used by the author (together with the
+set of binary instructions that the virtual CPU accepts) to illustrate
+the algorithms and skills that every serious programmer should
+master. Like any other real computer, there is a symbolic assembler
+language that can be used to program the MIX: the MIX assembly language,
+or MIXAL for short.  In the following subsections you will find a tutorial
+on these topics, which will teach you the basics of the MIX architecture
+and how to program a MIX computer using MIXAL.
+
+@menu
+* The MIX computer::            Architecture and instruction set
+                                of the MIX computer.
+* MIXAL::                       The MIX assembly language.
+@end menu
+
+@node The MIX computer, MIXAL, MIX and MIXAL tutorial, MIX and MIXAL tutorial
+@comment  node-name,  next,  previous,  up
+@section The MIX computer
+
+In this section, you will find a description of the MIX computer,
+its components and instruction set.
+
+@menu
+* MIX architecture::
+* MIX instruction set::
+@end menu
+
+@node MIX architecture, MIX instruction set, The MIX computer, The MIX computer
+@comment  node-name,  next,  previous,  up
+@subsection MIX architecture
+@cindex byte
+@cindex MIX byte
+@cindex word
+@cindex MIX word
+@cindex MIX architecture
+@cindex MIX computer
+@cindex register
+@cindex MIX register
+@cindex field specification
+@cindex fspec
+@cindex instruction
+@cindex MIX instruction
+@cindex address
+@cindex memory cell
+@cindex cell
+@cindex memory
+@cindex index
+
+The basic information storage unit in the MIX computer is the
+@dfn{byte}, which stores positive values in the range 0-63 . Note that a
+MIX byte can be then represented as 6 bits, instead of the common 8 bits
+for a @emph{regular} byte. Unless otherwise stated, we shall use the
+word @dfn{byte} to refer to a MIX 6-bit byte.
+
+A MIX @dfn{word} is defined as a set of 5 bytes plus a sign. The bytes
+within a word are numbered from 1 to 5, being byte number one the most
+significant one. The sign is denoted by index 0. Graphically,
+
+@example
+ -----------------------------------------------
+|   0   |   1   |   2   |   3   |   4   |   5   |
+ -----------------------------------------------
+|  +/-  | byte  | byte  | byte  | byte  | byte  |
+ -----------------------------------------------
+@end example
+@noindent
+Sample MIX words are @samp{- 12 00 11 01 63} and @samp{+ 12 11 34 43
+00}.
+
+You can refer to subfields within a word using a @dfn{field
+specification} or @dfn{fspec} of the form ``(@var{L}:@var{R})'', where
+@var{L} denotes the first byte, and @var{R} the last byte of the
+subfield.
+When @var{L} is zero, the subfield includes the word's
+sign. An fspec can also be represented as a single value @code{F}, given
+by @code{F = 8*L + R} (thus the fspec @samp{(1:3)}, denoting the first
+three bytes of a word, is represented by the integer 11).
+
+The MIX computer stores information in @dfn{registers}, that can store
+either a word or two bytes and sign (see below), and @dfn{memory cells},
+each one containing a word. Specifically, the MIX computer has 4000
+memory cells with addresses 0 to 3999 (i.e., two bytes are enough to
+address a memory cell) and the following registers:
+
+@cindex rA
+@cindex rX
+@cindex rJ
+@cindex rIn
+@cindex register
+
+@table @asis
+@item @code{rA}
+A register. General purpose register holding a word. Usually its
+contents serves as the operand of arithmetic and storing instructions.
+@item @code{rX}
+X register. General purpose register holding a word. Often it acts as an
+extension or a replacement of @samp{rA}.
+@item @code{rJ}
+J (jump) register. This register stores positive two-byte values,
+usually representing a jump address.
+@item @code{rI1}, @code{rI2}, @code{rI3}, @code{rI4}, @code{rI5}, @code{rI6}
+Index registers. These six registers can store a signed two-byte
+value. Their contents are used as indexing values for the computation of
+effective memory addresses.
+@end table
+
+@cindex @sc{ov}
+@cindex @sc{cm}
+@cindex @code{un}
+@cindex overflow toggle
+@cindex comparison indicator
+@cindex input-output devices
+@noindent
+In addition, the MIX computer contains:
+
+@itemize @minus
+@item
+An @dfn{overflow toggle} (a single bit with values @dfn{on} or
+@dfn{off}). In this manual, this toggle is denoted @sc{ov}.
+@item
+A @dfn{comparison indicator} (having three values: @dfn{EQUAL},
+@dfn{GREATER} or @dfn{LESS}). In this manual, this indicator is denoted
+@sc{cm}, and its possible values are abbreviated as @dfn{E}, @dfn{G} and
+@dfn{L}.
+@item
+Input-output block devices. Each device is labelled as @code{un}, where
+@code{n} runs from 0 to 20. In Knuth's definition, @code{u0} through
+@code{u7} are magnetic tape units, @code{u8} through @code{15} are disks
+and drums, @code{u16} is a card reader, @code{u17} is a card writer,
+@code{u18} is
+a line printer and, @code{u19} is a typewriter terminal, and @code{u20},
+a paper tape. Our implementation maps these devices to disk files,
+except for @code{u19}, which represents the standard output.
+@end itemize
+
+As noted above, the MIX computer communicates with the external world by
+a set of input-output devices which can be ``connected'' to it. The
+computer interchanges information using blocks of words whose length
+depends on the device at hand (@pxref{Devices}). These words are
+interpreted by the device either as binary information (for devices
+0-16), or as representing printable characters (devices 17-20). In the
+last case, each MIX byte is mapped onto a character according to the
+following table:
+
+@multitable  {00} {C} {00} {C} {00} {C} {00} {C}
+@item  00 @tab  @tab 01 @tab A @tab 02 @tab B @tab 03 @tab C
+@item  04 @tab D @tab 05 @tab E @tab 06 @tab F @tab 07 @tab G
+@item  08 @tab H @tab 09 @tab I @tab 10 @tab ~ @tab 11 @tab J
+@item  12 @tab K @tab 13 @tab L @tab 14 @tab M @tab 15 @tab N
+@item  16 @tab O @tab 17 @tab P @tab 18 @tab Q @tab 19 @tab R
+@item  20 @tab [ @tab 21 @tab # @tab 22 @tab S @tab 23 @tab T
+@item  24 @tab U @tab 25 @tab V @tab 26 @tab W @tab 27 @tab X
+@item  28 @tab Y @tab 29 @tab Z @tab 30 @tab 0 @tab 31 @tab 1
+@item  32 @tab 2 @tab 33 @tab 3 @tab 34 @tab 4 @tab 35 @tab 5
+@item  36 @tab 6 @tab 37 @tab 7 @tab 38 @tab 8 @tab 39 @tab 9
+@item  40 @tab . @tab 41 @tab , @tab 42 @tab ( @tab 43 @tab )
+@item  44 @tab + @tab 45 @tab - @tab 46 @tab * @tab 47 @tab /
+@item  48 @tab = @tab 49 @tab $ @tab 50 @tab < @tab 51 @tab >
+@item  52 @tab @@ @tab 53 @tab ; @tab 54 @tab : @tab 55 @tab '
+@end multitable
+@noindent
+The value 0 represents a whitespace. The characters @code{~}, @code{[} and
+@code{#} correspond to symbols not representable as ASCII characters
+(uppercase delta, sigma and gamma, respectively), and byte values 56-63
+have no associated character.
+
+Finally, the MIX computer features a virtual CPU which controls the
+above components, and which is able to execute a rich set of
+instructions (constituting its machine language, similar to those
+commonly found in real CPUs), including arithmetic, logical, storing,
+comparison and jump instructions. Being a typical von Neumann computer,
+the MIX CPU fetchs binary instructions from memory sequentially (unless
+a jump instruction is found), and stores the address of the next
+instruction to be executed in an internal register called @dfn{location
+counter} (also known as program counter in other architectures).
+
+The next section, @xref{MIX instruction set}, gives a complete description
+of the available MIX binary instructions.
+
+@node MIX instruction set,  , MIX architecture, The MIX computer
+@comment  node-name,  next,  previous,  up
+@subsection MIX instruction set
+@cindex instruction set
+
+The following subsections fully describe the instruction set of the MIX
+computer. We begin with a description of the structure of binary
+instructions and the notation used to refer to their subfields. The
+remaininig subsections are devoted to describing the actual instructions
+available to the MIX programmer.
+
+@menu
+* Instruction structure::
+* Loading operators::
+* Storing operators::
+* Arithmetic operators::
+* Address transfer operators::
+* Comparison operators::
+* Jump operators::
+* Input-output operators::
+* Conversion operators::
+* Shift operators::
+* Miscellaneous operators::
+* Execution times::
+@end menu
+
+@node Instruction structure, Loading operators, MIX instruction set, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Instruction structure
+
+MIX @dfn{instructions} are codified as words with the following subfield
+structure:
+
+@multitable @columnfractions .15 .20 .65
+@item @emph{Subfield} @tab @emph{fspec} @tab @emph{Description}
+@item ADDRESS @tab (0:2)
+@tab The first two bytes plus sign are the @dfn{address} field. Combined
+with the INDEX field, denotes the memory address to be used by the
+instruction.
+@item INDEX @tab (3:3)
+@tab The third byte is the @dfn{index}, normally used for indexing the
+address@footnote{The actual memory address the instruction refers to, is
+obtained by adding to ADDRESS the value of the @samp{rI} register
+denoted by INDEX.}.
+@item MOD @tab (4:4)
+@tab Byte four is used either as an operation code modifier or as a field
+specification.
+@item OPCODE @tab (5:5)
+@tab The last (least significant) byte in the word denotes the operation
+code.
+@end multitable
+
+@noindent
+or, graphically,
+
+@example
+ ------------------------------------------------
+|   0   |   1   |   2   |   3   |   4   |   5    |
+ ------------------------------------------------
+|        ADDRESS        | INDEX |  MOD  | OPCODE |
+ ------------------------------------------------
+@end example
+
+For a given instruction, @samp{M} stands for
+the memory address obtained after indexing the ADDRESS subfield
+(using its INDEX byte), and @samp{V} is the contents of the
+subfield indicated by MOD of the memory cell with address @samp{M}. For
+instance, suppose that we have the following contents of MIX registers
+and memory cells:
+
+@example
+[rI2] = + 00 63
+[31] = - 10 11 00 11 22
+@end example
+@noindent
+where @samp{[n]} denotes the contents of the nth memory cell and
+@samp{[rI2]} the contents of register @samp{rI2}@footnote{In general,
+@samp{[X]} will denote the contents of entity @samp{X}; thus, by
+definition, @w{@samp{V = [M](MOD)}}.}.  Let us consider the binary
+instruction @w{@samp{I = - 00 32 02 11 10}}. For this instruction we
+have:
+
+@example
+ADDRESS = - 00 32 = -32
+INDEX = 02 = 2
+MOD = 11 = (1:3)
+OPCODE = 10
+
+M = ADDRESS + [rI2] = -32 + 63 = 31
+V = [M](MOD) = (- 10 11 00 11 22)(1:3) = + 00 00 10 11 00
+@end example
+
+Note that, when computing @samp{V} using a word and an fspec, we apply
+a left padding to the bytes selected by @samp{MOD} to obtain a
+complete word as the result.
+
+In the following subsections, we will
+assign to each MIX instruction a mnemonic, or symbolic name. For
+instance, the mnemonic of @samp{OPCODE} 10 is @samp{LD2}. Thus we can
+rewrite the above instruction as
+
+@example
+LD2  -32,2(1:3)
+@end example
+@noindent
+or, for a generic instruction:
+
+@example
+MNEMONIC  ADDRESS,INDEX(MOD)
+@end example
+@noindent
+Some instructions are identified by both the OPCODE and the MOD
+fields. In these cases, the MOD will not appear in the above symbolic
+representation. Also when ADDRESS or INDEX are zero, they can be
+omitted.  Finally, MOD defaults to (0:5) (meaning the
+whole word).
+
+@node Loading operators, Storing operators, Instruction structure, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Loading operators
+@cindex loading operators
+
+The following instructions are used to load memory contents into a
+register.
+
+@ftable @code
+@item LDA
+Put in rA the contents of cell no. M.
+OPCODE = 8, MOD = fspec. @code{rA <- V}.
+@item LDX
+Put in rX the contents of cell no. M.
+OPCODE = 15, MOD = fspec. @code{rX <- V}.
+@item LDi
+Put in rIi the contents of cell no. M.
+OPCODE = 8 + i, MOD = fspec. @code{rIi <- V}.
+@item LDAN
+Put in rA the contents of cell no. M, with opposite sign.
+OPCODE = 16, MOD = fspec. @code{rA <- -V}.
+@item LDXN
+Put in rX the contents of cell no. M, with opposite sign.
+OPCODE = 23, MOD = fspec. @code{rX <- -V}.
+@item LDiN
+Put in rIi the contents of cell no. M, with opposite sign.
+OPCODE = 16 + i, MOD = fspec. @code{rIi <- -V}.
+@end ftable
+
+In all the above load instructions the @samp{MOD} field selects the
+bytes of the memory cell with address @samp{M} which are loaded into the
+requisite register (indicated by the @samp{OPCODE}).  For instance, the
+word @w{@samp{+ 00 13 01 27 11}} represents the instruction
+
+@example
+LD3    13,1(3:3)
+ ^      ^ ^  ^
+ |      | |  |
+ |      | |   --- MOD = 27 = 3*8 + 3
+ |      |  --- INDEX = 1
+ |       --- ADDRESS = 00 13
+  --- OPCODE = 11
+@end example
+Let us suppose that, prior to this instruction execution, the state of
+the MIX computer is the following:
+
+@example
+[rI1] = - 00 01
+[rI3] = + 24 12
+[12] = - 01 02 03 04 05
+@end example
+@noindent
+As, in this case, @w{@samp{M = 13 + [rI1] = 12}}, we have
+
+@example
+V = [M](3:3) = (- 01 02 03 04 05)(3:3)
+  = + 00 00 00 00 03
+@end example
+@noindent
+(note that the specified subfield is left-padded with null bytes to
+complete a word). Hence, the MIX state, after the instruction execution,
+will be
+
+@example
+[rI1] = - 00 01
+[rI3] = + 00 03
+[12] = - 01 02 03 04 05
+@end example
+
+To further illustrate loading operators, the following table shows the
+contents of @samp{rX} after different @samp{LDX} instructions:
+
+@table @samp
+@item LDX 12(0:0)     [rX] = - 00 00 00 00 00
+@item LDX 12(0:1)     [rX] = - 00 00 00 00 01
+@item LDX 12(3:5)     [rX] = + 00 00 03 04 05
+@item LDX 12(3:4)     [rX] = + 00 00 00 03 04
+@item LDX 12(0:5)     [rX] = - 01 02 03 04 05
+@end table
+
+
+@node Storing operators, Arithmetic operators, Loading operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Storing operators
+@cindex storing operators
+
+The following instructions are the inverse of the load
+operations: they are used to store a subfield of a register
+into a memory location. Here, MOD represents the subfield of the memory
+cell that is to be overwritten with bytes from a register. These bytes
+are taken beginning by the rightmost side of the register.
+
+@ftable @code
+@item STA
+Store rA. OPCODE = 24, MOD = fspec. @code{V <- rA}.
+@item STX
+Store rX. OPCODE = 31, MOD = fspec. @code{V <- rX}.
+@item STi
+Store rIi. OPCODE = 24 + i, MOD = fspec. @code{V <- rIi}.
+@item STJ
+Store rJ. OPCODE = 32, MOD = fspec. @code{V <- rJ}.
+@item STZ
+Store zero. OPCODE = 33, MOD = fspec. @code{V <- 0}.
+@end ftable
+
+By way of example, consider the instruction @samp{STA 1200(2:3)}. It
+causes the MIX to fetch bytes no. 4 and 5 of register A and copy them to
+bytes 2 and 3 of memory cell no. 1200 (remember that, for these
+instructions, MOD specifies a subfield of @emph{the memory
+address}). The other bytes of the memory cell retain their
+values. Thus, if prior to the instruction execution we have
+
+@example
+[1200] = - 20 21 22 23 24
+[rA] = + 01 02 03 04 05
+@end example
+@noindent
+we will end up with
+
+@example
+[1200] = - 20 04 05 23 24
+[rA] = + 01 02 03 04 05
+@end example
+
+As a second example, @samp{ST2 1000(0)} will set the sign of
+@samp{[1000]} to that of @samp{[rI2]}.
+
+@node Arithmetic operators, Address transfer operators, Storing operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Arithmetic operators
+@cindex arithmetic operators
+
+The following instructions perform arithmetic operations between rA and
+rX register and memory contents.
+
+@ftable @code
+@item ADD
+Add and set OV if overflow. OPCODE = 1, MOD = fspec.
+@w{@code{rA <- rA +V}}.
+@item SUB
+Sub and set OV if overflow. OPCODE = 2, MOD = fspec.
+@w{@code{rA <- rA - V}}.
+@item MUL
+Multiply V times rA and store the 10-bytes product in rAX.
+OPCODE = 3, MOD = fspec. @w{@code{rAX <- rA x V}}.
+@item DIV
+rAX is considered a 10-bytes number, and it is divided by V.
+OPCODE = 4, MOD = fspec. @w{@code{rA <- rAX / V}}, @code{rX} <- reminder.
+@end ftable
+
+In all the above instructions, @samp{[rA]} is one of the operands
+of the binary arithmetic operation, the other being @samp{V} (that is,
+the specified subfield of the memory cell with address @samp{M}), padded
+with zero bytes on its left-side to complete a word. In multiplication
+and division, the register @samp{X} comes into play as a right-extension
+of the register @samp{A}, so that we are able to handle 10-byte numbers
+whose more significant bytes are those of @samp{rA} (the sign of this
+10-byte number is that of @samp{rA}: @samp{rX}'s sign is ignored).
+
+Addition and substraction of MIX words can give rise to overflows, since
+the result is stored in a register with room to only 5 bytes (plus
+sign). When this occurs, the operation result modulo @w{1,073,741,823}
+(the maximum value storable in a MIX word) is stored in @samp{rA}, and
+the overflow toggle is set to TRUE.
+
+@node Address transfer operators, Comparison operators, Arithmetic operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Address transfer operators
+@cindex address transfer operators
+
+In these instructions, @samp{M} (the address of the instruction after
+indexing) is used as a number instead of as the address of a memory
+cell. Consequently, @samp{M} can have any valid word value (i.e., it's
+not limited to the 0-3999 range of a memory address).
+
+@ftable @code
+@item ENTA
+Enter @samp{M} in [rA]. OPCODE = 48, MOD = 2. @code{rA <- M}.
+@item ENTX
+Enter @samp{M} in [rX]. OPCODE = 55, MOD = 2. @code{rX <- M}.
+@item ENTi
+Enter @samp{M} in [rIi]. OPCODE = 48 + i, MOD = 2. @code{rIi <- M}.
+@item ENNA
+Enter @samp{-M} in [rA]. OPCODE = 48, MOD = 3. @code{rA <- -M}.
+@item ENNX
+Enter @samp{-M} in [rX]. OPCODE = 55, MOD = 3. @code{rX <- -M}.
+@item ENNi
+Enter @samp{-M} in [rIi]. OPCODE = 48 + i, MOD = 3. @code{rIi <- -M}.
+@item INCA
+Increase [rA] by @samp{M}. OPCODE = 48, MOD = 0. @code{rA <- rA + M}.
+@item INCX
+Increase [rX] by @samp{M}. OPCODE = 55, MOD = 0. @code{rX <- rX + M}.
+@item INCi
+Increase [rIi] by @samp{M}. OPCODE = 48 + i, MOD = 0. @code{rIi <- rIi + M}.
+@item DECA
+Decrease [rA] by @samp{M}. OPCODE = 48, MOD = 1. @code{rA <- rA - M}.
+@item DECX
+Decrease [rX] by @samp{M}. OPCODE = 55, MOD = 1. @code{rX <- rX - M}.
+@item DECi
+Decrease [rIi] by @samp{M}. OPCODE = 48 + i, MaOD = 0. @code{rIi <- rIi - M}.
+@end ftable
+
+In the above instructions, the subfield @samp{ADDRESS} acts as an
+immediate (indexed) operand, and allow us to set directly the contents
+of the MIX registers without an indirection to the memory cells (in a
+real CPU this would mean that they are faster that the previously
+discussed instructions, whose operands are fetched from memory). So, if
+you want to store in @samp{rA} the value -2000 (- 00 00 00 31 16), you
+can use the binary instruction @w{+ 31 16 00 03 48}, or, symbolically,
+
+@example
+ENNA 2000
+@end example
+@noindent
+Used in conjuction with the store operations (@samp{STA}, @samp{STX},
+etc.), these instructions also allow you to set memory cells contents to
+concrete values.
+
+Note that in these address transfer operators, the @samp{MOD} field is
+not a subfield specificator, but serves to define (together with
+@samp{OPCODE}) the concrete operation to be performed.
+
+@node Comparison operators, Jump operators, Address transfer operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Comparison operators
+@cindex comparison operators
+
+So far, we have learned how to move values around between the MIX
+registers and its memory cells, and also how to perform arithmetic
+operations using these values. But, in order to write non-trivial
+programs, other functionalities are needed. One of the most common is
+the ability to compare two values, which, combined with jumps, will
+allow the execution of conditional statements.
+The following instructions compare the value of a register with @samp{V}, and
+set the @sc{cm} indicator to the result of the comparison (i.e. to
+@samp{E}, @samp{G} or @samp{L}, equal, greater or lesser respectively).
+
+@ftable @code
+@item CMPA
+Compare [rA] with V. OPCODE = 56, MOD = fspec.
+@item CMPX
+Compare [rX] with V. OPCODE = 63, MOD = fspec.
+@item CMPi
+Compare [rIi] with V. OPCODE = 56 + i, MOD = fspec.
+@end ftable
+
+As explained above, these instructions modify the value of the MIX
+comparison indicator; but maybe you are asking yourself how do you use
+this value: enter jump operators, in the next subsection.
+
+@node Jump operators, Input-output operators, Comparison operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Jump operators
+@cindex jump operators
+
+The MIX computer has an internal register, called the @dfn{location
+counter}, which stores the address of the next instruction to be fetched
+and executed by the virtual CPU. You cannot directly modify the contents
+of this internal register with a load instruction: after fetching the
+current instruction from memory, it is automatically increased in one
+unit by the MIX. However, there is a set of instructions (which we call
+jump instructions) which can alter the contents of the location counter
+provided some condition is met. When this occurs, the value of the next
+instruction address that would have been fetched in the absence of the
+jump is stored in @samp{rJ} (except for @code{JSJ}), and the location
+counter is set to the value of @samp{M} (so that the next instruction is
+fetched from this new address). Later on, you can return to the point
+when the jump occurred reading the address stored in @samp{rJ}.
+
+The MIX computer provides the following jump instructions:
+With these instructions you force a jump to the specified address. Use
+@samp{JSJ} if you do not care about the return address.
+
+@ftable @code
+@item JMP
+Unconditional jump. OPCODE = 39, MOD = 0.
+@item JSJ
+Unconditional jump, but rJ is not modified. OPCODE = 39, MOD = 1.
+@end ftable
+
+These instructions check the overflow toggle to decide whether to jump
+or not.
+
+@ftable @code
+@item JOV
+Jump if OV is set (and turn it off). OPCODE = 39, MOD = 2.
+@item JNOV
+Jump if OV is not set (and turn it off). OPCODE = 39, MOD = 3.
+@end ftable
+
+In the following instructions, the jump is conditioned to the contents of the
+comparison flag:
+
+@ftable @code
+@item JL
+Jump if @w{@code{[CM] = L}}. OPCODE = 39, MOD = 4.
+@itemx JE
+Jump if @w{@code{[CM] = E}}. OPCODE = 39, MOD = 5.
+@itemx JG
+Jump if @w{@code{[CM] = G}}. OPCODE = 39, MOD = 6.
+@itemx JGE
+Jump if @code{[CM]} does not equal @code{L}. OPCODE = 39, MOD = 7.
+@itemx JNE
+Jump if @code{[CM]} does not equal @code{E}. OPCODE = 39, MOD = 8.
+@itemx JLE
+Jump if @code{[CM]} does not equal @code{G}. OPCODE = 39, MOD = 9.
+@end ftable
+
+You can also jump conditioned to the value stored in the MIX registers,
+using the following instructions:
+
+@ftable @code
+@item JAN
+@itemx JAZ
+@itemx JAP
+@itemx JANN
+@itemx JANZ
+@itemx JANP
+Jump if the content of rA is, respectively, negative, zero, positive,
+non-negative, non-zero or non-positive.
+OPCODE = 40, MOD = 0, 1, 2, 3, 4, 5.
+@item JXN
+@itemx JXZ
+@itemx JXP
+@itemx JXNN
+@itemx JXNZ
+@itemx JXNP
+Jump if the content of rX is, respectively, negative, zero, positive,
+non-negative, non-zero or non-positive.
+OPCODE = 47, MOD = 0, 1, 2, 3, 4, 5.
+@item JiN
+@itemx JiZ
+@itemx JiP
+@itemx JiNN
+@itemx JiNZ
+@itemx JiNP
+Jump if the content of rIi is, respectively, negative, zero, positive,
+non-negative, non-zero or non-positive.
+OPCODE = 40 + i, MOD = 0, 1, 2, 3, 4, 5.
+@end ftable
+
+
+@node Input-output operators, Conversion operators, Jump operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Input-output operators
+@cindex input-output operators
+
+As explained in previous sections (@pxref{MIX architecture}), the MIX
+computer can interact with a series of block devices. To that end, you
+have at your disposal the following instructions:
+
+@ftable @code
+@item IN
+Transfer a block of words from the specified unit to memory, starting at
+address M.
+OPCODE = 36, MOD = I/O unit.
+@item OUT
+Transfer a block of words from memory (starting at address M) to the
+specified unit.
+OPCODE = 37, MOD = I/O unit.
+@item IOC
+Perfom a control operation (given by M) on the specified unit.
+OPCODE = 35, MOD = I/O unit.
+@item JRED
+Jump to M if the specified unit is ready.
+OPCODE = 38, MOD = I/O unit.
+@item JBUS
+Jump to M if the specified unit is busy.
+OPCODE = 34, MOD = I/O unit.
+@end ftable
+@noindent
+In all the above instructions, the @samp{MOD} subfile must be in the
+range 0-20, since it denotes the operation's target device. The
+@samp{IOC} instruction only makes sense for tape devices (@samp{MOD} =
+0-7 or 20): it shifts the read/write pointer by the number of words
+given by @samp{M} (if it equals zero, the tape is rewound)@footnote{In
+Knuth's original definition, there are other control operations
+available, but they do not make sense when implementing the block
+devices as disk files (as we do in @sc{mdk} simulator). For the same
+reason, @sc{mdk} devices are always ready, since all input-output
+operations are performed using synchronous system calls.}.
+
+
+@node Conversion operators, Shift operators, Input-output operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Conversion operators
+@cindex conversion operators
+
+The following instructions convert between numerical values and their
+character representations.
+
+@ftable @code
+@item NUM
+Convert rAX, assumed to contain a character representation of a number,
+to its numerical value and store it in rA.
+OPCODE = 5, MOD = 0.
+@item CHAR
+Convert the number stored in rA to a character representation and store
+it in rAX.
+OPCODE = 5, MOD = 1.
+@end ftable
+@noindent
+Digits are represented in MIX by the range of values 30-39 (digits
+0-9). Thus, if the contents of @samp{rA} and @samp{rX} are, for instance,
+
+@example
+[rA] = + 30 30 31 32 33
+[rX] = + 31 35 39 30 34
+@end example
+@noindent
+the represented number is 0012315904, and @samp{NUM} will store this
+value in @samp{rA} (i.e., we end up with @samp{[rA]} = @w{+ 0 46 62 52
+0} = 12315904).
+
+If any byte in @samp{rA} or @samp{rB} does not belong to the range
+30-39, it is interpreted by @samp{NUM} as the digit obtained by taking
+its value modulo 10. E.g. values 0, 10, 20, 30, 40, 50, 60 all represent the
+digit 0; 2, 12, 22, etc. represent the digit 2, and so on. For
+instance, the number 0012315904 mentioned above could also be
+represented as
+
+@example
+[rA] = + 10 40 31 52 23
+[rX] = + 11 35 49 20 54
+@end example
+
+@samp{CHAR} performs the inverse operation, using only the values 30
+to 39 for representing digits 0-9.
+
+@node Shift operators, Miscellaneous operators, Conversion operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Shift operators
+@cindex shift
+@cindex shift operators
+
+The following instructions perform byte-wise shifts of the contents of
+@samp{rA} and @samp{rX}.
+
+@ftable @code
+@item SLA
+@itemx SRA
+@itemx SLAX
+@itemx SRAX
+@itemx SLC
+@itemx SRC
+Shift rA or rAX left, right, or rAX circularly (see example below)
+left or right. M specifies the number of bytes to be shifted.
+OPCODE = 6, MOD = 0, 1, 2, 3, 4, 5.
+@end ftable
+@noindent
+If we begin with, say, @samp{[rA]} = @w{- 01 02 03 04 05}, we would
+have the following modifications to @samp{rA} contents when performing
+the instructions on the left column:
+
+@multitable {SLA 00} {[rA] = - 00 00 00 00 00}
+@item SLA 2 @tab [rA] = - 03 04 05 00 00
+@item SLA 6 @tab [rA] = - 00 00 00 00 00
+@item SRA 1 @tab [rA] = - 00 01 02 03 04
+@end multitable
+@noindent
+Note that the sign is unaffected by shift operations. On the other
+hand, @samp{SLC}, @samp{SRC}, @samp{SLAX} and @samp{SRAX} treat
+@samp{rA} and @samp{rX} as a single 10-bytes register (ignoring again
+the signs). For instance, if we begin with @samp{[rA]} = @w{+ 01 02 03
+04 05} and @samp{[rX]} = @w{- 06 07 08 09 10}, we would have:
+
+@multitable {SLC 00} {[rA] = - 00 00 00 00 00} {[rA] = - 00 00 00 00 00}
+@item SLC 3 @tab [rA] =  + 04 05 06 07 08 @tab [rX] = - 09 10 01 02 03
+@item SLAX 3 @tab [rA] = + 04 05 06 07 08 @tab [rX] = - 09 10 00 00 00
+@item SRC 4 @tab [rA] =  + 07 08 09 10 01 @tab [rX] = - 02 03 04 05 06
+@item SRAX 4 @tab [rA] =  + 00 00 00 00 01 @tab [rX] = - 02 03 04 05 06
+@end multitable
+
+@node Miscellaneous operators, Execution times, Shift operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Miscellaneous operators
+@cindex miscellaneous operators
+
+Finally, we list in the following table three miscellaneous MIX
+instructions which do not fit in any of the previous subsections:
+
+@ftable @code
+@item MOVE
+Move MOD words from M to the location stored in rI1.
+OPCODE = 7, MOD = no. of words.
+@item NOP
+No operation. OPCODE = 0, MOD = 0.
+@item HLT
+Halt. Stops instruction fetching. OPCODE = 5, MOD = 2.
+@end ftable
+@noindent
+The only effect of executing @samp{NOP} is increasing the location
+counter, while @samp{HLT} usually marks program termination.
+
+@node Execution times,  , Miscellaneous operators, MIX instruction set
+@comment  node-name,  next,  previous,  up
+@subsubsection Execution times
+
+@cindex exection time
+@cindex time
+
+When writing MIXAL programs (or any kind of programs, for that
+matter), whe shall often be interested in their execution
+time. Loosely speaking, we will interested in the answer to the
+question: how long takes a program to execute? Of course, this
+execution time will be a function of the input size, and the answer to
+our question is commonly given as the asymptotic behaviour as a
+function of the input size. At any rate, to compute this asymptotic
+behaviour, we need a measure of how long execution of a single
+instruction takes in our (virtual) CPU. Therefore, each MIX
+instruction will have an associated execution time, given in arbitrary
+units (in a real computer, the value of this unit will depend on the
+hardware configuration). When our MIX virtual machine executes
+programs, it will (optionally) give you the value of their execution
+time based upon the execution time of each single instruction.
+
+In the following table, the execution times (in the above mentioned
+arbitrary units) of the MIX instructions are given.
+
+@multitable {INSSSS} {01} {INSSSS} {01} {INSSSS} {01} {INSSSS} {01}
+@item @code{NOP} @tab 1 @tab @code{ADD} @tab 2 @tab @code{SUB}
+@tab 2 @tab @code{MUL} @tab 10
+@item @code{DIV} @tab 12 @tab @code{NUM} @tab 10 @tab @code{CHAR}
+@tab 10 @tab @code{HLT} @tab 10
+@item @code{SLx} @tab 2 @tab @code{SRx} @tab 2 @tab @code{LDx}
+@tab  2 @tab @code{STx} @tab 2
+@item @code{JBUS} @tab 1 @tab @code{IOC} @tab 1 @tab @code{IN}
+@tab  1@tab @code{OUT} @tab 1
+@item @code{JRED} @tab 1 @tab @code{Jx} @tab 1 @tab @code{INCx}
+@tab  1 @tab @code{DECx} @tab 1
+@item @code{ENTx} @tab 1 @tab @code{ENNx} @tab 1 @tab @code{CMPx}
+@tab  1 @tab @code{MOVE} @tab 1+2F
+@end multitable
+
+In the above table, 'F' stands for the number of blocks to be moved
+(given by the @code{FSPEC} subfield of the instruction); @code{SLx} and
+@code{SRx} are a short cut for the byte-shifting operations; @code{LDx}
+denote all the loading operations; @code{STx} are the storing
+operations; @code{Jx} stands for all the jump operations, and so on with
+the rest of abbreviations.
+
+@node MIXAL,  , The MIX computer, MIX and MIXAL tutorial
+@comment  node-name,  next,  previous,  up
+@section MIXAL
+@cindex MIXAL
+@cindex MIX assembly language
+@cindex assembly
+
+In the previous sections we have listed all the available MIX binary
+instructions. As we have shown, each instruction is represented by a
+word which is fetched from memory and executed by the MIX virtual
+CPU. As is the case with real computers, the MIX knows how to decode
+instructions in binary format (the so--called machine language), but a
+human programmer would have a tough time if she were to write her
+programs in machine language. Fortunately, the MIX computer can be
+programmed using an assembly language, MIXAL, which provides a symbolic
+way of writing the binary instructions understood by the imaginary MIX
+computer. If you have used assembler languages before, you will find
+MIXAL a very familiar language. MIXAL source files are translated
+to machine language by a MIX assembler, which produces a binary file (the
+actual MIX program) which can be directly loaded into the MIX memory and
+subsequently executed.
+
+In this section, we describe MIXAL, the MIX assembly language. The
+implementation of the MIX assembler program and MIX computer simulator
+provided by @sc{mdk} are described later on (@pxref{Getting started}).
+
+@menu
+* Basic structure::             Writing basic MIXAL programs.
+* MIXAL directives::            Assembler directives.
+* Expressions::                 Evaluation of expressions.
+* W-expressions::               Evaluation of w-expressions.
+* Local symbols::               Special symbol table entries.
+* Literal constants::           Specifying an immediate operand.
+@end menu
+
+@node Basic structure, MIXAL directives, MIXAL, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection Basic program structure
+
+The MIX assembler reads MIXAL files line by line, producing, when
+required, a binary instruction, which is associated to a predefined
+memory address. To keep track of the current address, the assembler
+maintains an internal location counter which is incremented each time an
+instruction is compiled. In addition to MIX instructions, you can
+include in MIXAL file assembly directives (or pseudoinstructions)
+addressed at the assembler itself (for instance, telling it where the
+program starts and ends, or to reposition the location counter; see below).
+
+MIX instructions and assembler directives@footnote{We shall call them,
+collectively, MIXAL instructions.} are written in MIXAL (one per
+source file line) according to the following pattern:
+
+@example
+[LABEL]   MNEMONIC  [OPERAND]   [COMMENT]
+@end example
+
+@noindent
+where @samp{OPERAND} is of the form
+
+@example
+[ADDRESS][,INDEX][(MOD)]
+@end example
+
+Items between square brackets are optional, and
+
+@table @code
+@item LABEL
+is an alphanumeric identifier (a @dfn{symbol}) which gets the current
+value of the location counter, and can be used in subsequent
+expressions,
+@item MNEMONIC
+is a literal denoting the operation code of the instruction
+(e.g. @code{LDA}, @code{STA}; see @pxref{MIX instruction set}) or an
+assembly pseudoinstruction (e.g. @code{ORG}, @code{EQU}),
+@item ADDRESS
+is an expression evaluating to the address subfield of the instruction,
+@item INDEX
+is an expression evaluating to the index subfield of the instruction, which
+defaults to 0 (i.e., no use of indexing) and can only be used when
+@code{ADDRESS} is present,
+@item MOD
+is an expression evaluating to the mod subfield of the instruction. Its
+default value, when omitted, depends on @code{OPCODE},
+@item COMMENT
+any number of spaces after the operand mark the beggining of a comment,
+i.e. any text separated by white space from the operand is ignored by
+the assembler (note that spaces are not allowed within the
+@samp{OPERAND} field).
+@end table
+
+Note that spaces are @emph{not} allowed between the @code{ADDRESS},
+@code{INDEX} and @code{MOD} fields if they are present. White space is
+used to separate the label, operation code and operand parts of the
+instruction@footnote{In fact, Knuth's definition of MIXAL restricts the
+column number at which each of these instruction parts must start. The
+MIXAL assembler included in @sc{mdk}, @code{mixasm}, does not impose
+such restriction.}.
+
+We have already listed the mnemonics associated will each MIX
+instructions; sample MIXAL instructions representing MIX instructions
+are:
+@example
+HERE     LDA  2000         HERE represents the current location counter
+         LDX  HERE,2(1:3)  this is a comment
+         JMP  1234
+@end example
+
+@node MIXAL directives, Expressions, Basic structure, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection MIXAL directives
+
+MIXAL instructions can be either one of the MIX machine instructions
+(@pxref{MIX instruction set}) or one of the following assembly
+pseudoinstructions:
+
+@ftable @code
+@item ORIG
+Sets the value of the memory address to which following instructions
+will be allocated after compilation.
+@item EQU
+Used to define a symbol's value, e.g. @w{@code{SYM  EQU  2*200/3}}.
+@item CON
+The value of the given expression is copied directly into the current
+memory address.
+@item ALF
+Takes as operand five characters, constituting the five bytes of a word
+which is copied directly into the current memory address.
+@item END
+Marks the end of the program. Its operand gives the start address for
+program execution.
+@end ftable
+
+The operand of @code{ORIG}, @code{EQU}, @code{CON} and @code{END} can be
+any expression evaluating to a constant MIX word, i.e., either a simple
+MIXAL expression (composed of numbers, symbols and binary operators,
+@pxref{Expressions}) or a w-expression (@pxref{W-expressions}).
+
+All MIXAL programs must contain an @code{END} directive, with a twofold
+end: first, it marks the end of the assembler job, and, in the second
+place, its (mandatory) operand indicates the start address for the
+compiled program (that is, the address at which the virtual MIX machine
+must begin fetching instructions after loading the program). It is also
+very common (although not mandatory) to include at least an @code{ORIG}
+directive to mark the initial value of the assembler's location counter
+(remember that it stores the address associated with each compiled MIX
+instruction). Thus, a minimal MIXAL program would be
+
+@example
+          ORIG  2000    set the initial compilation adress
+          NOP           this instruction will be loaded at adress 2000
+          HLT           and this one at address 2001
+          END   2000    end of program; start at address 2000
+this line is not parsed by the assembler
+@end example
+@noindent
+The assembler will generate two binary instructions (@code{NOP} (@w{+ 00
+00 00 00 00}) and @code{HLT} (+ 00 00 02 05)), which will be loaded at
+addresses 2000 and 2001. Execution of the program will begin at address
+2000. Every MIXAL program should also include a @code{HLT} instruction,
+which will mark the end of program execution (but not of program
+compilation).
+
+The @code{EQU} directive allows the definition of symbolic names for
+specific values. For instance, we could rewrite the above program as
+follows:
+
+@example
+START     EQU   2000
+          ORIG  START
+          NOP
+          HLT
+          END   START
+@end example
+@noindent
+which would give rise to the same compiled code. Symbolic constants (or
+symbols, for short) can also be implicitly defined placing them in the
+@code{LABEL} field of a MIXAL instruction: in this case, the assembler
+assigns to the symbol the value of the location counter before compiling
+the line. Hence, a third way of writing our trivial program is
+
+@example
+          ORIG  2000
+START     NOP
+          HLT
+          END   START
+@end example
+
+The @code{CON} directive allows you to directly specify the contents of
+the memory address pointed by the location counter. For instance, when
+the assembler encounters the following code snippet
+
+@example
+          ORIG  1150
+          CON   -1823473
+@end example
+@noindent
+it will assign to the memory cell number 1150 the contents @w{- 00 06 61
+11 49} (which corresponds to the decimal value -1823473).
+
+Finally, the @code{ALF} directive let's you specify the memory contents
+as a set of five (optionally quoted) characters, which are translated by
+the assembler to their byte values, conforming in that way the binary
+word that is to be stored in the corresponding memory cell. This
+directive comes in handy when you need to store printable messages in a
+memory address, as in the following example @footnote{In the original
+MIXAL definition, the @code{ALF} argument is not quoted. You can write
+the operand (as the @code{ADDRESS} field) without quotes, but, in this
+case, you must follow the alignment rules of the original MIXAL
+definition (namely, the @code{ADDRESS} must start at column 17).}:
+
+@example
+          OUT  MSG       MSG is not yet defined here (future reference)
+MSG       ALF  "THIS "   MSG gets defined here
+          ALF  "IS A "
+          ALF  "MESSA"
+          ALF  "GE.  "
+@end example
+@noindent
+The above snippet also shows the use of a @dfn{future reference}, that
+is, the usage of a symbol (@code{MSG} in the example) prior of its actual
+definition. The MIXAL assembler is able to handle future references
+subject to some limitations which are described in the following section
+(@pxref{Expressions}).
+
+@cindex comments
+
+Any line starting with an asterisk is treated as a comment and ignored
+by the assembler.
+
+@example
+* This is a comment: this line is ignored.
+    * This line is an error: * must be in column 1.
+@end example
+
+As noted in the previous section, comments can also be located after the
+@code{OPERAND} field of an instruction, separated from it by white
+space, as in
+
+@example
+LABEL     LDA   100  This is also a comment
+@end example
+
+@node Expressions, W-expressions, MIXAL directives, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection Expressions
+@cindex operator
+@cindex binary operator
+@cindex unary operator
+The @code{ADDRESS}, @code{INDEX} and @code{MOD} fields of a MIXAL
+instruction can be expressions, formed by numbers, identifiers and
+binary operators (@code{+ - * / // :}). @code{+} and @code{-} can also
+be used as unary operators. Operator precedence is from left to right:
+there is no other operator precedence rule, and parentheses cannot be
+used for grouping. A stand-alone asterisk denotes the current memory
+location; thus, for instance,
+
+@example
+     4+2**
+@end example
+
+@noindent
+evaluates to 6 (4 plus 2) times the current memory location. White space
+is not allowed within expressions.
+
+The special binary operator @code{:} has the same meaning as in fspecs,
+i.e.,
+
+@example
+A:B = 8*A + B
+@end example
+@noindent
+while @code{A//B} stands for the quotient of the ten-byte number @w{@code{A} 00
+00 00 00 00} (that is, A right-padded with 5 null bytes or, what amounts
+to the same, multiplied by 64 to the fifth power) divided by
+@code{B}. Sample expressions are:
+
+@example
+18-8*3 = 30
+14/3 = 4
+1+3:11 = 4:11 = 43
+1//64 = (01 00 00 00 00 00)/(00 00 00 01 00) = (01 00 00 00 00)
+@end example
+@noindent
+Note that all MIXAL expressions evaluate to a MIX word (by definition).
+
+All symbols appearing within an expression must be previously defined. Future
+references are only allowed when appearing standalone (or modified by
+an unary operator) in the @code{ADDRESS} part of a MIXAL instruction,
+e.g.
+
+@example
+* OK: stand alone future reference
+         STA  -S1(1:5)
+* ERROR: future reference in expression
+         LDX  2-S1
+S1       LD1  2000
+@end example
+
+@node W-expressions, Local symbols, Expressions, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection W-expressions
+@cindex w-expressions
+
+Besides expressions, as described above (@pxref{Expressions}), the MIXAL
+assembler is able to handle the so called @dfn{w-expressions} as the
+operands of the directives @code{ORIG}, @code{EQU}, @code{CON} and
+@code{END} (@pxref{MIXAL directives}). The general form of a
+w-expression is the following:
+
+@example
+     WEXP = EXP[(EXP)][,WEXP]
+@end example
+@noindent
+where @code{EXP} stands for an expression and square brackets denote
+optional items. Thus, a w-expression is made by an expression, followed
+by an optional expression between parenthesis, followed by any number
+of similar constructs separated by commas. Sample w-expressions are:
+
+@example
+2000
+235(3)
+S1+3(S2),3000
+S1,S2(3:5),23
+@end example
+
+W-expressions are evaluated from left to right as follows:
+
+@itemize
+@item
+Start with an accumulated result @samp{w} equal to 0.
+@item
+Take the first expression of the comma-separated list and evaluate
+it. For instance, if the w-expression is @samp{S1+2(2:4),2000(S2)}, we
+evaluate first @samp{S1+2}; let's suppose that @samp{S1} equals
+265230: then @samp{S1+2 = 265232 = + 00 01 00 48 16}.
+@item
+Evaluate the expression within parenthesis, reducing it to an f-spec
+of the form @samp{L:R}. In our previous example, the expression
+between parenthesis already has the desired form: 2:4.
+@item
+Substitute the bytes of the accumulated result @samp{w} designated by
+the f-spec using those of the previous expression value. In our sample,
+@samp{w = + 00 00 00 00 00}, and we must substitute bytes 2, 3 and 4 of
+@samp{w} using values from 265232. We need 3 bytes, and we take the
+least significant ones: 00, 48, and 16, and insert them in positions
+2, 3 and 4 of @samp{w}, obtaining @samp{w = + 00 00 48 16 00}.
+@item
+Repeat this operation with the remaining terms, acting on the new
+value of @samp{w}. In our example, if, say, @samp{S2 = 1:1}, we must
+substitute the first byte of @samp{w} using one byte (the least
+significant) from 2000, that is, 16 (since 2000 = + 00 00 00 31 16)
+and, therefore, we obtain @samp{w = + 16 00 48 16 00}; summing up, we
+have obtained @samp{265232(1:4),2000(1:1) = + 16 00 48 16 00 =
+268633088}.
+@end itemize
+
+As a second example, in the w-expression
+@example
+1(1:2),66(4:5)
+@end example
+@noindent
+we first take two bytes from 1 (00 and 01) and store them as bytes 1 and
+2 of the result (obtaining @w{@samp{+ 00 01 00 00 00}}) and, afterwards,
+take two bytes from 66 (01 and 02) and store them as bytes 4 and 5 of
+the result, obtaining @w{@samp{+ 00 01 00 01 02}} (262210). The process
+is repeated for each new comma-separated example. For instance:
+
+@example
+1(1:1),2(2:2),3(3:3),4(4:4) = 01 02 03 04 00
+@end example
+
+As stated before, w-expressions can only appear as the operands of MIXAL
+directives taking a constant value (@code{ORIG}, @code{EQU}, @code{CON}
+and @code{END}). Future references are @emph{not} allowed within
+w-expressions (i.e., all symbols appearing in a w-expression must be
+defined before it is used).
+
+@node Local symbols, Literal constants, W-expressions, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection Local symbols
+@cindex local symbols
+
+Besides user defined symbols, MIXAL programmers can use the so called
+@dfn{local symbols}, which are symbols of the form @code{[1-9][HBF]}. A
+local symbol @code{nB} refers to the address of the last previous
+occurrence of @code{nH} as a label, while @code{nF} refers to the next
+@code{nH} occurrence. Unlike user defined symbols, @code{nH} can appear
+multiple times in the @code{LABEL} part of different MIXAL
+instructions. The following code shows an instance of local symbols'
+usage:
+
+@example
+* line 1
+1H    LDA  100
+* line 2: 1B refers to address of line 1, 3F refers to address of line 4
+      STA  3F,2(1B//2)
+* line 3: redefinition of 1H
+1H    STZ
+* line 4: 1B refers to address of line 3
+3H    JMP  1B
+@end example
+
+Note that a @code{B} local symbol never refers to a definition in its
+own line, that is, in the following program:
+
+@example
+		ORIG 1999
+ST		NOP
+3H		EQU 69
+3H		ENTA 3B  local symbol 3B refers to 3H in previous line
+		HLT
+		END ST
+@end example
+@noindent
+the contents of @samp{rA} is set to 69 and @emph{not} to 2001. An
+specially tricky case occurs when using local symbols in conjunction
+with @code{ORIG} pseudoinstructions. To wit@footnote{The author wants to
+thank Philip E. King for pointing these two special cases of local
+symbol usage to him.},
+
+@example
+		ORIG 1999
+ST		NOP
+3H		CON 10
+		ENT1 *
+		LDA 3B
+** rI1 is 2001, rA is 10.  So far so good!
+3H		ORIG 3B+1000
+** at this point 3H equals 2003
+** and the location counter equals 3000.
+		ENT2 *
+		LDX 3B
+** rI2 contains 3000, rX contains 2003.
+		HLT
+		END ST
+@end example
+
+@node Literal constants,  , Local symbols, MIXAL
+@comment  node-name,  next,  previous,  up
+@subsection Literal constants
+@cindex literal constants
+
+MIXAL allows the introduction of @dfn{literal constants}, which are
+automatically stored in memory addresses after the end of the program by
+the assembler. Literal constants are denoted as @code{=wexp=}, where
+@code{wexp} is a w-expression (@pxref{W-expressions}). For instance, the
+code
+
+@example
+L         EQU   5
+          LDA   =20-L=
+@end example
+
+causes the assembler to add after the program's end an instruction
+with contents 15 (@samp{20-L}), and to assemble the above code as the
+instruction @w{@code{ LDA a}}, where @code{a} stands for the address
+in which the value 15 is stored. In other words, the compiled code is
+equivalent to the following:
+
+@example
+L         EQU  5
+          LDA  a
+@dots{}
+a         CON  20-L
+          END  start
+@end example
+

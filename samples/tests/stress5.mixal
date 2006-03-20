@@ -1,0 +1,17 @@
+* checking output to binary device
+OUTDEV	   EQU	  1  device for output
+FROM	   EQU	  1000
+TO	   EQU	  1099
+INITVAL	   EQU	  1
+STEP	   EQU	  10
+	   ORIG	  2000
+START	   ENTA	  INITVAL
+	   ST1	  0
+LOOP	   STA    FROM,1
+	   INC1	  1
+	   INCA	  STEP
+	   CMP1	  =TO-FROM+1=
+	   JNE	  LOOP
+	   OUT	  FROM(OUTDEV)
+	   HLT
+	   END	  START

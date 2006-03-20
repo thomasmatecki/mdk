@@ -1,0 +1,9 @@
+		ORIG 1999
+ST		NOP
+3H		EQU 69
+3H		ENTA 3B
+** According to pg 151, rA should be 69, not 2000
+** "An address of 2F or 2B never refers to its own line"
+		HLT
+		END ST
+

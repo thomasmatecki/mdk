@@ -1,0 +1,1058 @@
+@c -*-texinfo-*-
+@c This is part of the GNU MDK Reference Manual.
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004
+@c   Free Software Foundation, Inc.
+@c See the file mdk.texi for copying conditions.
+
+@c $Id: mdk_gstart.texi,v 1.17 2004/08/01 21:43:29 jao Exp $
+
+@node Getting started, Emacs tools, MIX and MIXAL tutorial, Top
+@chapter Getting started
+@cindex tutorial
+
+In this chapter, you will find a sample code-compile-run-debug session
+using the @sc{mdk} utilities. Familiarity with the MIX mythical computer
+and its assembly language MIXAL (as described in Knuth's TAOCP) is
+assumed; for a compact reminder, see @ref{MIX and MIXAL tutorial}.
+
+@menu
+* Writing a source file::       A sample MIXAL source file.
+* Compiling::                   Using @code{mixasm} to compile source
+                                files into binary format.
+* Running the program::         Running and debugging your programs.
+* Using mixguile::              Using the Scheme interpreter to run and
+                                debug your programs.
+* Using Scheme in mixvm and gmixvm::
+@end menu
+
+@node Writing a source file, Compiling, Getting started, Getting started
+@section Writing a source file
+@cindex MIXAL
+@cindex source file
+@cindex .mixal file
+
+MIXAL programs can be written as ASCII files with your editor of choice.
+Here you have the mandatory @emph{hello world} as written in the MIXAL
+assembly language:
+
+@example
+*                                                        (1)
+* hello.mixal: say 'hello world' in MIXAL                (2)
+*                                                        (3)
+* label ins    operand     comment                       (4)
+TERM    EQU    19          the MIX console device number (5)
+        ORIG   1000        start address                 (6)
+START   OUT    MSG(TERM)   output data at address MSG    (7)
+        HLT                halt execution                (8)
+MSG     ALF    "MIXAL"                                   (9)
+        ALF    " HELL"                                   (10)
+        ALF    "O WOR"                                   (11)
+        ALF    "LD   "                                   (12)
+        END    START       end of the program            (13)
+@end example
+
+@noindent MIXAL source files should have the extension @file{.mixal}
+when used with the @sc{mdk} utilities. As you can see in the above
+sample, each line in a MIXAL file can be divided into four fields
+separated by an arbitrary amount of whitespace characters (blanks and or
+tabs). While in Knuth's definition of MIXAL each field must start at a
+fixed pre-defined column number, the @sc{mdk} assembler loosens this
+requirement and lets you format the file as you see fit. The only
+restrictions retained are for comment lines (like 1-4) which must begin
+with an asterisk (*) placed at column 1, and for the label field (see
+below) which, if present, must also start at column 1. The four fields
+in each non-comment line are:
+
+@itemize @minus
+@item
+an optional label, which either refers to the current memory address (as
+@code{START} and @code{MSG} in lines 7 and 9) or a defined symbol
+(@code{TERM}) (if present, the label must always start at the first
+column in its line, for the first whitespace in the line maks the
+beginning of the second field),
+@item
+an operation mnemonic, which can represent either a MIX instruction
+(@code{OUT} and @code{HLT} in lines 7 and 8 above), or an assembly
+pseudoinstruction (e.g., the @code{ORIG} pseudoinstruction in line
+6@footnote{If an @code{ORIG} directive is not used, the program will
+be loaded by the virtual machine at address 0. @code{ORIG} allows
+allocating the executable code where you see fit.}.
+@item
+an optional operand for the (pseudo)instruction, and
+@item
+an optional free text comment.
+@end itemize
+
+@noindent Lines 9-12 of the @file{hello.mixal} file above also show the
+second (and last) difference between Knuth's MIXAL definition and ours:
+the operand of the @code{ALF} pseudoinstruction (a word of five
+characters) must be quoted using ""@footnote{In Knuth's definition,
+the operand always starts at a fixed column number, and the use of
+quotation is therefore unnecessary. As @code{mixasm} releases this
+requirement, marking the beginning and end of the @code{ALF} operand
+disambiguates the parser's recognition of this operand when it includes
+blanks. Note that double-quotes (") are not part of the MIX character
+set, and, therefore, no escape characters are needed within
+@code{ALF}'s operands.}.
+
+The workings of this sample program should be straightforward if you are
+familiar with MIXAL. See TAOCP vol. 1 for a thorough definition or
+@ref{MIX and MIXAL tutorial}, for a tutorial.
+
+@node Compiling, Running the program, Writing a source file, Getting started
+@section Compiling
+@cindex compiling
+@cindex binary programs
+@cindex virtual machine
+@cindex assembler
+@cindex @code{mixasm}
+
+Three simulators of the MIX computer, called @code{mixvm}, @code{gmixvm}
+and @code{mixguile}, are included in the @sc{mdk} tools. They are able to
+run binary files containing MIX instructions written in their binary
+representation. You can translate MIXAL source files into this binary
+form using @code{mixasm}, the MIXAL assembler. So, in order to compile
+the @file{hello.mixal} file, you can type the following command at your
+shell prompt:
+
+@example
+mixasm hello @key{RET}
+@end example
+
+@cindex .mix file
+
+If the source file contains no errors, this will produce a binary file
+called @file{hello.mix} which can be loaded and run by the MIX virtual
+machine. Unless the @code{mixasm} option @code{-O} is provided, the
+assembler will include debug information in the executable file (for a
+complete description of all the compilation options, see
+@ref{mixasm}). Now, your are ready to run your first MIX program, as
+described in the following section.
+
+
+@node Running the program, Using mixguile, Compiling, Getting started
+@section Running the program
+@cindex @code{mixvm}
+@cindex non-interactive mode
+@cindex interactive mode
+
+MIX is a mythical computer, so it is no use ordering it from your
+favorite hardware provider. @sc{mdk} provides three software simulators of
+the computer, though. They are
+
+@itemize @bullet
+@item
+@code{mixvm}, a command line oriented simulator,
+@item
+@code{gmixvm}, a GTK based graphical interface to @code{mixvm}, and
+@item
+@code{mixguile}, a Guile shell with a built-in MIX simulator.
+@end itemize
+
+All three simulators accept the same set of user commands, but offer a
+different user interface, as noted above. In this section we shall
+describe some of these commands, and show you how to use them from
+@code{mixvm}'s command line. You can use them as well at @code{gmixvm}'s
+command prompt (@pxref{gmixvm}), or using the built-in Scheme primitives
+of @code{mixguile} (@pxref{Using mixguile}).
+
+Using the MIX simulators, you can run your MIXAL programs, after
+compiling them with @code{mixasm} into binary @file{.mix}
+files. @code{mixvm} can be used either in @dfn{interactive} or
+@dfn{non-interactive} mode. In the second case, @code{mixvm} will load
+your program into memory, execute it (producing any output due to
+MIXAL @code{OUT} instructions present in the program), and exit when
+it encounters a @code{HLT} instruction. In interactive mode, you will
+enter a shell prompt which allows you issuing commands to the running
+virtual machine. This commands will permit you to load, run and debug
+programs, as well as to inspect the MIX computer state (register
+contents, memory cells contents and so on).
+
+@menu
+* Non-interactive mode::        Running your programs non-interactively.
+* Interactive mode::            Running programs interactively.
+* Debugging::                   Commands for debugging your programs.
+@end menu
+
+@node Non-interactive mode, Interactive mode, Running the program, Running the program
+@comment  node-name,  next,  previous,  up
+@subsection Non-interactive mode
+@cindex non-interactive mode
+
+To make @code{mixvm} work in non-interactive mode, use the @code{-r}
+flag. Thus, to run our @file{hello.mix} program, simply type
+
+@example
+mixvm -r hello @key{RET}
+@end example
+
+@noindent at your command prompt, and you will get the following output:
+
+@example
+MIXAL HELLO WORLD
+@end example
+
+@noindent Since our hello world program uses MIX's device number 19 as
+its output device (@pxref{Writing a source file}), the output is
+redirected to the shell's standard output. Had you used any other MIX
+output devices (disks, drums, line printer, etc.), @code{mixvm} would
+have created a file named after the device used (e.g. @file{disk4.dev})
+and written its output there@footnote{The device files are stored, by
+default, in a directory called @file{.mdk}, which is created in your
+home directory the first time @code{mixvm} is run. You can change this
+default directory using the command @code{devdir} when running
+@code{mixvm} in interactive mode (@pxref{Configuration commands})}.
+
+The virtual machine can also report the execution time of the program,
+according to the (virtual) time spent in each of the binary instructions
+(@pxref{Execution times}). Printing of execution time statistics is
+activated with the @code{-t} flag; running
+
+@example
+mixvm -t -r hello @key{RET}
+@end example
+
+@noindent
+produces the following output:
+
+@example
+MIXAL HELLO WORLD
+** Execution time: 11
+@end example
+
+Sometimes, you will prefer to store the results of your program in MIX
+registers rather than writing them to a device. In such cases,
+@code{mixvm}'s @code{-d} flag is your friend: it makes @code{mixvm} to
+dump the contents of its registers and flags after executing the loaded
+program. For instance, typing the following command at your shell's
+prompt
+
+@example
+mixvm -d -r hello
+@end example
+
+@noindent you will obtain the following output:
+
+@example
+MIXAL HELLO WORLD
+rA: + 00 00 00 00 00 (0000000000)
+rX: + 00 00 00 00 00 (0000000000)
+rJ: + 00 00 (0000)
+rI1: + 00 00 (0000)     rI2: + 00 00 (0000)
+rI3: + 00 00 (0000)     rI4: + 00 00 (0000)
+rI5: + 00 00 (0000)     rI6: + 00 00 (0000)
+Overflow: F
+Cmp: E
+@end example
+
+@noindent which, in addition to the program's outputs and execution
+time, gives you the contents of the MIX registers and the values of the
+overflow toggle and comparison flag (admittedly, rather uninteresting in
+our sample).
+
+As you can see, running programs non-interactively has many
+limitations. You cannot peek the virtual machine's memory contents, not
+to mention stepping through your program's instructions or setting
+breakpoints@footnote{The @code{mixguile} program allows you to execute
+arbitrary combinations of @code{mixvm} commands (using Scheme)
+non-interactively. @xref{Scheme scripts}.}. Enter interactive mode.
+
+@node Interactive mode, Debugging, Non-interactive mode, Running the program
+@comment  node-name,  next,  previous,  up
+@subsection Interactive mode
+@cindex interactive mode
+
+To enter the MIX virtual machine interactive mode, simply type
+
+@example
+mixvm @key{RET}
+@end example
+
+@noindent at your shell command prompt. This command enters the
+@code{mixvm} command shell. You will be presented the following command
+prompt:
+
+@example
+MIX >
+@end example
+
+@noindent The virtual machine is initialised and ready to accept your
+commands. The @code{mixvm} command shell uses GNU's readline, so that
+you have at your disposal command completion (using @key{TAB}) and
+history functionality, as well as other line editing shortcuts common to
+all utilities using this library (for a complete description of
+readline's line editing usage, see @ref{Command Line
+Editing,,,Readline}.)
+
+@cindex @code{load}
+Usually, the first thing you will want to do is loading a compiled MIX
+program into memory. This is acomplished by the @code{load} command,
+which takes as an argument the name of the @file{.mix} file to be
+loaded. Thus, typing
+
+@example
+MIX > load hello @key{RET}
+Program loaded. Start address: 3000
+MIX >
+@end example
+
+@noindent will load @file{hello.mix} into the virtual machine's memory
+and set the program counter to the address of the first instruction. You
+can obtain the contents of the program counter using the command
+@code{pc}:
+
+@cindex @code{pc}
+@example
+MIX > pc
+Current address: 3000
+MIX >
+@end example
+
+@cindex @code{run}
+After loading it, you are ready to run the program, using, as you surely
+have guessed, the @code{run} command:
+
+@example
+MIX > run
+Running ...
+MIXAL HELLO WORLD
+... done
+Elapsed time: 11 /Total program time: 11 (Total uptime: 11)
+MIX >
+@end example
+
+@noindent Note that now the timing statistics are richer. You obtain the
+elapsed execution time (i.e., the time spent executing instructions
+since the last breakpoint), the total execution time for the program up
+to now (which in our case coincides with the elapsed time, since there
+were no breakpoints), and the total uptime for the virtual machine (you
+can load and run more than one program in the same
+session)@footnote{Printing of timing statistics can be disabled using
+the command @code{timing} (@pxref{Configuration commands}).}. After
+running the program, the program counter will point to the address after
+the one containing the @code{HLT} instruction. In our case, asking the
+value of the program counter after executing the program will give us
+
+@example
+MIX > pc
+Current address: 3002
+MIX >
+@end example
+
+@cindex @code{pmem}
+@noindent You can check the contents of a memory cell giving its address
+as an argument of the command @code{pmem}, like this
+
+@example
+MIX > pmem 3001
+3001: + 00 00 00 02 05 (0000000133)
+MIX >
+@end example
+
+@noindent
+and convince yourself that address 3001 contains the binary
+representation of the instruction @code{HLT}. An address range of the
+form FROM-TO can also be used as the argument of @code{pmem}:
+
+@example
+MIX > pmem 3000-3006
+3000: + 46 58 00 19 37 (0786957541)
+3001: + 00 00 00 02 05 (0000000133)
+3002: + 14 09 27 01 13 (0237350989)
+3003: + 00 08 05 13 13 (0002118477)
+3004: + 16 00 26 16 19 (0268542995)
+3005: + 13 04 00 00 00 (0219152384)
+3006: + 00 00 00 00 00 (0000000000)
+MIX >
+@end example
+
+@cindex @code{preg}
+@noindent
+In a similar manner, you can look at the contents of the MIX registers
+and flags. For instance, to ask for the contents of the A register you
+can type
+
+@example
+MIX > preg A
+rA: + 00 00 00 00 00 (0000000000)
+MIX >
+@end example
+
+@cindex @code{help}
+@noindent
+Use the comand @code{help} to obtain a list of all available commands,
+and @code{help COMMAND} for help on a specific command, e.g.
+
+@example
+MIX > help run
+run             Run loaded or given MIX code file. Usage: run [FILENAME]
+MIX >
+@end example
+
+@noindent
+For a complete list of commands available at the MIX propmt,
+@xref{mixvm}. In the following subsection, you will find a quick tour
+over commands useful for debugging your programs.
+
+@node Debugging,  , Interactive mode, Running the program
+@comment  node-name,  next,  previous,  up
+@subsection Debugging commands
+
+@cindex @code{next}
+The interactive mode of @code{mixvm} lets you step by step execution of
+programs as well as breakpoint setting. Use @code{next} to step through
+the program, running its instructions one by one. To run our
+two-instruction @file{hello.mix} sample you can do the following:
+
+@example
+MIX > load hello
+Program loaded. Start address: 3000
+MIX > pc
+Current address: 3000
+MIX > next
+MIXAL HELLO WORLD
+Elapsed time: 1 /Total program time: 1 (Total uptime: 1)
+MIX > pc
+Current address: 3001
+MIX > next
+End of program reached at address 3002
+Elapsed time: 10 /Total program time: 11 (Total uptime: 11)
+MIX > pc
+Current address: 3002
+MIX > next
+MIXAL HELLO WORLD
+Elapsed time: 1 /Total program time: 1 (Total uptime: 12)
+MIX >
+MIX > run
+Running ...
+... done
+Elapsed time: 10 /Total program time: 11 (Total uptime: 22)
+MIX >
+@end example
+@noindent
+(As an aside, the above sample also shows how the virtual machine
+handles cummulative time statistics and automatic program restart).
+
+@cindex @code{sbpa}
+@cindex breakpoints
+
+You can set a breakpoint at a given address using the command
+@code{sbpa} (set breakpoint at address). When a breakpoint is set,
+@code{run} will stop before executing the instruction at the given
+address. Typing @code{run} again will resume program execution. Coming
+back to our hello world example, we would have:
+
+@example
+MIX > sbpa 3001
+Breakpoint set at address 3001
+MIX > run
+Running ...
+MIXAL HELLO WORLD
+... stopped: breakpoint at line 8 (address 3001)
+Elapsed time: 1 /Total program time: 1 (Total uptime: 23)
+MIX > run
+Running ...
+... done
+Elapsed time: 10 /Total program time: 11 (Total uptime: 33)
+MIX >
+@end example
+
+@cindex @code{sbp}
+@cindex breakpoints
+@noindent
+Note that, since we compiled @file{hello.mixal} with debug info
+enabled, the virtual machine is able to tell us the line in the
+source file corresponding to the breakpoint we are setting. As a
+matter of fact, you can directly set breakpoints at source code lines
+using the command @code{sbp LINE_NO}, e.g.
+
+@example
+MIX > sbp 4
+Breakpoint set at line 7
+MIX >
+@end example
+
+@noindent
+@code{sbp} sets the breakpoint at the first meaningful source code line;
+thus, in the above example we have requested a breakpoint at a line
+which does not correspond to a MIX instruction and the breakpoint is set
+at the first line containing a real instruction after the given one. To
+unset breakpoints, use @code{cbpa ADDRESS} and @code{cbp LINE_NO}, or
+@code{cabp} to remove all currently set breakpoints. You can also set
+conditional breakpoints, i.e., tell @code{mixvm} to interrupt program
+execution whenever a register, a memory cell, the comparison flag or the
+overflow toggle change using the commands @w{@code{sbp[rmco]}}
+(@pxref{Debug commands}).
+
+@cindex @code{psym}
+MIXAL lets you define symbolic constants, either using the @code{EQU}
+pseudoinstruction or starting an instruction line with a label (which
+assigns to the label the value of the current memory address). Each
+MIXAL program has, therefore, an associated symbol table which you can
+inspect using the @code{psym} command. For our hello world sample, you
+will obtain the following output:
+
+@example
+MIX > psym
+START:  3000
+TERM:  19
+MSG:  3002
+MIX >
+@end example
+
+Other useful commands for debugging are @code{strace} (which turns on
+tracing of executed intructions), @code{pbt} (which prints a backtrace
+of executed instructions) and @code{weval} (which evaluates
+w-expressions on the fly). For a complete description of all available
+MIX commands, @xref{mixvm}.
+
+@node Using mixguile, Using Scheme in mixvm and gmixvm, Running the program, Getting started
+@section Using @code{mixguile}
+
+With @code{mixguile} you can run a MIX simulator embedded in a Guile
+shell, that is, using Scheme functions and programs. As with
+@code{mixvm}, @code{mixguile} can be run both in interactive and
+non-interactive modes. The following subsections provide a quick tour on
+using this MIX emulator.
+
+@menu
+* The mixguile shell::          Using the Scheme MIX virtual machine.
+* Additional functions::        Scheme functions accessing the VM.
+* Defining new functions::      Defining your own Scheme functions.
+* Hook functions::              Using command and break hook functions.
+* Scheme scripts::
+@end menu
+
+@node The mixguile shell, Additional functions, Using mixguile, Using mixguile
+@subsection The @code{mixguile} shell
+@cindex Scheme
+@cindex @code{mixguile}
+@cindex REPL
+
+If you simply type
+
+@example
+mixguile @key{RET}
+@end example
+@noindent
+at the command prompt, you'll be presented a Guile shell prompt like
+this
+
+@example
+guile>
+@end example
+@noindent
+At this point, you have entered a Scheme read-eval-print loop (REPL)
+which offers you all the Guile functionality plus a new set of built-in
+procedures to execute and debug MIX programs. Each of the @code{mixvm}
+commands described in the previous sections (and in @pxref{mixvm}) have
+a Scheme function counterpart named after it by prepending the prefix
+@code{mix-} to its name. Thus, to load our hello world program, you can
+simply enter
+
+@example
+guile> (mix-load "hello")
+Program loaded. Start address: 3000
+guile>
+@end example
+@noindent
+and run it using @code{mix-run}:
+
+@example
+guile> (mix-run)
+Running ...
+MIXAL HELLO WORLD
+... done
+Elapsed time: 11 /Total program time: 11 (Total uptime: 11)
+guile>
+@end example
+@noindent
+In the same way, you can execute it step by step using the Scheme
+function @code{mix-next} or set a breakpoint:
+
+@example
+guile> (mix-sbp 4)
+Breakpoint set at line 5
+guile>
+@end example
+@noindent
+or, if you one to peek at a register contents:
+
+@example
+guile> (mix-preg 'A)
+rA: + 00 00 00 00 00 (0000000000)
+guile>
+@end example
+
+You get the idea: you have at your disposal all the @code{mixvm} and
+@code{gmixvm} commands by means of @code{mix-} functions. But, in case
+you are wondering, this is only the beginning. You also have at your
+disposal a whole Scheme interpreter, and you can, for instance, define
+new functions combining the @code{mix-} and all other Scheme
+primitives. In the next sections, you'll find examples of how to take
+advantage of the Guile interpreter.
+
+@node Additional functions, Defining new functions, The mixguile shell, Using mixguile
+@subsection Additional MIX Scheme functions
+
+The @code{mix-} function counterparts of the @code{mixvm} commands don't
+return any value, and are evaluated only for their side-effects
+(possibly including informational messages to the standard output and/or
+error stream). When writting your own Scheme functions to manipulate the
+MIX virtual machine within @code{mixguile} (@pxref{Defining new
+functions}), you'll probably need Scheme functions returning the value
+of the registers, memory cells and so on. Don't worry: @code{mixguile}
+also offers you such functions. For instance, to access the (numerical)
+value of a register you can use @code{mix-reg}:
+
+@example
+guile> (mix-reg 'I2)
+0
+guile>
+@end example
+@noindent
+Note that, unlike @code{(mix-preg 'I2)}, the expression @code{(mix-reg
+'I2)} in the above example evaluates to a Scheme number and does not
+produce any side-effect:
+
+@example
+guile> (number? (mix-reg 'I2))
+#t
+guile> (number? (mix-preg 'I2))
+rI2: + 00 00 (0000)
+#f
+guile>
+@end example
+
+In a similar fashion, you can access the memory contents using
+@code{(mix-cell)}, or the program counter using @code{(mix-loc)}:
+
+@example
+guile> (mix-cell 3000)
+786957541
+guile> (mix-loc)
+3002
+guile>
+@end example
+
+Other functions returning the contents of the virtual machine components
+are @code{mix-cmp} and @code{mix-over}, which eval to the value of the
+comparison flag and the overflow toggle respectively. For a complete
+list of these additional functions, @xref{mixguile}.
+
+In the next section, we'll see a sample of using these functions to
+extend @code{mixguile}'s functionality.
+
+@node Defining new functions, Hook functions, Additional functions, Using mixguile
+@subsection Defining new functions
+@cindex Scheme functions
+
+Scheme is a powerful language, and you can use it inside @code{mixguile}
+to easily extend the MIX interpreter's capabilities.  For example, you
+can easily define a function that loads a file, prints its name,
+executes it and, finally, shows the registers contents, all in one shot:
+
+@example
+guile> (define my-load-and-run  @key{RET}
+         (lambda (file)   @key{RET}
+           (mix-load file)   @key{RET}
+           (display "File loaded: ")   @key{RET}
+           (mix-pprog)   @key{RET}
+           (mix-run)   @key{RET}
+           (mix-preg)))   @key{RET}
+guile>
+@end example
+@noindent
+and use it to run your programs:
+
+@example
+guile> (my-load-and-run "hello")
+Program loaded. Start address: 3000
+File loaded: hello.mix
+Running ...
+MIXAL HELLO WORLD
+... done
+Elapsed time: 11 /Total program time: 11 (Total uptime: 33)
+rA: + 00 00 00 00 00 (0000000000)
+rX: + 00 00 00 00 00 (0000000000)
+rJ: + 00 00 (0000)
+rI1: + 00 00 (0000)	rI2: + 00 00 (0000)
+rI3: + 00 00 (0000)	rI4: + 00 00 (0000)
+rI5: + 00 00 (0000)	rI6: + 00 00 (0000)
+guile>
+@end example
+
+
+Or, maybe, you want a function which sets a breakpoint at a specified
+line number before executing it:
+
+@example
+guile> (define my-load-and-run-with-bp
+         (lambda (file line)
+           (mix-load file)
+           (mix-sbp line)
+           (mix-run)))
+guile> (my-load-and-run-with-bp "samples/primes" 10)
+Program loaded. Start address: 3000
+Breakpoint set at line 10
+Running ...
+... stopped: breakpoint at line 10 (address 3001)
+Elapsed time: 1 /Total program time: 1 (Total uptime: 45)
+guile>
+@end example
+
+As a third example, the following function loads a program, runs it and
+prints the contents of the memory between the program's start and end
+addresses:
+
+@example
+guile> (define my-run
+         (lambda (file)
+           (mix-load file)
+           (let ((start (mix-loc)))
+             (mix-run)
+             (mix-pmem start (mix-loc)))))
+guile> (my-run "hello")
+Program loaded. Start address: 3000
+Running ...
+MIXAL HELLO WORLD
+... done
+Elapsed time: 11 /Total program time: 11 (Total uptime: 11)
+3000: + 46 58 00 19 37 (0786957541)
+3001: + 00 00 00 02 05 (0000000133)
+3002: + 14 09 27 01 13 (0237350989)
+guile>
+@end example
+
+
+As you can see, the possibilities are virtually unlimited. Of course,
+you don't need to type a function definition each time you start
+@code{mixguile}. You can write it in a file, and load it using Scheme's
+@code{load} function. For instance, you can create a file named, say,
+@file{functions.scm} with your definitions (or any Scheme expression)
+and load it at the @code{mixguile} prompt:
+
+@example
+guile> (load "functions.scm")
+@end example
+
+Alternatively, you can make @code{mixguile} to load it for you. When
+@code{mixguile} starts, it looks for a file named @file{mixguile.scm} in
+your MDK configuration directory (@file{~/.mdk}) and, if it exists,
+loads it before entering the REPL. Therefore, you can copy your
+definitions in that file, or load the @file{functions.scm} file in
+@file{mixguile.scm}.
+
+@node Hook functions, Scheme scripts, Defining new functions, Using mixguile
+@subsection Hook functions
+@cindex hook function
+@cindex pre-hook
+@cindex post-hook
+
+Hooks are functions called before or after a given event occurs. In
+@code{mixguile}, you can define command and break hooks, which are
+associated, respectively, with command execution and program
+interruption events. The following sections give you a tutorial on using
+hook functions within @code{mixguile}.
+
+@menu
+* Command hooks::
+* Break hooks::
+@end menu
+
+@node Command hooks, Break hooks, Hook functions, Hook functions
+@subsubsection Command hooks
+
+In the previous section, we have seen how to extend @code{mixguile}'s
+functionality through the use of user defined functions. Frequently,
+you'll write new functions that improve in some way the workings of a
+built-in @code{mixvm} command, following this pattern:
+
+@enumerate a
+@item
+Prepare the command execution
+@item
+Execute the desired command
+@item
+Perform post execution operations
+@end enumerate
+
+We call the functions executed in step (a) @dfn{pre-hook}s, and those of
+step @dfn{post-hook}s of the given command. @code{mixguile} lets you
+specify pre- and post-hooks for any @code{mixvm} command using the
+@code{mix-add-pre-hook} and  @code{mix-add-post-hook} functions, which
+take as arguments a symbol naming the command and a function to be
+executed before (resp. after) the command. In other words,
+@code{mixguile} will execute for you steps (a) and (c) above whenever
+you eval (b). The hook functions must take a single argument, which is a
+string list of the command's arguments. As an example, let us define the
+following hooks for the @code{next} command:
+
+@example
+(define next-pre-hook
+  (lambda (arglist)
+    (mix-slog #f)))
+
+(define next-post-hook
+  (lambda (arglist)
+    (display "Stopped at line ")
+    (display (mix-src-line-no))
+    (display ": ")
+    (display (mix-src-line))
+    (newline)
+    (mix-slog #t)))
+@end example
+@noindent
+In these functions, we are using the function @code{mix-slog} to turn
+off the informational messages produced by the virtual machine, since we
+are providing our own ones in the post hook function. To install these
+hooks, we would write:
+
+@example
+(mix-add-pre-hook 'next next-pre-hook)
+(mix-add-post-hook 'next next-post-hook)
+@end example
+@noindent
+Assuming we have put the above expressions in @code{mixguile}'s
+initialisation file, we would obtain the following results when
+evaluating @code{mix-next}:
+
+@example
+guile> (mix-next)
+MIXAL HELLO WORLD
+Stopped at line 6:             HLT
+guile>
+@end example
+
+As a second, more elaborated, example, let's define hooks which print
+the address and contents of a cell being modified using @code{smem}. The
+hook functions could be something like this:
+
+@example
+(define smem-pre-hook
+  (lambda (arglist)
+    (if (eq? (length arglist) 2)
+        (begin
+          (display "Changing address ")
+          (display (car arglist))
+          (newline)
+          (display "Old contents: ")
+          (display (mix-cell (string->number (car arglist))))
+          (newline))
+        (error "Wrong arguments" arglist))))
+
+(define smem-post-hook
+  (lambda (arglist)
+    (if (eq? (length arglist) 2)
+        (begin
+          (display "New contents: ")
+          (display (mix-cell (string->number (car arglist))))
+          (newline)))))
+@end example
+@noindent
+and we can install them using
+
+@example
+(mix-add-pre-hook 'smem smem-pre-hook)
+(mix-add-post-hook 'smem smem-post-hook)
+@end example
+@noindent
+Aferwards, a sample execution of @code{mix-smem} would look like this:
+
+@example
+guile> (mix-smem 2000 100)
+Changing address 2000
+Old contents: 0
+New contents: 100
+guile>
+@end example
+
+@cindex global hook
+
+You can add any number of hooks to a given command. They will be
+executed in the same order as they are registered. You can also define
+global post (pre) hooks, which will be called before (after) any
+@code{mixvm} command is executed. Global hook functions must admit two
+arguments, namely, a string naming the invoked command and a string list
+of its arguments, and they are installed using the Scheme functions
+@code{mix-add-global-pre-hook} and @code{mix-add-global-post-hook}. A
+simple example of global hook would be:
+
+@example
+guile> (define pre-hook
+         (lambda (cmd args)
+           (display cmd)
+           (display " invoked with arguments ")
+           (display args)
+           (newline)))
+guile> (mix-add-global-pre-hook pre-hook)
+ok
+guile> (mix-pmem 120 125)
+pmem invoked with arguments (120-125)
+0120: + 00 00 00 00 00 (0000000000)
+0121: + 00 00 00 00 00 (0000000000)
+0122: + 00 00 00 00 00 (0000000000)
+0123: + 00 00 00 00 00 (0000000000)
+0124: + 00 00 00 00 00 (0000000000)
+0125: + 00 00 00 00 00 (0000000000)
+guile>
+@end example
+
+Note that if you invoke @code{mixvm} commands within a global hook, its
+associated command hooks will be run. Thus, if you have installed both
+the @code{next} hooks described earlier and the global hook above,
+executing @code{mix-next} will yield the following result:
+
+@example
+guile> (mix-next 5)
+next invoked with arguments (5)
+slog invoked with arguments (off)
+MIXAL HELLO WORLD
+Stopped at line 7: MSG         ALF   "MIXAL"
+slog invoked with arguments (on)
+guile>
+@end example
+
+Adventurous readers may see the above global hook as the beginning of a
+command log utility or a macro recorder that saves your commands for
+replay.
+
+@node Break hooks,  , Command hooks, Hook functions
+@subsubsection Break hooks
+
+@cindex break hook
+
+We have seen in the previous section how to associate hooks to command
+execution, but they are not the whole story. You can also associate hook
+functions to program interruption, that is, specify functions that
+should be called every time the execution of a MIX program is stopped
+due to the presence of a breakpoint, either explicit or
+conditional. Break hooks take as arguments the line number and memory
+address at which the break occurred. A simple hook that logs the line
+and address of the breakpoint could be defined as:
+
+@example
+(define break-hook
+  (lambda (line address)
+    (display "Breakpoint encountered at line ")
+    (display line)
+    (display " and address ")
+    (display address)
+    (newline)))
+@end example
+@noindent
+and installed for explicit and conditional breakpoints using
+
+@example
+(mix-add-break-hook break-hook)
+(mix-add-cond-break-hook break-hook)
+@end example
+@noindent
+after that, every time the virtual machine encounters a breakpoint,
+@code{break-code} shall be evaluated for you@footnote{You may have
+noticed that break hooks can be implemented in terms of command hooks
+associated to @code{mix-run} and @code{mix-next}. As a matter of fact,
+they @emph{are} implemented this way: take a look at the file
+@file{@emph{install_dir}/share/mdk/mix-vm-stat.scm} if you are curious.}.
+
+@node Scheme scripts,  , Hook functions, Using mixguile
+@subsection Scheme scripts
+@cindex Scheme script
+@cindex non-interactive
+
+Another useful way of using @code{mixguile} is writing executable
+scripts that perform a set of commands for you. This is done using the
+@code{mixguile} switch @code{-s} (being a Guile shell, @code{mixguile}
+accepts all the command options of @code{guile}; type @code{mixguile -h}
+for a list of all available command options). For instance, if you have
+a very useful MIX program @file{foo.mix} which you want to run often,
+you don't have to fire a MIX virtual machine, load and run it every
+time; you can write a Scheme script instead:
+
+@example
+#! /usr/bin/mixguile -s
+!#
+;;; runprimes: execute the primes.mix program
+
+;; load the file you want to run
+(mix-load "../samples/primes")
+;; execute it
+(mix-run)
+;; print the contents of registers
+(mix-pall)
+;; ...
+@end example
+
+Just save the above script to a file named, say, @file{runtest}, make it
+executable (@code{chmod +x runtest}), and, well, execute it from the
+Unix shell:
+
+@example
+$ ./runtest
+Program loaded. Start address: 3000
+Running ...
+... done
+Elapsed time: 190908 /Total program time: 190908 (Total uptime: 190908)
+rA: + 30 30 30 30 30 (0511305630)
+rX: + 30 30 32 32 39 (0511313959)
+rJ: + 47 18 (3026)
+rI1: + 00 00 (0000)     rI2: + 55 51 (3571)
+rI3: + 00 19 (0019)     rI4: + 31 51 (2035)
+rI5: + 00 00 (0000)     rI6: + 00 00 (0000)
+Overflow: F
+Cmp: L
+$
+@end example
+
+Note that this is far more flexible that running programs
+non-interactively using @code{mixvm} (@pxref{Non-interactive mode}), for
+you can execute any combination of commands you want from a Scheme
+script (not just running and dumping the registers). For additional
+@code{mixguile} command line options, see @ref{Invoking mixguile}.
+
+@node Using Scheme in mixvm and gmixvm,  , Using mixguile, Getting started
+@section  Using Scheme in @code{mixvm} and @code{gmixvm}
+@cindex @code{scmf}
+
+In the previous section (@pxref{Using mixguile}) we have seen how the
+Guile shell @code{mixguile} offers you the possibility of using Scheme
+to manipulate a MIx virtual machine and extend the set of commands
+offered by @code{mixvm} and @code{gmixvm}. This possibility is not
+limited to the @code{mixguile} shell. Actually, both @code{mixvm} and
+@code{gmixvm} incorporate an embedded Guile interpreter, and can
+evaluate Scheme expressions. To evaluate a single-line expression at the
+@code{mixvm} or @code{gmixvm} command prompt, simply write it and press
+return (the command parser will recognise it as a Scheme expression
+because it is parenthesized, and will pass it to the Guile
+interpreter). A sample @code{mixvm} session using Scheme expressions
+could be:
+
+@example
+MIX > load hello
+Program loaded. Start address: 3000
+MIX > (define a (mix-loc))
+MIX > run
+Running ...
+MIXAL HELLO WORLD
+... done
+Elapsed time: 11 /Total program time: 11 (Total uptime: 11)
+MIX > (mix-pmem a)
+3000: + 46 58 00 19 37 (0786957541)
+MIX > (mix-pmem (mix-loc))
+3002: + 14 09 27 01 13 (0237350989)
+MIX >
+@end example
+
+You can also load and evaluate a file, using the @code{scmf}
+command like this:
+
+@example
+MIX> scmf /path/to/file/file.scm
+@end example
+
+Therefore, you have at your disposal all the @code{mixguile} goodies
+described above (new functions, new command definitions, hooks...)
+inside @code{mixvm} and @code{gmixvm}. In other words, these programs
+are extensible using Scheme. See @ref{Using mixguile} for examples of
+how to do it.
+

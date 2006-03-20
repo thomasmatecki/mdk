@@ -1,0 +1,27 @@
+# List of source files containing translatable strings.
+# Package source files
+mixutils/mixasm.c
+mixutils/mixasm_comp.c
+mixutils/mixvm.c
+mixutils/mixvm_command.c
+
+mixlib/mix.c
+mixlib/mix_config.c
+mixlib/mix_parser.c
+mixlib/mix_predicate.c
+mixlib/mix_vm_dump.c
+mixlib/mix_vm_command.c
+mixlib/mix_eval.c
+mixlib/xmix_vm_handlers.c
+
+mixgtk/mixgtk_device.c
+mixgtk/mixgtk_gen_handlers.c
+mixgtk/mixgtk_mixal.c
+mixgtk/mixgtk_mixvm.c
+mixgtk/gmixvm.c
+mixgtk/mixgtk.c
+mixgtk/mixgtk.glade
+
+mixguile/mixguile.c
+mixguile/mixguile_cmd_dispatcher.c
+

@@ -1,0 +1,9 @@
+* checking input from binary device
+INDEV	   EQU	  1  device for input
+OUTDEV	   EQU	  2  device for output
+MEM	   EQU	  1000
+	   ORIG	  2000
+START	   IN	  MEM(INDEV)
+	   OUT	  MEM(OUTDEV)
+	   HLT
+	   END	  START

@@ -1,0 +1,431 @@
+2005-09-20  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mdk: version 1.2.1 tagged (v1r2_1).
+
+	* doc/mdk_copying.texi: FDL license updated to 1.2.
+
+	* mdk (Module): FSF address updated.
+
+	* mixguile/xmixguile_cmd_dispatcher.c (Module): use unsigned int
+	for length parameters.
+
+	* doc/mdk_tut.texi: compliance with 'traditional' ALF directive
+	documented.
+
+2005-09-19  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* po/de.po: corrections by Jens Seidel.
+
+	* mixgtk/Makefile.am (AM_LDFLAGS): fix libglade dynamic linking.
+
+	* mixutils/mixasm.c:improve -g handling (accept it to not break
+	potential user scripts)
+
+2005-04-05  Pieter Pareit <pieter.pareit@scarlet.be>
+
+       * mixutils/mixasm.c: make handeling of arguments somewhat robuster.
+
+       * misc/mixal-mode.el: -g option no longer needed on compilation.
+
+       * doc/mdk_mixasm.texi: fix of grammer mistake.
+
+2005-03-26  Sergey Poznyakoff  <gray@gnu.org>
+
+	* mixlib/mix_scanner.l (ENTER_WEVAL) Accept an argument, specifying
+	how many characters to exclude from yyless.
+	(ws): Removed '+' closure. Throughout the code this macro is used
+	as {ws}+ or {ws}*, so it is superfluous.
+	(%{...%} block) [FLEX_DEBUG]: Set yy_flex_debug from the environment
+	variable. Useful for debugging.
+	(ALF): Pad with spaces arguments shorter than 5 characters
+	Accept traditional ALF syntax (withoutq quotes)
+	(<ADDRESS>): Accept w-expressions in literals (between = =).
+
+2004-08-05  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mdk: version 1.2 tagged (v1r2).
+
+	* Makefile.am: distclean-local rule added to handle intltool
+	products and make distcheck happy.
+
+2004-08-03  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* doc: documentation cleanup.
+
+2004-08-02  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* INSTALL:
+	* doc/mdk_install.texi: new library dependencies.
+
+	* doc/mdk_gmixvm.texi: new gui documentation.
+
+	* configure.in: -fno-strict-aliasing.
+
+	* mixgtk/mixgtk_cmd_dispatcher.c (on_external_programs_activate):
+	new-style handling of the external programs dialog.
+
+	* mixlib/mix_parser.c (mix_parser_delete):
+	* mixlib/mix_vm.c (mix_vm_get_lineno_address): g_tree_foreach
+	instead of deprecated g_tree_traverse.
+
+2004-08-01  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixutils/mixvm_command.c (init_dis_):
+	* mixgtk/mixgtk_cmd_dispatcher.c (read_config_): -g option not
+	needed by mixasm.
+	(mixgtk_cmd_dispatcher_init): do not redirect stderr to the
+	command log windows.
+
+	* doc/mdk_mixasm.texi (Invoking @code{mixasm}): document -O option.
+
+2004-07-30  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixutils/mixasm.c (main): new option -O to disable debug, which
+	is now enabled by default.
+
+	* configure.in: check also for libpango.
+
+2004-07-11  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixgtk/mixgtk_cmd_dispatcher.c (complete_command_)
+	(on_command_prompt_key_press_event): fixed cursor position after
+	completion.
+
+2004-07-10  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* po/POTFILES.in:
+	* configure.in:
+	* autogen.sh:
+	* Makefile.am: use intltool to allow glade file string translations.
+
+	* mixgtk/Makefile.am (-DLOCAL_GLADE_FILE): really allow off-tree builds.
+
+2004-07-05  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixgtk/mixgtk_wm.c: preserve order of detachable windows when
+	reatached.
+
+	* mixgtk/mixgtk_mixvm.c:
+	* mixgtk/mixgtk_mixal.{hc}:
+	* mixgtk/mixgtk_fontsel.{hc}:
+	* mixgtk/mixgtk_device.{hc}:
+	* mixgtk/mixgtk_cmd_dispatcher.{hc}:
+	* mixgtk/mixgtk.glade: new menu item to change all fonts at once,
+	and the symbol list font.
+
+2004-07-02  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixgtk/mixgtk_wm.{hc}: toolbar visibility and new attach all
+	toolbar button.
+
+	* mixgtk/mixgtk_mixvm.c: go to dialog handling simplified.
+
+	* mixgtk/mixgtk_cmd_dispatcher.c (log_command_): correctly place
+	cursor before insertion.
+
+	* mixgtk/mixgtk_device.c (write_char_): scroll on output and
+	cursor placement.
+
+2004-06-30  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* autogen.sh: do not run configure.
+
+	* mixgtk/Makefile.am (-DLOCAL_GLADE_FILE): allow off-tree builds.
+
+	* mixgtk/mixgtk_wm.c (on_nb_switch_): warning on null widget page
+	fixed.
+
+	* mixgtk/*.xpm:
+	* mixgtk/Makefile.am (Module): only stock icons are used now.
+
+	* mixgtk/mixgtk_wm.{hc}:
+	* mixgtk/mixgtk_widgets.{hc}:
+	* mixgtk/mixgtk_mixvm.{hc}:
+	* mixgtk/mixgtk_mixal.{hc}:
+	* mixgtk/mixgtk_device.{hc}:
+	* mixgtk/mixgtk_config.{hc}:
+	* mixgtk/mixgtk.{hc}:
+	* mixgtk/mixgtk.glade: all the old functionality, including
+	slipit mode revamped as detachable windows in place using gtk+2.
+	Still some rough borders to polish, probably.
+
+2004-06-24  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixgtk/mixgtk_widgets.{hc}:
+	* mixgtk/mixgtk_mixvm.c:
+	* mixgtk/mixgtk_mixal.c:
+	* mixgtk/mixgtk_fontsel.{hc}:
+	* mixgtk/mixgtk_device.{hc}:
+	* mixgtk/mixgtk_cmd_dispatcher.c:
+	* mixgtk/mixgtk.glade:
+	* mixgtk/mixgtk.c: almost complete (barring bugs) reimplementation
+	of all gmixvm functionality in non-split mode for gtk 2.4.x.
+
+2004-06-23  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixgtk (Module): first, incomplete port to gtk 2.4.x. Basic
+	functionality in place.
+
+	* mixguile/xmixguile_cmd_dispatcher.c (Module):
+	* mixlib (Module): update to glib 2.x.
+
+	* mixgtk/mixgtk_colorsel.h (Module):
+	* mixgtk/mixgtk_colorsel.c (Module): removed (no longer used).
+
+	* configure.in (Module): default help messages for disable/enable
+	features (Adrian). Port to pkg-config and gtk+2.
+
+	* mixlib/mix_vm.c (vm_reset_reload_): do not delete output char
+	devices after reload.
+
+2004-06-22  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/mix_parser.c: do not store bogus line number for added
+	CON instructions.
+
+2004-06-12  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mdk (Module): version 1.1 tagged (v1r1).
+
+	* mixlib/xmix_parser.h (Module):
+	* mixlib/mix_scanner.l (Module):
+	* mixlib/mix_parser.c (Module): recognition of ALF in listings.
+
+	* mixlib/mix_io.c (mix_io_write_word_array_as_char): drop bogus
+	EOF comparison.
+
+2004-06-12  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* configure.in (Module): new version; fix guile checking.
+
+	* doc/mdk_mixvm.texi (Devices):
+	* mixlib/xmix_device.c: the paper tape is really an input device.
+
+	* mixgtk/mixgtk_widgets.h (Module):
+	* mixgtk/mixgtk_widgets.c (Module):
+	* mixgtk/mixgtk_device.c (Module):
+	* mixgtk/mixgtk.glade (Module): support for terminal device input
+	in the form of a new dialog.
+
+2004-06-10  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/mix_parser.c (mix_parser_compile): correctly set the loc
+	pointer.
+
+	* mixlib/mix_io.c (Module): allow truncated lines in char input
+	device files.
+
+	* mixlib/testsuite/mix_types_t.c (Module): test char to byte
+	conversions.
+
+	* mixlib/mix_types.c (Module):
+	* doc/mdk_tut.texi (Module): new ASCII rep for delta, sigma
+	and pi.
+
+	* mixlib/testsuite/mix_vm_ins_t.c (Module):
+	* mixlib/testsuite/mix_types_t.c (Module): adaptation to new
+	character set and LDN instructions behaviour.
+
+2004-06-09  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* doc/mdk_mixvm.texi (Devices): documentation for the console i/o.
+
+	* mixlib/mix_io.{hc}:
+	* mixlib/mix_device.h:
+	* mixlib/xmix_device.{hc}: the console is now in/out
+
+2004-06-07  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/mix_symbol_table.c (print_sym_rows_): align symbol values.
+
+	* mixutils/mixasm.c: correct usage message.
+
+	* mixlib/mix_scanner.l (Module): fix for bug #5654, including
+	support for both field specs and indexing in local constants.
+
+	* mixlib/mix_parser.c (Module): produce better listings,
+	identifying trailing CON instructions.
+
+	* mixutils/mixvm_loop.c (Module):
+	* mixlib/mix_config.c (Module): always use prompts ending in
+	whitespace.
+
+	* mixutils/mixvm_loop.c (mix_vmrun): do not save command line
+	options when -r is passed to mixvm.
+
+	* doc/mdk_mixvm.texi (Devices): documentation for the changes below.
+
+	* mixlib/mix_types.c (mix_ascii_to_char): accept lower case
+	characters.
+
+	* mixlib/xmix_device.c (read_): blocks in input char devices must
+	be separated by newline characters.
+
+	* mixlib/mix_vm.c (Module): correct error tracking and reporting.
+
+	* mixlib/mix_parser.{ch} (Module): properly treat undefined
+	forward references, inserting new addresses at the program's end.
+
+2004-06-06  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/xmix_vm_handlers.c (Module):
+	* mixlib/xmix_vm.{hc} (Module): keep track of runtime errors and
+	correctly report them.
+
+	* mixlib/mix_io.c (Module): bug fix: read only worked in debug mode;
+	more robust error reporting.
+
+	* mixlib/xmix_parser.h (Module):
+	* mixlib/mix_scanner.l (Module): keep track of program's end
+	address.
+
+2004-06-05  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* THANKS:
+	* doc/mdk_ack.texi (Acknowledgments): reorganisation.
+
+	* mixlib/xmix_vm.c (lda_handler_): always reverse sign in LDAN,
+	LDXN and LDiN, even if fspec is not zero (Ruslan Batdalov, closes
+	Debian bug #247392).
+
+	* autogen.sh: error messages improved and autotools versions updated.
+
+2004-01-09  Jose Antonio Ortega Ruiz  <jao@gnu.org>
+
+	* configure.in: check for guile headers.
+
+2003-06-09  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* mdk (Module): version 1.0.1 tagged (v1r0_1) and released.
+
+2003-06-09  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* misc/Makefile.am (pkgdata_DATA): include mixal-mode.el in the
+	distribution and install it.
+
+	* doc/mdk_ack.texi:
+	* THANKS: Eli added.
+
+2003-06-06  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* doc/mdk_tut.texi (Shift operators): SLC and SRC act on AX, not
+	on A.
+	(Conversion operators): correct description of digit
+	representation.
+
+2003-06-04  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* doc: documentation for emacs support merged in one file
+	(mdk_emacs.texi), substituting mdk_emixvm.texi and
+	mdk_mixal-mode.texi.
+
+	* mixlib/mix_code_file.c (mix_code_file_new_): properly initialise
+	source_path pointer to NULL, preventing later deletion of an
+	uninitialised pointer (which caused a segfault).
+
+2003-06-03  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* AUTHORS: Added Pieter Pareit.
+
+	* doc/mdk_ack.texi (Acknowledgments):
+	* THANKS: Thanks to P. E. J. Pareit, N. H. F. Beebe and Ronald Cole.
+
+	* doc/mdk_install.texi (Supported platforms): added platforms
+	tested by N. H. F. Beebe.
+
+	* doc/mdk_mixal-mode.texi (mixal-mode.el): minor editing of
+	Pieter's original documentation.
+
+	* doc/mdk_tut.texi (Address transfer operators): mixed bug in
+	DECX's MOD value.
+
+2003-05-28  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/mix_scanner.l, mixlib/mix_parser.h, mixlib/mix_parser.c:
+	new error message for missing ALF operand quotes (bug #3750 fixed)
+
+2003-04-06  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* mixguile/xmixguile_cmd_dispatcher.c: Missing standard header for
+	strlen #included.
+
+2003-02-13 Pieter E J Pareit <pieter.pareit@skynet.be>
+
+	* mixguile/xmixguile_cmd_dispatcher.c: bug fix: mix_reg_() and
+	mix_set_reg_() did not convert argument to string if it was a
+	symbol.
+
+2003-01-17  Pieter E J Pareit <pieter.pareit@skynet.be>
+
+	* misc/mixal-mode.el: bug fix: a regex was missing a '-'.
+
+	* doc/mdk_mixal-mode.texi: added documentation for mixal-mode.el.
+
+	* doc/mdk.texi: updated menu to include documentation for mixal-mode.el.
+
+	* doc/mdk_emixvm.texi: updated nodes to include mixal-mode.el.
+
+	* doc/mdk_egstart.texi: updated nodes to include mixal-mode.el.
+
+	* doc/mdk_install.texi: added documentation to node 'Emacs support'.
+
+2003-01-12  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/xmix_vm.h (inc_loc_): Stop program execution if the
+	program counter is incremented beyond the maximum address (3999).
+
+2003-01-11  Jose A Ortega Ruiz  <jao@gnu.org>
+
+	* mixlib/xmix_vm_handlers.c: Bug #1704 fixed.
+
+	* doc/mdk_mixguile.texi (mixvm wrappers): Bug #1703 fixed.
+
+	* misc/mixal-mode.el (Module): new emacs mode written by Pieter Pareit.
+
+	* misc/mixvm.el: bug fix: correctly detect the absence of menu bar.
+
+2002-12-08  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* Makefile.am, aclocal.m4, configure.in, mixlib/gettext.h,
+	mixlib/mix.h: corrections to gettext infrastructure.
+
+2002-12-08  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* autogen.sh: use autopoint instead of gettextize.
+
+2002-10-19  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* THANKS: Vasilij removed, as he requested.
+
+2002-04-11  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* mixgtk/gmixvm.c, mixgtk/mixgtk.c, mixgtk/mixgtk_device.c,
+	mixgtk/mixgtk_gen_handlers.c, mixgtk/mixgtk_mixal.c,
+	mixgtk/mixgtk_mixvm.c, mixguile/mixguile.c, mixlib/mix.c,
+	mixlib/mix_config.c, mixlib/mix_predicate.c,
+	mixlib/mix_vm_command.c, mixutils/mixvm_command.c:
+
+	_() i18n macro added to all strings missing it.
+
+2002-04-11  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* po/POTFILES.in: file list updated.
+
+2002-04-10  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* mixgtk/: mixgtk_mixal.c, mixgtk_mixvm.c: sprintf -> g_snprintf.
+
+2002-04-10  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* mixlib/xmix_vm_handlers.c: bug fix in 'load' command.
+
+2002-04-10  Jose A Ortega Ruiz <jao@gnu.org>
+
+	* mixgtk/mixgtk_cmd_dispatcher.c, mixgtk/mixgtk_device.c,
+	mixgtk/mixgtk_input.c, mixgtk/mixgtk_mixal.c,
+	mixgtk/mixgtk_mixvm.c, mixguile/xmixguile_cmd_dispatcher.c,
+	mixlib/mix_predicate.c, mixlib/mix_vm_command.c,
+	mixlib/xmix_vm_command.c, mixlib/xmix_vm_handlers.c:
+
+	portability fix: snprintf -> g_snprintf.
+

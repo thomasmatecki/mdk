@@ -1,0 +1,7 @@
+		ORIG 2000
+ST		NOP
+		ENTA FUT
+** Whoa, mdk tells me FUT is never defined...
+FUT		EQU 69
+		HLT
+		END ST
