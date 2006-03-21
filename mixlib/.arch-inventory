@@ -1,0 +1,4 @@
+precious ^(mix_scanner\.c)$
+precious ^(mix_eval_scanner\.c)$
+precious ^(Makefile)$
+precious ^(Makefile\.in)$

@@ -1,0 +1,4 @@
+precious ^(texinfo\.tex)$
+precious ^(mdk\.info)$
+precious ^(Makefile)$
+precious ^(Makefile\.in)$

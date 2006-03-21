@@ -1,0 +1,4 @@
+precious ^(mixvm)$
+precious ^(mixasm)$
+precious ^(Makefile)$
+precious ^(Makefile\.in)$
