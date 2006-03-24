@@ -124,7 +124,7 @@ AC_REPLACE_FUNCS(getopt_long)
 
 AM_CONDITIONAL(MAKE_GUI, test x$gui = xtrue)
 
-CFLAGS="$CFLAGS -Wall"
+CFLAGS="$CFLAGS -Wall -Werror"
 
 AC_SUBST(CFLAGS)
 
