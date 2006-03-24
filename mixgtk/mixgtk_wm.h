@@ -1,9 +1,7 @@
 /* -*-c-*- ---------------- mixgtk_wm.h :
  * Functions for window management
  * ------------------------------------------------------------------
- * $Id: mixgtk_wm.h,v 1.5 2005/09/20 19:43:14 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

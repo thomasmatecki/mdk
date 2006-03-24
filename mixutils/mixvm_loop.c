@@ -1,9 +1,7 @@
 /* -*-c-*- -------------- mixvm_loop.c :
  * Implementation of mix vm command loop.
  * ------------------------------------------------------------------
- *  $Id: mixvm_loop.c,v 1.15 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

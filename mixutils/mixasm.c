@@ -1,9 +1,7 @@
 /* -*-c-*- -------------- mixasm.c:
  * Main function of mixasm, the mix assembler
  * ------------------------------------------------------------------
- *  $Id: mixasm.c,v 1.9 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004, 2005 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

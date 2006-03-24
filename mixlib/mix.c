@@ -1,8 +1,6 @@
 /* -*-c-*- -------------- mix.c :
  * Implementation of the functions declared in mix.h
  * ------------------------------------------------------------------
- *  $Id: mix.c,v 1.8 2006/03/16 00:26:11 jao Exp $
- * ------------------------------------------------------------------
  * Copyright (C) 2000, 2001, 2002, 2005, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify

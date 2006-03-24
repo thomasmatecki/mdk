@@ -1,8 +1,6 @@
 /* -*-c-*- -------------- mixgtk_mixvm.c :
  * Implementation of the functions declared in mixgtk_mixvm.h
  * ------------------------------------------------------------------
- * $Id: mixgtk_mixvm.c,v 1.17 2006/03/15 23:31:34 jao Exp $
- * ------------------------------------------------------------------
  * Copyright (C) 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify

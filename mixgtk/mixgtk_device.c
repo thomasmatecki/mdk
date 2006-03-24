@@ -1,9 +1,7 @@
 /* -*-c-*- ---------------- mixgtk_device.c :
  * actual types for mixgtk devices
  * ------------------------------------------------------------------
- * $Id: mixgtk_device.c,v 1.27 2005/09/29 21:12:07 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004, 2005 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

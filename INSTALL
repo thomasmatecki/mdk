@@ -334,6 +334,3 @@ find the X include and library files automatically, but if it doesn't,
 you can use the `configure' options `--x-includes=DIR' and
 `--x-libraries=DIR' to specify their locations.
 
-----
-
-$Id: INSTALL,v 1.7 2005/09/20 20:18:58 jao Exp $

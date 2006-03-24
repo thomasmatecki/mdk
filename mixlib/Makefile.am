@@ -1,19 +1,18 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-#  
+# Copyright (C) 2000, 2001, 2006 Free Software Foundation, Inc.
+#
 # This file is free software; as a special exception the author gives
-# unlimited permission to copy and/or distribute it, with or without 
+# unlimited permission to copy and/or distribute it, with or without
 # modifications, as long as this notice is preserved.
-# 
+#
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-# $Id: Makefile.am,v 1.6 2002/12/08 01:36:49 jao Exp $
 
 SUBDIRS = testsuite
-INCLUDES = -I$(includedir) -I$(top_srcdir) -DG_LOG_DOMAIN=\"libmix\" 
+INCLUDES = -I$(includedir) -I$(top_srcdir) -DG_LOG_DOMAIN=\"libmix\"
 
 noinst_LIBRARIES = libmix.a
 libmix_a_SOURCES = gettext.h mix.h mix.c \

@@ -1,24 +1,22 @@
 /* -*-c-*- ---------------- mix.h :
  * Initialisation of the mix library
  * ------------------------------------------------------------------
- *  $Id: mix.h,v 1.7 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2000, 2001, 2006 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 
@@ -31,7 +29,7 @@
 #	warning "config.h not found, package misconfigured."
 #	define PACKAGE "mdk"
 #	define VERSION "0.0"
-#endif 
+#endif
 
 #ifdef HAVE_LOCALE_H
 #	include <locale.h>
@@ -43,7 +41,7 @@
 #	define gettext_noop(String)	(String)
 #else
 #	include <intl/libgettext.h>
-#endif 
+#endif
 */
 #include "gettext.h"
 
@@ -53,11 +51,11 @@
 #include <glib.h>
 
 /* This function must be called before using the library */
-extern void 
+extern void
 mix_init_lib (void);
 
 /* This function must be called for deallocating the lib resources
-   when it is no longer in use 
+   when it is no longer in use
 */
 extern void
 mix_release_lib (void);

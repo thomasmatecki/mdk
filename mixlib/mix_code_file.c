@@ -1,9 +1,7 @@
 /* -*-c-*- -------------- mix_code_file.c :
  * Implementation of the functions declared in mix_code_file.h
  * ------------------------------------------------------------------
- * $Id: mix_code_file.c,v 1.6 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2002, 2003 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2002, 2003, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

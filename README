@@ -39,5 +39,3 @@ For translations (MDK uses GNU's gettext), please see the po subdirectory[1].
 [1] New translations are welcome. If you'd like to contribute one,
     please contact the author, jao@gnu.org.
 
---
-$Id: README,v 1.3 2002/04/08 00:29:59 jao Exp $

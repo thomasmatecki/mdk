@@ -1,31 +1,29 @@
 /* -*-c-*- -------------- mix_predicate.c :
  * Implementation of the functions declared in mix_predicate.h
  * ------------------------------------------------------------------
- * $Id: mix_predicate.c,v 1.6 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2001, 2002, 2006 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 #include "mix_vm.h"
 #include "mix_predicate.h"
 
 /* predicate data */
-typedef union pred_data_t 
+typedef union pred_data_t
 {
   mix_word_t regA;
   mix_word_t regX;
@@ -49,7 +47,7 @@ struct mix_predicate_t
 
 /* predicate funcs */
 static gboolean
-pred_func_rA (mix_predicate_t *pred, const mix_vm_t *vm) 
+pred_func_rA (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   mix_word_t val = mix_vm_get_rA (vm);
   if (pred->data.regA == val) return FALSE;
@@ -58,7 +56,7 @@ pred_func_rA (mix_predicate_t *pred, const mix_vm_t *vm)
 }
 
 static gboolean
-pred_func_rX (mix_predicate_t *pred, const mix_vm_t *vm) 
+pred_func_rX (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   mix_word_t val = mix_vm_get_rX (vm);
   if (pred->data.regX == val) return FALSE;
@@ -67,7 +65,7 @@ pred_func_rX (mix_predicate_t *pred, const mix_vm_t *vm)
 }
 
 static gboolean
-pred_func_rI (mix_predicate_t *pred, const mix_vm_t *vm) 
+pred_func_rI (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   mix_short_t val = (pred->control == 0) ? mix_vm_get_rJ (vm)
     : mix_vm_get_rI (vm, pred->control);
@@ -76,8 +74,8 @@ pred_func_rI (mix_predicate_t *pred, const mix_vm_t *vm)
   return TRUE;
 }
 
-static gboolean 
-pred_func_mem (mix_predicate_t *pred, const mix_vm_t *vm) 
+static gboolean
+pred_func_mem (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   mix_word_t val =
     mix_vm_get_addr_contents (vm, (mix_address_t)pred->control);
@@ -87,7 +85,7 @@ pred_func_mem (mix_predicate_t *pred, const mix_vm_t *vm)
 }
 
 static gboolean
-pred_func_cmp (mix_predicate_t *pred, const mix_vm_t *vm) 
+pred_func_cmp (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   mix_cmpflag_t val = mix_vm_get_cmpflag (vm);
   if (pred->data.cmp == val) return FALSE;
@@ -96,7 +94,7 @@ pred_func_cmp (mix_predicate_t *pred, const mix_vm_t *vm)
 }
 
 static gboolean
-pred_func_over (mix_predicate_t *pred, const mix_vm_t *vm) 
+pred_func_over (mix_predicate_t *pred, const mix_vm_t *vm)
 {
   gboolean val = mix_vm_get_overflow (vm);
   if (pred->data.over == val) return FALSE;
@@ -106,7 +104,7 @@ pred_func_over (mix_predicate_t *pred, const mix_vm_t *vm)
 
 static mix_predicate_fun_t PRED_FUNCS_[] = {
   pred_func_rA, pred_func_rX, pred_func_rI, pred_func_rI, pred_func_rI,
-  pred_func_rI, pred_func_rI, pred_func_rI, pred_func_rI, 
+  pred_func_rI, pred_func_rI, pred_func_rI, pred_func_rI,
   pred_func_over, pred_func_cmp, pred_func_mem
 };
 
@@ -167,7 +165,7 @@ mix_predicate_get_message (const mix_predicate_t *predicate)
   enum {SIZE = 256};
   static gchar BUFFER[SIZE];
   static const gchar *CMP_STRINGS[] = { "L", "E", "G"};
-  
+
   g_return_val_if_fail (predicate != NULL, NULL);
 
   switch (predicate->type)
@@ -187,7 +185,7 @@ mix_predicate_get_message (const mix_predicate_t *predicate)
 		mix_short_magnitude (predicate->data.regI));
       break;
     case MIX_PRED_REG_I1: case MIX_PRED_REG_I2: case MIX_PRED_REG_I3:
-    case MIX_PRED_REG_I4: case MIX_PRED_REG_I5: case MIX_PRED_REG_I6: 
+    case MIX_PRED_REG_I4: case MIX_PRED_REG_I5: case MIX_PRED_REG_I6:
       g_snprintf (BUFFER, SIZE, _("Register I%d changed to %s%d"),
 		predicate->control,
 		mix_short_is_negative (predicate->data.regI)? "-" : "+",

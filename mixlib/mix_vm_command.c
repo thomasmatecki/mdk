@@ -1,8 +1,6 @@
 /* -*-c-*- -------------- mix_vm_command.c :
  * Implementation of the functions declared in mix_vm_command.h
  * ------------------------------------------------------------------
- * $Id: mix_vm_command.c,v 1.30 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
  * Copyright (C) 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify

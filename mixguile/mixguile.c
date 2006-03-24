@@ -1,24 +1,22 @@
 /* -*-c-*- -------------- mixguile.c :
  * Implementation of the functions declared in mixguile.h
  * ------------------------------------------------------------------
- *  $Id: mixguile.c,v 1.8 2005/09/20 19:43:14 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2001, 2002, 2006 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 #include <unistd.h>
@@ -68,7 +66,7 @@ mixguile_load_bootstrap (gboolean loadlocal)
   gchar *lscmfile = g_strconcat (g_get_home_dir (), G_DIR_SEPARATOR_S,
 				 MIX_CONFIG_DIR, G_DIR_SEPARATOR_S,
 				 LOCAL_SCM_FILE, NULL);
-  
+
   if (access (scmfile, R_OK) && access ((scmfile = LOCAL_SCM_FILE), R_OK))
     {
       g_warning (_("mixguile bootstrap file %s not found\n"), SCM_FILE);
