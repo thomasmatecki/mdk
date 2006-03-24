@@ -25,3 +25,4 @@ precious ^(config\.h)$
 precious ^(Makefile\.in)$
 precious ^(Makefile)$
 precious ^(ylwrap)$
+precious ^(ChangeLog)$

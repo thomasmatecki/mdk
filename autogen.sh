@@ -71,6 +71,9 @@ aclocal $ACLOCAL_FLAGS
 # optionally feature autoheader
 (autoheader --version)  < /dev/null > /dev/null 2>&1 && autoheader
 
+# changelog file
+touch ChangeLog
+
 echo "Running automake --add-missing --gnu $am_opt ..."
 automake -a --gnu $am_opt
 
