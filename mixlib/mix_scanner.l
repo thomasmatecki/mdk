@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_scanner.l :
  * Lexical scanner used by mix_parser_t
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,19 +71,19 @@
   } while (FALSE)
 
 
-#define ENTER_EVAL()				\
-  do {						\
-    if (yytext[0] != '*')                       \
-      {                                         \
-        expr_val = MIX_WORD_ZERO;		\
-        yyless (0);				\
-      }                                         \
-    else                                        \
-      {                                         \
-        expr_val = mix_short_to_word_fast (parser->loc_count); \
-	yyless (1);                             \
-      }                                         \
-    yy_push_state (EVAL);			\
+#define ENTER_EVAL()                                            \
+  do {                                                          \
+    if (yytext[0] != '*')                                       \
+      {                                                         \
+        expr_val = MIX_WORD_ZERO;                               \
+        yyless (0);                                             \
+      }                                                         \
+    else                                                        \
+      {                                                         \
+        expr_val = mix_short_to_word_fast (parser->loc_count);  \
+	yyless (1);                                             \
+      }                                                         \
+    yy_push_state (EVAL);                                       \
   } while (FALSE)
 
 #define ENTER_WEVAL(s)				\
@@ -95,14 +95,14 @@
     yy_push_state (WEVAL);			\
   } while (FALSE)
 
-#define RETURN_ERROR(error, comment)				\
-  do {								\
-    char c;							\
-    mix_parser_log_error (parser,error,lineno,comment,FALSE);	\
-    while ( (c = input ()) != '\n' && c != EOF ) ;		\
-    if ( c == EOF ) return error; else ++lineno;		\
-    RESET ();							\
-    BEGIN (INITIAL);						\
+#define RETURN_ERROR(error, comment)                                    \
+  do {                                                                  \
+    int c;                                                              \
+    mix_parser_log_error (parser, error, lineno, comment, FALSE);	\
+    while ( (c = input ()) != '\n' && c != EOF ) ;                      \
+    if ( c == EOF ) return error; else ++lineno;                        \
+    RESET ();                                                           \
+    BEGIN (INITIAL);                                                    \
   } while (FALSE)
 
 

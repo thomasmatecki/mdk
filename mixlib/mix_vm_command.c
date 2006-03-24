@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * $Id: mix_vm_command.c,v 1.30 2005/09/20 19:43:13 jao Exp $
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,7 +155,9 @@ mix_vm_cmd_dispatcher_new_with_config (FILE *out, FILE *err,
   mix_vm_cmd_dispatcher_t *result = mix_vm_cmd_dispatcher_new (out, err);
   if (result != NULL && (result->config = config) != NULL)
     {
+#ifdef HAVE_LIBHISTORY
       gint hsize = 0;
+#endif
       const gchar *val = mix_config_get (result->config, TRACING_KEY_);
       if (val) cmd_strace_ (result, val);
       val = mix_config_get (result->config, EDITOR_KEY_);
@@ -219,7 +221,9 @@ del_hook_list_ (GSList *s)
 void
 mix_vm_cmd_dispatcher_delete (mix_vm_cmd_dispatcher_t *dis)
 {
+#ifdef HAVE_LIBHISTORY
   const gchar *hfile = NULL;
+#endif
   gint k;
 
   g_return_if_fail (dis != NULL);

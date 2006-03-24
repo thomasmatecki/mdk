@@ -1,9 +1,7 @@
 /* -*-c-*- -------------- mixvm_command.c :
  * Implementation of the functions declared in mixvm_command.h
  * ------------------------------------------------------------------
- * $Id: mixvm_command.c,v 1.12 2005/09/20 19:43:13 jao Exp $
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include <mixlib/mix.h>
 
