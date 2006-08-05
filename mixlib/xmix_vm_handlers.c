@@ -663,6 +663,7 @@ cmd_smem_ (mix_vm_cmd_dispatcher_t *dis, const gchar *carg)
   glong value = 0;
   int k = 0;
   gchar *arg = NULL;
+  mix_word_t wval;
 
   if (ok)
     {
@@ -679,6 +680,12 @@ cmd_smem_ (mix_vm_cmd_dispatcher_t *dis, const gchar *carg)
 	{
 	  while (isspace (arg[k])) k++;
 	  value = atol (arg + k);
+
+          if ((value == 0) && (arg[k] == '-'))
+            wval = MIX_WORD_MINUS_ZERO;
+          else
+            wval = mix_word_new (value);
+
 	  if ( arg[k] == '+' || arg[k] == '-' ) k++;
 	  while (isdigit (arg[k])) k++;
 	  ok = arg[k] == '\0';
@@ -686,12 +693,14 @@ cmd_smem_ (mix_vm_cmd_dispatcher_t *dis, const gchar *carg)
     }
 
   if (ok)
-    mix_vm_set_addr_contents (dis->vm, mix_short_new (addr),
-			      mix_word_new (value));
+    {
+      mix_vm_set_addr_contents (dis->vm, mix_short_new (addr), wval);
+    }
   else
     {
       log_error_ (dis, _("Invalid argument: %s"), arg);
     }
+
   if (arg) g_free (arg);
 
   return ok;
