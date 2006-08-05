@@ -23,7 +23,7 @@ list of these people. Help me keep it complete and exempt of errors.
    * Sergey Poznyakoff(<gray@gnu.org>) provided patches to
      mixlib/mix_scanner.l improving MIXAL compliance.
 
-   * Francesc Xavier Noria (<fxn@retemail.es>) kindly and thoroughly
+   * Francesc Xavier Noria (<fxn@hash-ref.com>) kindly and thoroughly
      reviewed the MDK documentation, providing insightful advice.
 
    * Agustin Navarro (<anp@cantv.net>), Ying-Chieh Liao
@@ -35,8 +35,9 @@ list of these people. Help me keep it complete and exempt of errors.
    * Jason Uhlenkott, Andrew Hood (<ajhood@fl.net.au>), Radu Butnaru
      (<rbb@email.ro>), Aleix Conchillo (<aleix@member.fsf.org>),
      Ruslan Batdalov (<linnando@tolkien.ru>), WeiZheng
-     (<pro_zw@lol365.com>) and Sascha Wilde reported (sometimes with
-     fixes) several bugs in MDK.
+     (<pro_zw@lol365.com>), Sascha Wilde, Michael Vernov and Xiaofeng
+     Zhao reported (sometimes with suggested fixes) several bugs in
+     MDK.
 
    * Nelson H. F. Beebe (<beebe@math.utah.edu>,
      http://www.math.utah.edu/~beebe) has tested MDK in a lot of Unix

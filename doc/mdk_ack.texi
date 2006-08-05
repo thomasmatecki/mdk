@@ -45,7 +45,7 @@ enhancements to the source code.
 ported @sc{mdk} to different platforms, and created and/or maintain
 packages for it.
 
-@item Jason Uhlenkott, Andrew Hood, Aleix Conchillo, Radu Butnaru, Ruslan Batdalov, WeiZheng and Sascha Wilde
+@item Jason Uhlenkott, Andrew Hood, Aleix Conchillo, Radu Butnaru, Ruslan Batdalov, WeiZheng, Sascha Wilde, Michael Vernov and Xiaofeng Zhao
 reported bugs and suggested fixes to them.
 
 @item Eli Bendersky, Milan Bella and Jens Seidel reported bugs on the documentation.

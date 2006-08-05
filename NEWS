@@ -8,7 +8,13 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ---------------------------------------------------------------------------
 * Version 1.2.2
 
-** Bug fixes
+** MIXAL compliance improvements (thanks to Xiaofeng Zhao):
+
+   - NOP accepts an F-spec.
+   - Invalid F-spec values are reported as warning instead of errors,
+     since they can be legitimately (if hackishly) used.
+
+** Bug fixes:
 
    - smem in mixvm correctly handles negative zero (thanks to Michael
      Vernov).
