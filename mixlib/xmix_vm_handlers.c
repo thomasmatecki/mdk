@@ -77,7 +77,7 @@ mix_vm_command_info_t commands_[] = {
   { "sbpo", cmd_sbpo_,
     N_("Set conditional breakpoint on overflow toggled"), "sbpo"},
   { "cbpo", cmd_cbpo_,
-    N_("Set conditional breakpoint on overflow toggled"), "cbpo"},
+    N_("Clear conditional breakpoint on overflow toggled"), "cbpo"},
   { "cabp", cmd_cabp_, N_("Clear all breakpoints"), "cabp"},
   { "weval", cmd_weval_, N_("Evaluate a given W-expression"), "weval WEXPR"},
   { "w2d", cmd_w2d_, N_("Convert a MIX word to its decimal value"),
