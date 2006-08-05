@@ -1,7 +1,7 @@
 /* -*-c-*- --------------- mix_io.c :
  * Implementation of the functions declared in mix_io.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ mix_byte_t
 mix_io_read_byte (mix_iochannel_t *ioc)
 {
   mix_byte_t result = MIX_BYTE_ZERO;
-  if (ioc != NULL) read_data_ (ioc, &result, 1);
+  if (ioc != NULL) (void)read_data_ (ioc, &result, 1);
   return result;
 }
 
@@ -109,7 +109,7 @@ mix_word_t
 mix_io_read_word (mix_iochannel_t *ioc)
 {
   mix_word_t result = MIX_WORD_ZERO;
-  if (ioc != NULL) read_data_ (ioc, &result, 1);
+  if (ioc != NULL) (void)read_data_ (ioc, &result, 1);
   return result;
 }
 
@@ -136,7 +136,7 @@ mix_short_t
 mix_io_read_short (mix_iochannel_t *ioc)
 {
   mix_short_t result = MIX_SHORT_ZERO;
-  if (ioc != NULL) read_data_ (ioc, &result, 1);
+  if (ioc != NULL) (void)read_data_ (ioc, &result, 1);
   return result;
 }
 
@@ -157,7 +157,7 @@ mix_char_t
 mix_io_read_char (mix_iochannel_t *ioc)
 {
   guchar value = MIX_CHAR_MAX;
-  if (ioc != NULL) read_data_ (ioc, &value, 1);
+  if (ioc != NULL) (void)read_data_ (ioc, &value, 1);
   return mix_ascii_to_char (value);
 }
 

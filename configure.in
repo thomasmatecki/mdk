@@ -8,8 +8,8 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-AC_INIT([GNU MDK],1.2.1,[bug-mdk@gnu.org],mdk)
-AM_INIT_AUTOMAKE(mdk,1.2.1)
+AC_INIT([GNU MDK],1.2.2,[bug-mdk@gnu.org],mdk)
+AM_INIT_AUTOMAKE(mdk,1.2.2)
 AM_CONFIG_HEADER(config.h)
 
 AM_MAINTAINER_MODE
