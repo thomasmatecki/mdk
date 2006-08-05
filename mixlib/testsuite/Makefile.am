@@ -17,12 +17,16 @@ LDADD = $(top_builddir)/mixlib/libmix.a
 check_PROGRAMS = mixtypest mixinstest mixvminstest mixparsertest mixdevtest mixevaltest
 TESTS = $(check_PROGRAMS)
 
+MIXAL_FILES= "\"primes\",\"isamixinstruction\",\"tests/bt\",\"tests/cbp\",\"tests/ldan\",\"tests/stress0\",\"hello\",\"echo\","
+
+AM_CFLAGS = -DMIX_TEST_MIXAL_FILES=$(MIXAL_FILES) -DMIX_TEST_SAMPLES_DIR="\"$(top_srcdir)/samples\""
+
 mixtypest_SOURCES = test.h mix_types_t.c
 mixinstest_SOURCES = test.h mix_ins_t.c
 mixvminstest_SOURCES = test.h mix_vm_ins_t.c
-mixparsertest_SOURCES = test.h mix_parser_t.c
 mixdevtest_SOURCES = test.h mix_device_t.c
 mixevaltest_SOURCES = test.h mix_eval_t.c
+mixparsertest_SOURCES = test.h mix_parser_t.c
 
 
 
