@@ -26,3 +26,5 @@ precious ^(Makefile\.in)$
 precious ^(Makefile)$
 precious ^(ylwrap)$
 precious ^(ChangeLog)$
+junk ^(img)$
+

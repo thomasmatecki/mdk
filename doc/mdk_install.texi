@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -34,11 +34,16 @@ the following @acronym{URL}s:
 @end itemize
 
 The above sites contain the latest stable releases of @sc{mdk}. The
-development branch is available at:
+development branch is available as a
+@uref{http://www.gnu.org/software/gnu-arch/, GNU Arch archive} located
+at@footnote{See @uref{http://savannah.gnu.org/arch/?group=mdk,
+@sc{mdk}'s Arch page} for more information on using the unstable source
+tree. Note, however, that the rest of this manual is about the
+@emph{stable} release.}
 
 @itemize @bullet
 @item
-@uref{https://savannah.gnu.org/cvs/?group_id=118}
+@uref{http://arch.sv.gnu.org/archives/mdk}
 @end itemize
 
 After you have downloaded the source tarball, unpack it in a directory
@@ -252,7 +257,8 @@ functionalities on a first try. If you find problems with
 history/readline functionality, please try a newer/manually installed
 readline version.}
 @item
-Mac OS X 10.1.2 (Johan Swanljung)
+Mac OS X 10.1.2 (Johan Swanljung), Mac OS X 10.4.x (Darwin Port by Aleix
+Conchillo).
 @item
 AMD Athlon, GNU/Linux version 2.4.2-2smp (Red Hat 7.1 (Seawolf)) (N.
 H. F. Beebe)
@@ -281,7 +287,3 @@ Sun SPARC, Solaris 2.8 (N. H. F. Beebe)
 @sc{mdk} will probably work on any GNU/Linux or BSD platform. If you
 try it in a platform not listed above, please send a mail to
 @email{jao@@gnu.org, the author}.
-
-
-
-

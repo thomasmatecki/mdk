@@ -1,4 +1,17 @@
+junk ^(mdk\.log)$
+junk ^(mdk\.ky)$
+junk ^(mdk\.fns)$
+junk ^(mdk\.fn)$
+junk ^(mdk\.cps)$
+junk ^(mdk\.cp)$
+junk ^(mdk\.aux)$
+junk ^(mdk\.vrs)$
+junk ^(mdk\.vr)$
+junk ^(mdk\.tp)$
+junk ^(mdk\.toc)$
+junk ^(mdk\.pg)$
 precious ^(texinfo\.tex)$
 precious ^(mdk\.info)$
 precious ^(Makefile)$
 precious ^(Makefile\.in)$
+precious ^(manual)$
