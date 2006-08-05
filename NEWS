@@ -10,6 +10,9 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 
 ** Bug fixes
 
+   - smem in mixvm correctly handles negative zero (thanks to Michael
+     Vernov).
+   - cbpo help string corrected (thanks to Michael Vernov).
    - I1 and I2 in mixvm swapped to their correct position (closes #15746).
    - Obsolete CFLAGS for Darwin removed.
    - mixal-mode.el syncronised with Emacs CVS.

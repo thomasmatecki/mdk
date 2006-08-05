@@ -437,6 +437,7 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
     if ( val < 0 || val > MIX_BYTE_MAX )
       RETURN_ERROR (MIX_PERR_INV_FSPEC, NULL);
     if ( ins.opcode != mix_opMOVE
+         && ins.opcode != mix_opNOP
          && ( ins.opcode < mix_opJBUS || ins.opcode > mix_opJXx )
          && !mix_fspec_is_valid (mix_byte_new (val)) )
       RETURN_ERROR (MIX_PERR_INV_FSPEC, NULL);
