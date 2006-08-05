@@ -434,16 +434,25 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
 <FSPEC>{
   {number}")"(({ws}+.*\n)|\n) {
     glong val  = atol (yytext);
-    if ( val < 0 || val > MIX_BYTE_MAX )
+
+    if (val < 0 || val > MIX_BYTE_MAX)
       RETURN_ERROR (MIX_PERR_INV_FSPEC, NULL);
-    if ( ins.opcode != mix_opMOVE
-         && ins.opcode != mix_opNOP
-         && ( ins.opcode < mix_opJBUS || ins.opcode > mix_opJXx )
-         && !mix_fspec_is_valid (mix_byte_new (val)) )
-      RETURN_ERROR (MIX_PERR_INV_FSPEC, NULL);
-    if ( nof )
-      mix_parser_log_error (parser, MIX_PERR_INV_FSPEC,
-			    lineno, _("ignored"), TRUE);
+
+    if (ins.opcode != mix_opMOVE
+        && ins.opcode != mix_opNOP
+        && ( ins.opcode < mix_opJBUS || ins.opcode > mix_opJXx )
+        && !mix_fspec_is_valid (mix_byte_new (val)) )
+      {
+        gchar *spec = g_strdup_printf ("%d", (int)val);
+        mix_parser_log_error (parser, MIX_PERR_INV_FSPEC, lineno, spec, TRUE);
+        g_free (spec);
+      }
+
+    if (nof)
+      {
+        mix_parser_log_error (parser, MIX_PERR_INV_FSPEC,
+                              lineno, _("ignored"), TRUE);
+      }
     else
       {
 	ins.fspec = mix_byte_new (val);
