@@ -118,6 +118,7 @@ mix_parser_new (const gchar *in_file)
 					     MIX_SRC_DEFEXT);
 
   if ( f == NULL ) return NULL;
+
   result = g_new (mix_parser_t, 1);
   result->symbol_table = mix_symbol_table_new ();
   result->ls_table = mix_symbol_table_new ();

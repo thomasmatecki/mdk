@@ -140,6 +140,7 @@ mixgtk/Makefile
 lib/Makefile
 misc/Makefile
 samples/Makefile
+samples/tests/Makefile
 po/Makefile.in
 intl/Makefile
 )

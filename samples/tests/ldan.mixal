@@ -3,3 +3,4 @@ BEGIN	LDAN	VAR(1:5)
         LDXN    VAR(1:5)
         HLT
 	END	BEGIN
+

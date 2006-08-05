@@ -10,6 +10,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+SUBDIRS = tests
 
-EXTRA_DIST = primes.result hello.mixal primes.mixal echo.mixal\
-             permutations.mixal permutations.cardrd
+EXTRA_DIST = primes.result hello.mixal primes.mixal echo.mixal \
+             permutations.mixal permutations.cardrd isains.mixal

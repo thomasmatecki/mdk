@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2000, 2001, 2004, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2006 by Free Software Foundation, Inc.
+
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -10,15 +11,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-EXTRA_DIST = config.rpath ABOUT-NLS intltool-extract.in intltool-merge.in \
-             intltool-update.in ChangeLog.1 ChangeLog.2
-SUBDIRS = po intl doc lib mixlib mixguile mixutils mixgtk misc samples
+EXTRA_DIST = bt.mixal cbp.mixal ldan.mixal lockonw.mixal negwrite.mixal \
+             stress0.mixal stress1.mixal stress2.mixal stress4.mixal \
+             stress5.mixal stress6.mixal
 
-distclean-local:
-	rm -f intltool-extract
-	rm -f intltool-merge
-	rm -f intltool-update
-
-docdir = $(top_builddir)/doc
-
-ACLOCAL_AMFLAGS = -I m4

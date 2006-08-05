@@ -168,7 +168,7 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
   yy_flex_debug = getenv("FLEX_DEBUG");
 #endif
   yyin = mix_file_to_FILE (parser->in_file);
-
+  yyrestart (yyin);
 %}
 
 
@@ -180,13 +180,19 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
 <INITIAL>{
   ^\*.*	/* eat comments */
   .	{
-    if ( end ) return parser->status;
+    if (end)
+      {
+        return parser->status;
+      }
     yyless (0);
     BEGIN (LOC);
   }
   \n {
     ++lineno;
-    if ( end ) return parser->status;
+    if (end)
+      {
+        return parser->status;
+      }
   }
 }
 
@@ -342,6 +348,8 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
     parser->end = parser->loc_count;
     end = TRUE;
     if ( parser->status == MIX_PERR_NOCOMP ) parser->status = MIX_PERR_OK;
+    RESET ();
+    BEGIN (INITIAL);
     return parser->status;
   }
 }

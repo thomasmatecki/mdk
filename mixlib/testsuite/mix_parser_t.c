@@ -20,9 +20,9 @@
  */
 
 
+#include <mix_parser.h>
 
 #include <stdlib.h>
-#include <mix_parser.h>
 
 /* Define VERBOSE_TEST if you want to get prints of the test */
 /* #define VERBOSE_TEST */
@@ -36,13 +36,12 @@ static const size_t FILE_NO_ = sizeof(FILES_)/sizeof(FILES_[0]);
 static void
 test_code_ (const gchar *name)
 {
-
   mix_code_file_t *code;
   mix_parser_err_t err;
 
+
   gchar *real_name = g_strdup_printf ("%s/%s", MIX_TEST_SAMPLES_DIR, name);
-  g_print (real_name);
-  g_print ("\n");
+  gchar *code_name = g_path_get_basename (name);
 
   mix_parser_t *parser = mix_parser_new (real_name);
 
@@ -58,32 +57,14 @@ test_code_ (const gchar *name)
 
   g_assert (err == MIX_PERR_OK);
 
-  err = mix_parser_write_code (parser, real_name, FALSE);
-  code = mix_code_file_new_read (real_name);
+  err = mix_parser_write_code (parser, code_name, FALSE);
+  code = mix_code_file_new_read (code_name);
   g_assert (code);
-
-#ifdef VERBOSE_TEST
-  g_message ("%s: Version: %d.%d", name, mix_code_file_major_version (code),
-             mix_code_file_minor_version (code));
-
-  mix_short_print (mix_code_file_get_start_addr (code), "Start address: ");
-  g_print ("\n");
-
-  mix_ins_desc_t ins;
-  while (mix_code_file_get_ins (code, &ins))
-    {
-      mix_ins_t i;
-      mix_word_to_ins_uncheck (ins.ins, i);
-      mix_short_print (ins.address, "addr: ");
-      g_print (" : ");
-      mix_ins_print (&i);
-      g_print ("\n");
-    }
-#endif
 
   mix_parser_delete (parser);
   mix_code_file_delete (code);
   g_free (real_name);
+  g_free (code_name);
 }
 
 int
