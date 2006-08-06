@@ -28,6 +28,8 @@ mixdevtest_SOURCES = test.h mix_device_t.c
 mixevaltest_SOURCES = test.h mix_eval_t.c
 mixparsertest_SOURCES = test.h mix_parser_t.c
 
+distclean-local:
+	rm -f *.mix
 
 
 
