@@ -1,4 +1,4 @@
-GNU MDK -- History of visible changes.
+* GNU MDK -- History of visible changes.
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, Free Software Foundation, Inc.
 See the end for copying conditions.
@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send mdk bug reports to bug-mdk@gnu.org.
 
 ---------------------------------------------------------------------------
-* Version 1.2.2
+* Version 1.2.2 (07/08/06)
 
 ** MIXAL compliance fixes (thanks to Xiaofeng Zhao):
 
@@ -17,6 +17,8 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ** gmixvm: history popup in terminal input dialog.
 
 ** gmixvm: the load file dialog now remembers last directory.
+
+** Documentation: invariant sections removed.
 
 ** Bug fixes:
 
@@ -456,7 +458,7 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ** Initial version
 
 ---------------------------------------------------------------------------
-Copying information:
+* Copying information:
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
@@ -470,4 +472,7 @@ Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation,
    under the above conditions, provided also that they
    carry prominent notices stating who last changed them.
 
-
+--
+;;; Local Variables:
+;;; mode: outline
+;;; End:
