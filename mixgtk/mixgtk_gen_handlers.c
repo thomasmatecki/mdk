@@ -27,56 +27,71 @@
 /* grab a file with an externally provided callback */
 typedef void (*file_callback_t)(const gchar *file);
 
+static GtkFileChooser *
+get_chooser_ (const gchar *title, gboolean src)
+{
+  static GtkFileChooser *dialog = NULL;
+  static GtkFileFilter *src_filter = NULL;
+  static GtkFileFilter *code_filter = NULL;
+
+  if (dialog == NULL)
+    {
+      dialog = GTK_FILE_CHOOSER
+        (gtk_file_chooser_dialog_new ("gmixvm",
+                                      NULL,
+                                      GTK_FILE_CHOOSER_ACTION_OPEN,
+                                      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                      NULL));
+      src_filter = gtk_file_filter_new ();
+      gtk_file_filter_add_pattern (src_filter, "*.mixal");
+      code_filter = gtk_file_filter_new ();
+      gtk_file_filter_add_pattern (code_filter, "*.mix");
+      gtk_file_chooser_add_filter (dialog, src_filter);
+      gtk_file_chooser_add_filter (dialog, code_filter);
+    }
+
+  gtk_file_chooser_set_filter (dialog, src? src_filter : code_filter);
+  gtk_window_set_title (GTK_WINDOW (dialog), title);
+
+  return dialog;
+}
+
 static void
 get_file_ (file_callback_t callback,
            const gchar *title,
-           const gchar *pattern,
+           gboolean is_src,
            const gchar *def_file)
 {
   static gchar *last_folder = NULL;
 
   if (callback != NULL)
     {
-      GtkWidget *dialog;
-
-      dialog =
-        gtk_file_chooser_dialog_new (title,
-                                     NULL,
-                                     GTK_FILE_CHOOSER_ACTION_OPEN,
-                                     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-                                     NULL);
-
-      if (pattern != NULL)
-        {
-          GtkFileFilter *filter = gtk_file_filter_new ();
-          gtk_file_filter_add_pattern (filter, pattern);
-          gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter);
-        }
+      GtkFileChooser *dialog = get_chooser_ (title, is_src);
 
       if (def_file != NULL)
         {
-          gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), def_file);
+          gtk_file_chooser_set_filename (dialog, def_file);
         }
       else if (last_folder != NULL)
         {
-          gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
-                                               last_folder);
+          gtk_file_chooser_set_current_folder (dialog, last_folder);
         }
 
-      if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+      gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+      gtk_widget_hide (GTK_WIDGET (dialog));
+
+      if (result == GTK_RESPONSE_ACCEPT)
         {
-          gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-          callback (filename);
+          gchar *filename = gtk_file_chooser_get_filename (dialog);
           if (filename)
             {
+              callback (filename);
               if (last_folder) g_free (last_folder);
               last_folder = g_path_get_dirname (filename);
               g_free (filename);
             }
         }
-
-      gtk_widget_destroy (dialog);
     }
 }
 
@@ -99,20 +114,20 @@ exec_cmd_ (mix_vm_command_t cmd, const gchar *arg)
 static void
 open_cb_ (const gchar *file)
 {
-  if (file) exec_cmd_ (MIX_CMD_LOAD, file);
+  exec_cmd_ (MIX_CMD_LOAD, file);
 }
 
 void
 on_file_open_activate (GtkWidget *w, gpointer data)
 {
-  get_file_ (open_cb_, _("Load MIX program..."), "*.mix", NULL);
+  get_file_ (open_cb_, _("Load MIX program..."), FALSE, NULL);
 }
 
 /* edit mixal source */
 static void
 edit_cb_ (const gchar *file)
 {
-  if (file) exec_cmd_ (MIX_CMD_EDIT, file);
+  exec_cmd_ (MIX_CMD_EDIT, file);
 }
 
 void
@@ -120,7 +135,7 @@ on_file_edit_activate (GtkWidget *w, gpointer data)
 {
   get_file_ (edit_cb_,
              _("Edit MIXAL source file..."),
-             "*.mixal",
+             TRUE,
              mixgtk_cmd_dispatcher_get_src_path ());
 }
 
@@ -128,7 +143,7 @@ on_file_edit_activate (GtkWidget *w, gpointer data)
 static void
 compile_cb_ (const gchar *file)
 {
-  if (file) exec_cmd_ (MIX_CMD_COMPILE, file);
+  exec_cmd_ (MIX_CMD_COMPILE, file);
 }
 
 void
@@ -136,7 +151,7 @@ on_file_compile_activate (GtkWidget *w, gpointer data)
 {
   get_file_ (compile_cb_,
              _("Compile MIXAL source file..."),
-             "*.mixal",
+             TRUE,
              mixgtk_cmd_dispatcher_get_src_path ());
 }
 

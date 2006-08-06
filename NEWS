@@ -11,8 +11,10 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ** MIXAL compliance fixes (thanks to Xiaofeng Zhao):
 
    - NOP accepts an F-spec.
-   - Invalid F-spec values are reported as warning instead of errors,
+   - Invalid F-spec values are reported as warnings instead of errors,
      since they can be legitimately (if hackishly) used.
+
+** gmixvm: the load file dialog now remembers last directory.
 
 ** Bug fixes:
 
