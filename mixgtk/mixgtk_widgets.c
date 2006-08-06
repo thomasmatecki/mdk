@@ -1,9 +1,7 @@
 /* -*-c-*- -------------- mixgtk_widgets.c :
  * Implementation of the functions declared in mixgtk_widgets.h
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: "2001-04-29 14:32:17 jao"
- * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -49,12 +49,6 @@ on_save_on_exit_toggle (GtkWidget *w, gpointer data);
 extern void
 on_save_activate (GtkWidget *w, gpointer data);
 
-typedef void (*file_callback_t)(const gchar *file);
-
-extern void
-mixgtk_get_file (file_callback_t callback, const gchar *title,
-		 const gchar *pattern, const gchar *def_file);
-
 
 #endif /* MIXGTK_GEN_HANDLERS_H */
 
