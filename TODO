@@ -1,10 +1,9 @@
 -*- mode: outline -*-
 
-* Version 1.2.2
+* Version 1.2.3
+** Self-local symbols 'SYM EQU SYM+1' (valid?)
+** Output of compilation command in gmixvm window
 ** gmixvm: list of last loaded programs
-** gmixvm: history in terminal input dialog
-** Add entries to concept index
-** Sync docs with published book
 
 * Misc
 ** MIX types manipulation library in Scheme
@@ -13,6 +12,9 @@
 
 ** Allow MIXAL instructions as commands at the mixvm prompt
   (e.g. MIX > exec LDA 2000)
+** Add entries to concept index
 
+* Deprecated
+** Sync docs with published book
 ** gtkhtml for help system
 

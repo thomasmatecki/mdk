@@ -14,6 +14,8 @@ Please send mdk bug reports to bug-mdk@gnu.org.
    - Invalid F-spec values are reported as warnings instead of errors,
      since they can be legitimately (if hackishly) used.
 
+** gmixvm: history popup in terminal input dialog.
+
 ** gmixvm: the load file dialog now remembers last directory.
 
 ** Bug fixes:

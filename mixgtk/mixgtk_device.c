@@ -47,6 +47,8 @@ static GtkEntry *devdir_entry_ = NULL;
 /* terminal input dialog */
 static GtkWidget *input_dlg_ = NULL;
 static GtkEntry *input_dlg_entry_ = NULL;
+static GtkListStore *input_list_ = NULL;
+
 
 /** configuration stuff */
 #define LAST_BIN_DEV_   mix_dev_DISK_7
@@ -174,6 +176,47 @@ write_ (mix_device_t *dev, const mix_word_t *block)
   return TRUE;
 }
 
+static void
+init_input_widgets_ (void)
+{
+  input_dlg_ = mixgtk_widget_factory_get_dialog (MIXGTK_INPUT_DIALOG);
+  g_assert (input_dlg_);
+  input_dlg_entry_ = GTK_ENTRY (mixgtk_widget_factory_get_child_by_name
+                                (MIXGTK_INPUT_DIALOG, "input_entry"));
+  g_assert (input_dlg_entry_);
+  GtkEntryCompletion *completion = gtk_entry_completion_new ();
+  input_list_ = gtk_list_store_new (1, G_TYPE_STRING);
+  gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (input_list_));
+  gtk_entry_completion_set_popup_completion (completion, TRUE);
+  gtk_entry_completion_set_popup_single_match (completion, TRUE);
+  gtk_entry_completion_set_inline_completion (completion, FALSE);
+  gtk_entry_completion_set_minimum_key_length (completion, 1);
+  gtk_entry_completion_set_text_column (completion, 0);
+  gtk_entry_set_completion (input_dlg_entry_, completion);
+}
+
+static gboolean
+find_input_ (const gchar *text)
+{
+  GtkTreeModel *list_store = GTK_TREE_MODEL (input_list_);
+  GtkTreeIter iter;
+
+  gboolean valid = gtk_tree_model_get_iter_first (list_store, &iter);
+  gboolean found = FALSE;
+
+  while (valid && !found)
+    {
+      gchar *str_data;
+
+      gtk_tree_model_get (list_store, &iter, 0, &str_data, -1);
+
+      found = (g_ascii_strcasecmp (str_data, text) == 0);
+      valid = gtk_tree_model_iter_next (list_store, &iter);
+      g_free (str_data);
+    }
+  return found;
+}
+
 static gboolean
 read_cons_ (mix_word_t *block)
 {
@@ -182,23 +225,28 @@ read_cons_ (mix_word_t *block)
 
   if (input_dlg_ == NULL)
     {
-      input_dlg_ = mixgtk_widget_factory_get_dialog (MIXGTK_INPUT_DIALOG);
-      g_assert (input_dlg_);
-      input_dlg_entry_ = GTK_ENTRY (mixgtk_widget_factory_get_child_by_name
-                                    (MIXGTK_INPUT_DIALOG, "input_entry"));
-      g_assert (input_dlg_entry_);
+      init_input_widgets_ ();
     }
 
   gtk_entry_set_text (input_dlg_entry_, "");
-  gtk_dialog_run (GTK_DIALOG (input_dlg_));
+  gint result = gtk_dialog_run (GTK_DIALOG (input_dlg_));
   gtk_widget_hide (input_dlg_);
-  text = g_strdup_printf ("%-70s", gtk_entry_get_text (input_dlg_entry_));
-  for (i = 0; i < 70; ++i)
-    for (j = 0; j < 5; ++j)
-      mix_word_set_byte (block + i, j + 1,
-                         mix_char_to_byte
-                         (mix_ascii_to_char (text[5 * i + j])));
-  g_free (text);
+  if (result == GTK_RESPONSE_OK)
+    {
+      text = g_strdup_printf ("%-70s", gtk_entry_get_text (input_dlg_entry_));
+      for (i = 0; i < 70; ++i)
+        for (j = 0; j < 5; ++j)
+          mix_word_set_byte (block + i, j + 1,
+                             mix_char_to_byte
+                             (mix_ascii_to_char (text[5 * i + j])));
+      if (!find_input_ (g_strchomp (text)))
+        {
+          GtkTreeIter iter;
+          gtk_list_store_append (input_list_, &iter);
+          gtk_list_store_set (input_list_, &iter, 0, text, -1);
+          g_free (text);
+        }
+    }
   return TRUE;
 }
 
