@@ -18,8 +18,6 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 
 ** gmixvm: the load file dialog now remembers last directory.
 
-** Documentation: invariant sections removed.
-
 ** Bug fixes:
 
    - smem in mixvm correctly handles negative zero (thanks to Michael
