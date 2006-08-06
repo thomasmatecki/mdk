@@ -244,8 +244,8 @@ read_cons_ (mix_word_t *block)
           GtkTreeIter iter;
           gtk_list_store_append (input_list_, &iter);
           gtk_list_store_set (input_list_, &iter, 0, text, -1);
-          g_free (text);
         }
+      g_free (text);
     }
   return TRUE;
 }
