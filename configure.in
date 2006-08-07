@@ -34,7 +34,6 @@ AC_PROG_INTLTOOL([0.30], [no-xml])
 GETTEXT_PACKAGE=mdk
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Package Name for Gettext])
-ALL_LINGUAS="de"
 
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
