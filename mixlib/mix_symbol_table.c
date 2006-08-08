@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_symbol_table.c :
  * Implementation of the functions declared in mix_symbol_table.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ mix_symbol_table_add (mix_symbol_table_t *table,
   if ( !g_hash_table_lookup_extended (table, sym, &key, &val) )
     {
       key = g_strdup (sym);
-      g_hash_table_insert (table, key, (gpointer)value);
+      g_hash_table_insert (table, key, GINT_TO_POINTER (value));
       return MIX_SYM_OK;
     }
   else
@@ -141,7 +141,7 @@ mix_symbol_table_insert (mix_symbol_table_t *table,
 
   if ( !g_hash_table_lookup_extended (table, sym, &key, &val) )
       key = g_strdup (sym);
-  g_hash_table_insert (table, key, (gpointer)new_value);
+  g_hash_table_insert (table, key, GINT_TO_POINTER (new_value));
   return MIX_SYM_OK;
 }
 

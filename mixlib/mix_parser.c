@@ -2,7 +2,7 @@
  * Implementation of the functions declared in mix_parser.h and
  * xmix_parser.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2003, 2004 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2003, 2004, 2006 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -494,7 +494,7 @@ mix_parser_set_future_ref (mix_parser_t *parser, const gchar *name)
     {
       list =  g_hash_table_lookup (parser->future_refs, name);
       if ( list == NULL ) nname = g_strdup (name);
-      list = g_slist_prepend (list, (gpointer)((guint)parser->loc_count));
+      list = g_slist_prepend (list, GUINT_TO_POINTER ((guint)parser->loc_count));
       g_hash_table_insert (parser->future_refs, (gpointer)nname, list);
     }
 }
