@@ -227,6 +227,13 @@ on_about_activate (GtkWidget *w, gpointer data)
   gtk_widget_show (about_);
 }
 
+void
+on_about_clicked (GtkWidget *w)
+{
+  if (about_) gtk_widget_hide (about_);
+}
+
+
 
 static void
 init_info_ (void)
