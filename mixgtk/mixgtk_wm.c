@@ -23,7 +23,6 @@
 
 #include "mixgtk_wm.h"
 
-#include "mixgtk_widgets.h"
 #include "mixgtk_config.h"
 #include "mixgtk_device.h"
 #include "mixgtk_mixvm.h"
@@ -53,6 +52,9 @@ static GtkContainer *mixvm_container_ = NULL;
 static GtkContainer *mixal_container_ = NULL;
 static GtkContainer *dev_container_ = NULL;
 
+static GtkToolItem *attach_button_ = NULL;
+static GtkToolItem *detach_button_ = NULL;
+
 static const gchar *TB_MENU_NAME_ = "show_toolbars";
 static GtkCheckMenuItem *tb_menu_ = NULL;
 static GtkNotebook *notebook_ = NULL;
@@ -78,6 +80,7 @@ static void mixal_attach_ (void);
 static void mixal_detach_ (void);
 static void dev_attach_ (void);
 static void dev_detach_ (void);
+static void update_attach_buttons_ (void);
 static void on_nb_switch_ (GtkNotebook *notebook, GtkWidget *page,
                            guint page_num, gpointer user_data);
 
@@ -104,6 +107,7 @@ mixgtk_wm_init (void)
   init_mixvm_ ();
   init_mixal_ ();
   init_dev_ ();
+  init_tb_ ();
 
   for (k = 0; k < INF_NO_; ++k)
     {
@@ -113,7 +117,6 @@ mixgtk_wm_init (void)
         mixgtk_wm_attach_window (k);
     }
 
-  init_tb_ ();
   init_about_ ();
   init_autosave_ ();
   init_visibility_ ();
@@ -135,6 +138,7 @@ mixgtk_wm_detach_window (mixgtk_window_id_t w)
       if (gtk_notebook_get_n_pages (notebook_) < 1)
         gtk_widget_hide (GTK_WIDGET (notebook_));
       gtk_widget_show (mixgtk_widget_factory_get_dialog (infos_[w].dialog));
+      update_attach_buttons_ ();
     }
 }
 
@@ -154,6 +158,7 @@ mixgtk_wm_attach_window (mixgtk_window_id_t w)
       mixgtk_config_update (infos_[w].config_key, DETACH_NO_);
       if (gtk_notebook_get_n_pages (notebook_) == 1)
         gtk_widget_show (GTK_WIDGET (notebook_));
+      update_attach_buttons_ ();
     }
 }
 
@@ -443,6 +448,14 @@ init_tb_ (void)
 
   g_signal_connect (G_OBJECT (tb_menu_), "toggled",
                     G_CALLBACK (on_show_toolbars_toggled), NULL);
+
+  attach_button_ = GTK_TOOL_ITEM
+    (mixgtk_widget_factory_get (MIXGTK_MAIN, MIXGTK_WIDGET_ATTACH_BUTTON));
+  detach_button_ = GTK_TOOL_ITEM
+    (mixgtk_widget_factory_get (MIXGTK_MAIN, MIXGTK_WIDGET_DETACH_BUTTON));
+
+  g_assert (attach_button_);
+  g_assert (detach_button_);
 }
 
 static void
@@ -574,5 +587,28 @@ on_nb_switch_ (GtkNotebook *notebook, GtkWidget *page,
       && (page != infos_[MIXGTK_MIXAL_WINDOW].widget))
     mixgtk_mixal_pop_status ();
 }
+
+static void
+update_attach_buttons_ (void)
+{
+  gint k;
+  gboolean wants_attach = FALSE;
+  gboolean wants_detach = FALSE;
+
+  g_assert (attach_button_);
+  g_assert (detach_button_);
+
+  for (k = 0; k < INF_NO_; ++k)
+    {
+      wants_attach = wants_attach || infos_[k].detached;
+      wants_detach = wants_detach || !infos_[k].detached;
+    }
+
+  gtk_tool_item_set_visible_horizontal (attach_button_, wants_attach);
+  gtk_tool_item_set_visible_vertical (attach_button_, wants_attach);
+  gtk_tool_item_set_visible_horizontal (detach_button_, wants_detach);
+  gtk_tool_item_set_visible_vertical (detach_button_, wants_detach);
+}
+
 
 

@@ -49,6 +49,7 @@ static const gchar * dnames_[] = {
 static const gchar *names_[] = {
   "main_statusbar",
   "attach_button",
+  "detach_button",
   "main_notebook",
   "mixvm_widget",
   "mixvm_container",

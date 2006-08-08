@@ -798,7 +798,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkToolButton" id="dettach_button">
+		<widget class="GtkToolButton" id="detach_button">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Detach window</property>
 		  <property name="label" translatable="yes">Detach</property>
