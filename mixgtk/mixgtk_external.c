@@ -89,6 +89,9 @@ void
 init_widgets_ (void)
 {
   gint k;
+  GtkFileFilter *filter = gtk_file_filter_new ();
+
+  g_assert (filter);
 
   ext_dlg_ = mixgtk_widget_factory_get_dialog (MIXGTK_EXTERNPROG_DIALOG);
   g_assert (ext_dlg_ != NULL);
@@ -99,6 +102,12 @@ init_widgets_ (void)
         (MIXGTK_EXTERNPROG_DIALOG, ext_wdg_names_[k]);
       g_assert (ext_wdg_[k]);
     }
+
+  gtk_file_filter_add_mime_type (filter, "application/x-executable");
+  gtk_file_chooser_set_filter
+    (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_asm_chooser]), filter);
+  gtk_file_chooser_set_filter
+    (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_ed_chooser]), filter);
 }
 
 void
