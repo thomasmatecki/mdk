@@ -34,6 +34,7 @@ bin_PROGRAMS = gmixvm
 gmixvm_SOURCES = gmixvm.c mixgtk.h mixgtk.c \
                  mixgtk_config.h mixgtk_config.c \
                  mixgtk_gen_handlers.h mixgtk_gen_handlers.c \
+		 mixgtk_external.h mixgtk_external.c \
 		 mixgtk_cmd_dispatcher.h mixgtk_cmd_dispatcher.c \
                  mixgtk_widgets.h mixgtk_widgets.c \
                  mixgtk_device.h mixgtk_device.c \

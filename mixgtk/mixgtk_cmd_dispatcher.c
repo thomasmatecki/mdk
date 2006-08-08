@@ -43,6 +43,7 @@
 #include "mixgtk_mixal.h"
 #include "mixgtk_fontsel.h"
 #include "mixgtk_config.h"
+#include "mixgtk_external.h"
 #include "mixgtk_cmd_dispatcher.h"
 
 
@@ -60,13 +61,6 @@ typedef struct mixgtk_dispatch_
 } mixgtk_dispatch_data_t;
 
 static struct mixgtk_dispatch_ dis_data_ = {NULL};
-
-static GtkWidget *ext_dlg_ = NULL;
-static GtkWidget *ed_entry_ = NULL;
-static GtkWidget *asm_entry_ = NULL;
-
-static const gchar *ED_NAME_ = "editor_entry";
-static const gchar *ASM_NAME_ = "mixasm_entry";
 
 static const gchar *TITLE_FORMAT_ = "gmixvm - %s";
 
@@ -221,68 +215,6 @@ install_hooks_ (void)
 				   NULL);
 }
 
-/* configuration stuff */
-static const gchar *EDITOR_KEY_ = "Editor";
-static const gchar *MIXASM_KEY_ = "Mixasm";
-
-static void
-read_config_ (void)
-{
-  const gchar *editor = mixgtk_config_get (EDITOR_KEY_);
-  const gchar *assem = mixgtk_config_get (MIXASM_KEY_);
-
-  if (!editor)
-    {
-      static const gchar *ENV[] = {"MDK_EDITOR", "X_EDITOR", NULL};
-      gchar *edit = NULL;
-      int k = 0;
-      while (!edit && ENV[k]) edit = getenv (ENV[k++]);
-      if (edit) edit = g_strconcat (edit, " %s", NULL);
-      else edit = g_strdup ("xterm -e vi %s");
-      mix_vm_cmd_dispatcher_set_editor (dis_data_.dispatcher, edit);
-      g_free (edit);
-    }
-  else
-    {
-      mix_vm_cmd_dispatcher_set_editor (dis_data_.dispatcher, editor);
-    }
-  if (!assem) assem = "mixasm %s";
-  mix_vm_cmd_dispatcher_set_assembler (dis_data_.dispatcher, assem);
-
-}
-
-void
-on_external_programs_activate ()
-{
-  if (!ext_dlg_)
-    {
-      ext_dlg_ = mixgtk_widget_factory_get_dialog (MIXGTK_EXTERNPROG_DIALOG);
-      g_return_if_fail (ext_dlg_ != NULL);
-      ed_entry_ = mixgtk_widget_factory_get_child_by_name
-	(MIXGTK_EXTERNPROG_DIALOG, ED_NAME_);
-      g_assert (ed_entry_);
-      asm_entry_ = mixgtk_widget_factory_get_child_by_name
-	(MIXGTK_EXTERNPROG_DIALOG, ASM_NAME_);
-      g_assert (asm_entry_);
-    }
-  gtk_entry_set_text (GTK_ENTRY (ed_entry_),
-		      mix_vm_cmd_dispatcher_get_editor (dis_data_.dispatcher));
-  gtk_entry_set_text (GTK_ENTRY (asm_entry_),
-		      mix_vm_cmd_dispatcher_get_assembler
-		      (dis_data_.dispatcher));
-  gtk_widget_show (ext_dlg_);
-  if (gtk_dialog_run (GTK_DIALOG (ext_dlg_)) == GTK_RESPONSE_OK)
-    {
-      const gchar *value = gtk_entry_get_text (GTK_ENTRY (ed_entry_));
-      mix_vm_cmd_dispatcher_set_editor (dis_data_.dispatcher, value);
-      mixgtk_config_update (EDITOR_KEY_, value);
-      value = gtk_entry_get_text (GTK_ENTRY (asm_entry_));
-      mix_vm_cmd_dispatcher_set_assembler (dis_data_.dispatcher, value);
-      mixgtk_config_update (MIXASM_KEY_, value);
-    }
-
-  gtk_widget_hide (ext_dlg_);
-}
 
 /* initialise the command dispatcher */
 gboolean
@@ -290,10 +222,6 @@ mixgtk_cmd_dispatcher_init (mixgtk_dialog_id_t top)
 {
   static gboolean restart = FALSE;
   gchar *text = NULL;
-
-  ext_dlg_ = NULL;
-  ed_entry_ = NULL;
-  asm_entry_ = NULL;
 
   dis_data_.prompt =
     mixgtk_widget_factory_get (top, MIXGTK_WIDGET_PROMPT);
@@ -354,7 +282,9 @@ mixgtk_cmd_dispatcher_init (mixgtk_dialog_id_t top)
   dis_data_.context = gtk_statusbar_get_context_id (GTK_STATUSBAR
 						    (dis_data_.status),
 						    "cmd_dis_context");
-  if (!restart) read_config_ ();
+
+  if (!restart) mixgtk_external_init (dis_data_.dispatcher);
+
   if (dis_data_.last_file)
     gtk_window_set_title
       (GTK_WINDOW (mixgtk_widget_factory_get_dialog (MIXGTK_MAIN)),

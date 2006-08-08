@@ -1835,11 +1835,12 @@ disk7</property>
 </widget>
 
 <widget class="GtkDialog" id="external_dialog">
+  <property name="border_width">1</property>
   <property name="title" translatable="yes">External programs</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
-  <property name="resizable">True</property>
+  <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
   <property name="decorated">True</property>
   <property name="skip_taskbar_hint">False</property>
@@ -1906,6 +1907,7 @@ disk7</property>
 
 	  <child>
 	    <widget class="GtkFixed" id="fixed3">
+	      <property name="border_width">9</property>
 	      <property name="visible">True</property>
 
 	      <child>
@@ -1913,18 +1915,19 @@ disk7</property>
 		  <property name="width_request">0</property>
 		  <property name="height_request">0</property>
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Enter the arguments for the editor. %s will be substituted by the full path to the MIXAL file to edit. </property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
 		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes">xterm -e vi %s</property>
+		  <property name="text" translatable="yes">-e vi %s</property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char">*</property>
 		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
-		  <property name="x">256</property>
-		  <property name="y">12</property>
+		  <property name="x">168</property>
+		  <property name="y">24</property>
 		</packing>
 	      </child>
 
@@ -1933,7 +1936,7 @@ disk7</property>
 		  <property name="width_request">0</property>
 		  <property name="height_request">0</property>
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Editor command (e.g xterm -e vi %s)</property>
+		  <property name="label" translatable="yes">Editor command and arguments (e.g -e vi %s)</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1950,7 +1953,25 @@ disk7</property>
 		</widget>
 		<packing>
 		  <property name="x">8</property>
-		  <property name="y">15</property>
+		  <property name="y">0</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkFileChooserButton" id="editor_chooser">
+		  <property name="width_request">151</property>
+		  <property name="height_request">31</property>
+		  <property name="visible">True</property>
+		  <property name="title" translatable="yes">Select A File</property>
+		  <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+		  <property name="local_only">True</property>
+		  <property name="show_hidden">False</property>
+		  <property name="do_overwrite_confirmation">False</property>
+		  <property name="width_chars">-1</property>
+		</widget>
+		<packing>
+		  <property name="x">8</property>
+		  <property name="y">24</property>
 		</packing>
 	      </child>
 	    </widget>
@@ -1963,51 +1984,71 @@ disk7</property>
 
 	  <child>
 	    <widget class="GtkFixed" id="fixed4">
+	      <property name="border_width">9</property>
 	      <property name="visible">True</property>
-
-	      <child>
-		<widget class="GtkEntry" id="mixasm_entry">
-		  <property name="width_request">0</property>
-		  <property name="height_request">0</property>
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="editable">True</property>
-		  <property name="visibility">True</property>
-		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes">mixasm %s</property>
-		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
-		  <property name="activates_default">False</property>
-		</widget>
-		<packing>
-		  <property name="x">255</property>
-		  <property name="y">4</property>
-		</packing>
-	      </child>
 
 	      <child>
 		<widget class="GtkLabel" id="label235">
 		  <property name="width_request">0</property>
 		  <property name="height_request">0</property>
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">MIX sssembler command (e.g. mixasm %s)</property>
+		  <property name="label" translatable="yes">MIX asssembler path</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
+		  <property name="xalign">0.479999989271</property>
+		  <property name="yalign">0.52999997139</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
-		  <property name="single_line_mode">False</property>
+		  <property name="single_line_mode">True</property>
 		  <property name="angle">0</property>
 		</widget>
 		<packing>
 		  <property name="x">8</property>
 		  <property name="y">8</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkFileChooserButton" id="mixasm_chooser">
+		  <property name="width_request">151</property>
+		  <property name="height_request">31</property>
+		  <property name="visible">True</property>
+		  <property name="title" translatable="yes">Select mixasm executable</property>
+		  <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+		  <property name="local_only">True</property>
+		  <property name="show_hidden">False</property>
+		  <property name="do_overwrite_confirmation">False</property>
+		  <property name="width_chars">-1</property>
+		</widget>
+		<packing>
+		  <property name="x">8</property>
+		  <property name="y">32</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkCheckButton" id="mixasm_mls">
+		  <property name="width_request">152</property>
+		  <property name="height_request">24</property>
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">If checked, mixasm will be called with the --listing flag.</property>
+		  <property name="can_focus">True</property>
+		  <property name="label" translatable="yes">Generate listing file</property>
+		  <property name="use_underline">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">False</property>
+		  <property name="active">False</property>
+		  <property name="inconsistent">False</property>
+		  <property name="draw_indicator">True</property>
+		</widget>
+		<packing>
+		  <property name="x">176</property>
+		  <property name="y">32</property>
 		</packing>
 	      </child>
 	    </widget>

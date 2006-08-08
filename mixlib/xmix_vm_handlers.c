@@ -286,10 +286,38 @@ cmd_compile_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
   else
     {
       gchar *cmd = g_strdup_printf (dis->assembler, arg);
+      gchar *errors = NULL;
+      gchar *output = NULL;
+      gint exit_status;
+      gboolean result;
+      GError *gerr = NULL;
+
       if (wants_logs_ (dis)) log_message_ (dis, cmd);
-      if (system (cmd) == EXIT_SUCCESS && wants_logs_ (dis))
-	log_message_ (dis, _("Successful compilation"));
+
+      result =
+        g_spawn_command_line_sync (cmd, &output, &errors, &exit_status, &gerr);
+
+      if (output)
+        {
+          log_message_ (dis, output);
+        }
+
+      if (errors != NULL)
+        {
+          log_message_ (dis, errors);
+        }
+      else if ((exit_status != 0) || !result)
+        {
+          log_error_ (dis, _("Compilation failed"));
+          if (gerr && gerr->message) log_error_ (dis, gerr->message);
+        }
+
+      if (gerr) g_free (gerr);
+      if (output) g_free (output);
+      if (errors) g_free (errors);
+
       g_free (cmd);
+
       return TRUE;
     }
 }

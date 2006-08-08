@@ -1,5 +1,5 @@
-BB     EQU  1(4:4)
-BMAX   EQU  BB-1
+B      EQU  1(4:4)
+BMAX   EQU  B-1
 UMAX   EQU  20
 TABLE  NOP  GOOD(BMAX)
        ADD  FLOAT(5:5)
