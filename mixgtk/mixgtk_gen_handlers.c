@@ -45,8 +45,10 @@ get_chooser_ (const gchar *title, gboolean src)
                                       NULL));
       src_filter = gtk_file_filter_new ();
       gtk_file_filter_add_pattern (src_filter, "*.mixal");
+      gtk_file_filter_set_name (src_filter, "MIXAL files");
       code_filter = gtk_file_filter_new ();
       gtk_file_filter_add_pattern (code_filter, "*.mix");
+      gtk_file_filter_set_name (code_filter, "MIX files");
       gtk_file_chooser_add_filter (dialog, src_filter);
       gtk_file_chooser_add_filter (dialog, code_filter);
     }
