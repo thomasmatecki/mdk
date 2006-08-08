@@ -61,7 +61,7 @@ static SCM
 mixvm_cmd_ (SCM cmd, SCM arg)
 {
   char *com = NULL, *argu = NULL;
-  unsigned int len;
+  size_t len;
   gboolean result;
 
   SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd),
@@ -113,7 +113,7 @@ static SCM
 mix_reg_ (SCM reg)
 {
   char *regis;
-  unsigned int len;
+  size_t len;
   long val = MIX_WORD_MAX + 1;
 
   SCM_ASSERT (SCM_STRINGP (reg) || SCM_SYMBOLP (reg), reg, SCM_ARG1, "mix-reg");
@@ -151,7 +151,7 @@ static SCM
 mix_set_reg_ (SCM reg, SCM value)
 {
   char *regis;
-  unsigned int len;
+  size_t len;
   long val;
   gboolean result = TRUE;
 
@@ -255,7 +255,7 @@ static SCM
 mix_set_cmp_ (SCM value)
 {
   gchar *val = NULL;
-  unsigned int len;
+  size_t len;
   mix_cmpflag_t result = -1;
 
   SCM_ASSERT (SCM_STRINGP (value) || SCM_SYMBOLP (value), value, SCM_ARG1,
@@ -456,7 +456,7 @@ mix_add_hook_ (SCM cmd, SCM function, gboolean pre)
 {
   gchar *cmdstr = NULL;
   mix_vm_command_t command;
-  unsigned int len;
+  size_t len;
   const gchar *fun = pre? "mix-add-pre-hook" : "mix-add-post-hook";
 
   SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd), cmd, SCM_ARG1, fun);
