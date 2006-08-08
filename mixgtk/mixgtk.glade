@@ -2412,7 +2412,7 @@ disk7</property>
 	      <child>
 		<widget class="GtkToolButton" id="button21">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Output font</property>
+		  <property name="tooltip" translatable="yes">Change output font</property>
 		  <property name="label" translatable="yes">Font</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_id">gtk-select-font</property>
@@ -2443,6 +2443,7 @@ disk7</property>
 	      <child>
 		<widget class="GtkToolButton" id="attach_button">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Attach window</property>
 		  <property name="label" translatable="yes"></property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_id">gtk-dnd</property>
@@ -2671,6 +2672,7 @@ disk7</property>
 	      <child>
 		<widget class="GtkToolButton" id="toolbutton2">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Change font</property>
 		  <property name="label" translatable="yes">Font</property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_id">gtk-select-font</property>
@@ -2701,6 +2703,7 @@ disk7</property>
 	      <child>
 		<widget class="GtkToolButton" id="attach_button">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Attach window</property>
 		  <property name="label" translatable="yes"></property>
 		  <property name="use_underline">True</property>
 		  <property name="stock_id">gtk-dnd</property>
