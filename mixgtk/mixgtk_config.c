@@ -30,9 +30,10 @@
 #include "mixgtk_config.h"
 
 static const gchar *MIXGTK_CONFIG_FILE_ = "gmixvm.config";
-static const gchar *SHOW_TB_KEY = "Toolbars";
-static const gchar *TB_YES = "Yes";
-static const gchar *TB_NO = "No";
+static const gchar *SHOW_TB_KEY_ = "Toolbars";
+static const gchar *TB_YES_ = "Yes";
+static const gchar *TB_NO_ = "No";
+static const gchar *TB_STYLE_KEY_ = "ToolbarStyle";
 
 static mix_config_t *config_ = NULL;
 
@@ -47,6 +48,7 @@ mixgtk_config_load (void)
       config_ = mix_config_new (cdir, MIXGTK_CONFIG_FILE_);
       g_free (cdir);
     }
+
   return (config_ != NULL);
 }
 
@@ -68,6 +70,18 @@ void
 mixgtk_config_set_autosave (gboolean autosave)
 {
   mix_config_set_autosave (config_, autosave);
+}
+
+guint
+mixgtk_config_tb_style (void)
+{
+  return (guint)mix_config_get_integer (config_, TB_STYLE_KEY_);
+}
+
+void
+mixgtk_config_set_tb_style (guint style)
+{
+  mix_config_update_integer (config_, TB_STYLE_KEY_, (gint)style);
 }
 
 /* update config item */
@@ -100,12 +114,12 @@ mixgtk_config_save (void)
 gboolean
 mixgtk_config_show_toolbars (void)
 {
-  const gchar *show = mixgtk_config_get (SHOW_TB_KEY);
-  return (!show || !strcmp (show, TB_YES));
+  const gchar *show = mixgtk_config_get (SHOW_TB_KEY_);
+  return (!show || !strcmp (show, TB_YES_));
 }
 
 void
 mixgtk_config_set_show_toolbars (gboolean show)
 {
-  mixgtk_config_update (SHOW_TB_KEY, show? TB_YES : TB_NO);
+  mixgtk_config_update (SHOW_TB_KEY_, show? TB_YES_ : TB_NO_);
 }

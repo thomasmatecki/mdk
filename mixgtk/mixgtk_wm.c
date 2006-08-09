@@ -81,6 +81,7 @@ static void mixal_detach_ (void);
 static void dev_attach_ (void);
 static void dev_detach_ (void);
 static void update_attach_buttons_ (void);
+static void on_tb_style_ (GtkMenuItem *w, gpointer style);
 static void on_nb_switch_ (GtkNotebook *notebook, GtkWidget *page,
                            guint page_num, gpointer user_data);
 
@@ -222,7 +223,6 @@ on_widget_attach (GtkWidget *ign, gpointer id)
 {
   mixgtk_wm_attach_window (GPOINTER_TO_INT (id));
 }
-
 
 /* about box */
 void
@@ -438,6 +438,10 @@ init_dev_ (void)
 static void
 init_tb_ (void)
 {
+  gchar *names[4];
+  gint k;
+  gint tb_style = mixgtk_config_tb_style ();
+
   tb_menu_ = GTK_CHECK_MENU_ITEM
     (mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN,
   					      TB_MENU_NAME_));
@@ -456,6 +460,47 @@ init_tb_ (void)
 
   g_assert (attach_button_);
   g_assert (detach_button_);
+
+  names[GTK_TOOLBAR_ICONS] = "tb_style_icons";
+  names[GTK_TOOLBAR_TEXT] = "tb_style_labels";
+  names[GTK_TOOLBAR_BOTH] = "tb_style_both";
+  names[GTK_TOOLBAR_BOTH_HORIZ] = "tb_style_bothh";
+
+  for (k = 0; k < 4; ++k)
+    {
+      GtkWidget *item =
+        mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN, names[k]);
+      g_signal_connect (G_OBJECT (item),
+                        "activate",
+                        G_CALLBACK (on_tb_style_), GUINT_TO_POINTER (k));
+      if (k == tb_style)
+        {
+          gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+        }
+    }
+}
+
+static void
+on_tb_style_ (GtkMenuItem *w, gpointer style)
+{
+  static const gchar *TB_NAME = "main_toolbar";
+  static const gchar *TB_DNAME = "dlg_toolbar";
+
+  guint ui_style = GPOINTER_TO_UINT (style);
+  gint k;
+
+  GtkToolbar *tb = GTK_TOOLBAR
+    (mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN, TB_NAME));
+  gtk_toolbar_set_style (tb, ui_style);
+
+  for (k = 0; k < INF_NO_; ++k)
+    {
+      GtkToolbar *tb = GTK_TOOLBAR
+        (mixgtk_widget_factory_get_child_by_name (infos_[k].dialog, TB_DNAME));
+      gtk_toolbar_set_style (tb, ui_style);
+    }
+
+  mixgtk_config_set_tb_style (ui_style);
 }
 
 static void
@@ -463,7 +508,7 @@ show_toolbars_ (gboolean show)
 {
   static const gchar *HANDLE_NAME = "tb_handle";
 
-  int k;
+  gint k;
 
   GtkWidget *handle =
     mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN, HANDLE_NAME);

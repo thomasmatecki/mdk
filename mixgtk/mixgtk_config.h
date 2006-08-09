@@ -41,6 +41,13 @@ mixgtk_config_is_autosave (void);
 extern void
 mixgtk_config_set_autosave (gboolean autosave);
 
+/* toolbar style */
+extern guint
+mixgtk_config_tb_style (void);
+
+extern void
+mixgtk_config_set_tb_style (guint style);
+
 /* update config item */
 extern void
 mixgtk_config_update (const gchar *key, const gchar *value);
