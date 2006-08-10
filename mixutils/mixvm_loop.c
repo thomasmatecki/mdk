@@ -59,7 +59,7 @@ readline (char *prompt)
 static char *line_read = (char *)NULL;
 
 #define PROMPT_LEN 128
-static char PROMPT[PROMPT_LEN + 1] = {'M', 'I', 'X', ' ', '>'};
+static char PROMPT[PROMPT_LEN + 1] = {'M', 'I', 'X', '>', ' '};
 static const char *CONFIG_FILE_ = "mixvm.config";
 static const char *PROMPT_KEY_ = "Prompt";
 
