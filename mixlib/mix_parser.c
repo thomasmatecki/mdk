@@ -548,7 +548,8 @@ add_raw_ (mix_parser_t *parser, mix_word_t word, guint lineno)
       ins_node_ *node = g_new (ins_node_, 1);
       node->ins = word;
       node->lineno = lineno;
-      g_tree_insert (parser->ins_table, (gpointer)((guint)parser->loc_count),
+      g_tree_insert (parser->ins_table,
+                     GUINT_TO_POINTER ((guint)parser->loc_count),
 		     (gpointer)node);
     }
 }

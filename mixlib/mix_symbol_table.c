@@ -122,7 +122,7 @@ mix_symbol_table_add (mix_symbol_table_t *table,
   if ( !g_hash_table_lookup_extended (table, sym, &key, &val) )
     {
       key = g_strdup (sym);
-      g_hash_table_insert (table, key, GINT_TO_POINTER (value));
+      g_hash_table_insert (table, key, GUINT_TO_POINTER (value));
       return MIX_SYM_OK;
     }
   else
@@ -141,7 +141,7 @@ mix_symbol_table_insert (mix_symbol_table_t *table,
 
   if ( !g_hash_table_lookup_extended (table, sym, &key, &val) )
       key = g_strdup (sym);
-  g_hash_table_insert (table, key, GINT_TO_POINTER (new_value));
+  g_hash_table_insert (table, key, GUINT_TO_POINTER (new_value));
   return MIX_SYM_OK;
 }
 
