@@ -121,8 +121,8 @@ insert_symbol_ (gpointer symbol, gpointer value, gpointer data)
 
   mix_word_t w = (mix_word_t)GPOINTER_TO_INT (value);
   g_snprintf (DEC, DEC_SIZE, "%s%ld",
-	    mix_word_is_negative (w)? "-" : "+",
-	    mix_word_magnitude (w));
+              mix_word_is_negative (w)? "-" : "+",
+              mix_word_magnitude (w));
   mix_word_print_to_buffer (w, WORD);
 
   gtk_list_store_append (symbols_store_, &iter);

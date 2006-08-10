@@ -9,7 +9,7 @@
 
 @set UPDATED August, 2006
 @set EDITION 1.2.2
-@set VERSION 1.2.2
+@set VERSION 1.2.3
 @set JAO Jose Antonio Ortega Ruiz
 @set PHILIP Philip E. King
 @set PIETER Pieter E. J. Pareit

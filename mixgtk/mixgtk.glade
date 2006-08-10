@@ -726,6 +726,19 @@
 	      </child>
 
 	      <child>
+		<widget class="GtkSeparatorToolItem" id="separatortoolitem13">
+		  <property name="visible">True</property>
+		  <property name="draw">True</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">False</property>
+		</packing>
+	      </child>
+
+	      <child>
 		<widget class="GtkToolButton" id="run_button">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Run</property>

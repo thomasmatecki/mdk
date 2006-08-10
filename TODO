@@ -1,8 +1,6 @@
 -*- mode: outline -*-
 
-* Version 1.2.3
-** Self-local symbols 'SYM EQU SYM+1' (valid?)
-** Output of compilation command in gmixvm window
+* Version 1.2.4
 ** gmixvm: list of last loaded programs
 
 * Misc
