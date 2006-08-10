@@ -6,6 +6,29 @@ See the end for copying conditions.
 Please send mdk bug reports to bug-mdk@gnu.org.
 
 ---------------------------------------------------------------------------
+* Version 1.2.3 (11/08/06)
+
+** GUI improvements:
+
+   - The external programs dialog has been revamped:
+     - Only proper paths can be introduced for the executables (via a
+       graphical file chooser).
+     - Flags for mixasm are no longer free text, but a check button.
+
+   - Configurable toolbars (icons, text or both).
+   - Attach/detach buttons in main toolbar are only active when
+     meaningful.
+
+   - Missing toolbar tooltips added.
+   - 'About' dialog cleaned up.
+
+** Supported platforms:
+
+   - Fixed compilation for Darwin (thanks to Aleix Conchillo).
+   - Fixed compilation for 64-bit archs (thanks to Baruch Even).
+
+
+---------------------------------------------------------------------------
 * Version 1.2.2 (07/08/06)
 
 ** MIXAL compliance fixes (thanks to Xiaofeng Zhao):
