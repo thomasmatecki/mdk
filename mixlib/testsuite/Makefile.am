@@ -19,7 +19,7 @@ TESTS = $(check_PROGRAMS)
 
 MIXAL_FILES= "\"tests/bt\",\"tests/cbp\",\"tests/stress0\",\"tests/stress1\",\"tests/stress2\",\"tests/stress4\",\"tests/stress5\",\"tests/stress6\",\"tests/ldan\",\"tests/lockonw\",\"tests/negwrite\",\"hello\",\"echo\",\"primes\",\"isains\""
 
-AM_CFLAGS = -DMIX_TEST_MIXAL_FILES=$(MIXAL_FILES) -DMIX_TEST_SAMPLES_DIR="\"$(top_srcdir)/samples\""
+AM_CFLAGS += -DMIX_TEST_MIXAL_FILES=$(MIXAL_FILES) -DMIX_TEST_SAMPLES_DIR="\"$(top_srcdir)/samples\""
 
 mixtypest_SOURCES = test.h mix_types_t.c
 mixinstest_SOURCES = test.h mix_ins_t.c
