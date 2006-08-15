@@ -172,8 +172,6 @@ mixgtk_mixvm_update_cmp (void)
 {
   gint toggle;
 
-  g_assert (cmp_buttons_);
-
   toggle = mix_vm_get_cmpflag (vm_);
   gtk_toggle_button_set_active (cmp_buttons_[toggle], TRUE);
 }
