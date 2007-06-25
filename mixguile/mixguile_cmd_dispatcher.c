@@ -1,24 +1,22 @@
 /* -*-c-*- -------------- mixguile_cmd_dispatcher.c :
  * Implementation of the functions declared in mixguile_cmd_dispatcher.h
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: "01/08/22 02:29:34 jao"
- * ------------------------------------------------------------------
- * Copyright (C) 2001 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2001, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 #include <stdio.h>
@@ -53,7 +51,7 @@ static mix_vm_command_info_t commands_[] = {
   { SCMF_CMD, cmd_scmf_, N_("Eval Scheme file using Guile"), "scm PATH"},
   {NULL}
 };
-  
+
 /* create/destroy cmd dispatcher */
 mixguile_cmd_dispatcher_t *
 mixguile_cmd_dispatcher_new (mix_vm_cmd_dispatcher_t *dis)
@@ -61,9 +59,9 @@ mixguile_cmd_dispatcher_new (mix_vm_cmd_dispatcher_t *dis)
   static gboolean REGISTERED = FALSE;
   mixguile_cmd_dispatcher_t *result = NULL;
   int k = 0;
-  
+
   g_return_val_if_fail (dis != NULL, NULL);
-  
+
   if (!REGISTERED)
     {
       register_scm_commands_ (DEFAULT_SCM_COMMANDS_);
@@ -72,15 +70,15 @@ mixguile_cmd_dispatcher_new (mix_vm_cmd_dispatcher_t *dis)
 
   result = g_new (mixguile_cmd_dispatcher_t, 1);
   result->dispatcher = dis;
-  
+
   while (commands_[k].name)
     {
       mix_vm_cmd_dispatcher_register_new (dis, commands_ + k);
       ++k;
     }
-  
+
   register_cmd_dispatcher_ (result);
-  
+
   return result;
 }
 

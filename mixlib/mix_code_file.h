@@ -1,23 +1,23 @@
 /* -*-c-*- ---------------- mix_code_file.h :
- * Declaration of mix_code_file_t, a file containing compiled mix 
+ * Declaration of mix_code_file_t, a file containing compiled mix
  * instructions.
  * ------------------------------------------------------------------
- * Copyright (C) 2000 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2000, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 
@@ -35,7 +35,7 @@ typedef struct mix_code_file_t mix_code_file_t;
    source line numbers
 */
 typedef struct mix_ins_desc_t mix_ins_desc_t;
-struct mix_ins_desc_t 
+struct mix_ins_desc_t
 {
   mix_word_t ins;		/* a mix instruction coded into a word */
   mix_address_t address;	/* the address of this instruction */
@@ -91,7 +91,7 @@ extern gboolean
 mix_code_file_write_ins(mix_code_file_t *file, const mix_ins_desc_t *desc);
 
 extern gboolean
-mix_code_file_write_next_ins(mix_code_file_t *file, mix_word_t ins, 
+mix_code_file_write_next_ins(mix_code_file_t *file, mix_word_t ins,
 			     guint lineno);
 
 extern gboolean
@@ -100,7 +100,7 @@ mix_code_file_set_address(mix_code_file_t *file, mix_address_t address);
 /* get details about the source file */
 extern const gchar *
 mix_code_file_get_source_path (const mix_code_file_t *file);
- 
+
 
 #endif /* MIX_CODE_FILE_H */
 

@@ -1,31 +1,29 @@
 /* -*-c-*- -------------- mix_predicate_list.c :
  * Implementation of the functions declared in mix_predicate_list.h
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: "01/07/18 23:02:26 jao"
- * ------------------------------------------------------------------
- * Copyright (C) 2001 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2001, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 
 #include "mix_predicate_list.h"
 
 /* the predicate list type */
-struct mix_predicate_list_t 
+struct mix_predicate_list_t
 {
   GSList *predicates;
   const mix_vm_t *vm;
@@ -58,7 +56,7 @@ gboolean
 mix_predicate_list_eval (mix_predicate_list_t *list)
 {
   GSList *node;
-  
+
   g_return_val_if_fail (list != NULL, FALSE);
   node = list->predicates;
   while (node) {

@@ -1,24 +1,22 @@
 /* -*-c-*- -------------- mix_eval.c :
  * Implementation of the functions declared in mix_eval.h
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: "01/02/20 00:23:58 jose"
- * ------------------------------------------------------------------
- * Copyright (C) 2000 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2000, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 
@@ -37,7 +35,7 @@ static const gchar *errors_[] = {
 
 /* create a new evaluator */
 mix_eval_t *
-mix_eval_new (void) 
+mix_eval_new (void)
 {
   mix_eval_t *result = g_new (mix_eval_t, 1);
   result->table = mix_symbol_table_new ();
@@ -80,7 +78,7 @@ mix_eval_expression_with_loc (mix_eval_t *eval, const gchar *expr,
 			      mix_short_t loc)
 {
   mix_eval_data_ data;
-  
+
   if (expr == NULL || eval == NULL)
     return MIX_EVAL_INTERN;
   data.expr = g_strdup_printf ("%s\n", expr);
@@ -96,21 +94,21 @@ mix_eval_expression_with_loc (mix_eval_t *eval, const gchar *expr,
     eval->errpos = data.errpos;
   }
   g_free (data.expr);
-    
+
   return eval->result;
 }
 
 /* get the result of the last evaluation */
 mix_word_t
-mix_eval_value (const mix_eval_t *eval) 
+mix_eval_value (const mix_eval_t *eval)
 {
   g_return_val_if_fail (eval != NULL, MIX_WORD_ZERO);
   return eval->value;
 }
 
 /* get the last eval result code */
-mix_eval_result_t 
-mix_eval_last_error (const mix_eval_t *eval) 
+mix_eval_result_t
+mix_eval_last_error (const mix_eval_t *eval)
 {
   g_return_val_if_fail (eval != NULL, MIX_EVAL_INTERN);
   return eval->result;
@@ -118,7 +116,7 @@ mix_eval_last_error (const mix_eval_t *eval)
 
 /* get the last error string */
 const gchar*
-mix_eval_last_error_string (const mix_eval_t *eval) 
+mix_eval_last_error_string (const mix_eval_t *eval)
 {
   g_return_val_if_fail (eval != NULL, errors_[MIX_EVAL_INTERN]);
   return errors_[eval->result];

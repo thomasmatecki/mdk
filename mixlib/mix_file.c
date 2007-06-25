@@ -1,22 +1,22 @@
 /* -*-c-*- -------------- mix_file.c :
  * Implementation of the functions declared in mix_file.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001 Free Software Foundation, Inc. 
- *  
+ * Copyright (C) 2000, 2001, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 #include <string.h>
@@ -24,7 +24,7 @@
 #include "xmix_io.h"
 #include "mix_file.h"
 
-const gchar *MIX_SRC_DEFEXT = ".mixal", 
+const gchar *MIX_SRC_DEFEXT = ".mixal",
   *MIX_LIST_DEFEXT = ".mls", *MIX_CODE_DEFEXT = ".mix";
 
 /* file names completions */
@@ -35,7 +35,7 @@ const gchar *MIX_SRC_DEFEXT = ".mixal",
   g_strconcat(name, defext, NULL)
 
 /* The actual definition of mix_file_t */
-struct mix_file_t 
+struct mix_file_t
 {
   mix_iochannel_t parent;
   gchar *base_name;
@@ -56,7 +56,7 @@ open_file_(const gchar *name, mix_fmode_t mode)
       fmode = "r+";
       fclose (file);
     }
-  
+
   result = g_new(mix_file_t, 1);
   file = fopen(name, fmode);
   if ( file == NULL ) {
@@ -66,7 +66,7 @@ open_file_(const gchar *name, mix_fmode_t mode)
   io_init_from_file_(MIX_IOCHANNEL(result), file);
   return result;
 }
-  
+
 mix_file_t *
 mix_file_new(const gchar *name, mix_fmode_t mode)
 {
@@ -89,15 +89,15 @@ mix_file_new(const gchar *name, mix_fmode_t mode)
 
 /* creates a file adding to its name the defext if missing */
 mix_file_t *
-mix_file_new_with_def_ext(const gchar *name, mix_fmode_t mode, 
+mix_file_new_with_def_ext(const gchar *name, mix_fmode_t mode,
 			  const gchar *defext)
 {
   const gchar *real_name;
   mix_file_t *result;
-  
+
   if ( name == NULL ) return NULL;
   if ( defext == NULL ) return mix_file_new(name, mode);
-  real_name =  needs_completion_(name, defext) ? 
+  real_name =  needs_completion_(name, defext) ?
     add_completion_(name, defext) : name;
   result = open_file_(real_name, mode);
   if ( real_name != name ) g_free((void *)real_name);

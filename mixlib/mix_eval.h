@@ -1,24 +1,22 @@
 /* -*-c-*- ---------------- mix_eval.h :
  * mix_eval_t is an evaluator of MIX W-expressions
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: <01/02/20 00:23:58 jose>
- * ------------------------------------------------------------------
- * Copyright (C) 2000 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2000, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 
@@ -76,7 +74,7 @@ extern mix_word_t
 mix_eval_value (const mix_eval_t *eval);
 
 /* get the last eval result code */
-extern mix_eval_result_t 
+extern mix_eval_result_t
 mix_eval_last_error (const mix_eval_t *eval);
 
 /* get the last error string */

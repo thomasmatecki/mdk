@@ -1,24 +1,22 @@
 /* -*-c-*- -------------- mix_src_file.c :
  * Implementation of the functions declared in mix_src_file.h
  * ------------------------------------------------------------------
- *  Last change: Time-stamp: "01/03/10 15:23:46 jose"
- * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001 Free Software Foundation, Inc.
- *  
+ * Copyright (C) 2000, 2001, 2007 Free Software Foundation, Inc.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- *  
+ *
  */
 
 #include <ctype.h>
@@ -28,7 +26,7 @@
 #include "mix_src_file.h"
 
 /* the MIXAL source file type */
-struct mix_src_file_t 
+struct mix_src_file_t
 {
   gchar *path;			/* the path to the disk file */
   GPtrArray *lines;		/* an array of the file lines */
@@ -41,11 +39,11 @@ format_line_ (gchar *line)
 {
   const gchar *label, *op, *rest;
   gint k = 0;
-  
+
   if (!line) return line;
   if (line[0] == '*' || strlen(line) == 0)
     return g_strdup (line);
-  
+
   if (isspace (line[0]))
     {
       label = " ";
@@ -57,7 +55,7 @@ format_line_ (gchar *line)
       while (line[k] && !isspace (line[k])) ++k;
       while (line[k] && isspace (line[k])) ++k;
     }
-  
+
   if (line[k])
     {
       line[k - 1] = 0;
@@ -71,8 +69,8 @@ format_line_ (gchar *line)
     {
       op = rest = "";
     }
-  
-  
+
+
   return g_strdup_printf ("%-11s %-5s %s", label, op, rest);
 }
 
@@ -87,17 +85,17 @@ load_file_ (mix_src_file_t *file)
     {
       enum {BUFFER_SIZE = 256};
       static gchar BUFFER[BUFFER_SIZE];
-      
+
       FILE  *f = mix_file_to_FILE (mf);
       file->lines = g_ptr_array_new ();
       file->lineno = 0;
-      
+
       while (fgets (BUFFER, BUFFER_SIZE, f) == BUFFER)
 	{
 	  g_ptr_array_add (file->lines, (gpointer) format_line_ (BUFFER));
 	  file->lineno++;
 	}
-      
+
       mix_file_delete (mf);
       return TRUE;
     }

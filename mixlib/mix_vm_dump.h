@@ -2,22 +2,22 @@
  * This file declares types and functions for dumping the contents
  * of a mix virtual machine.
  * ------------------------------------------------------------------
-** Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-**  
+** Copyright (C) 2000, 2001, 2007 Free Software Foundation, Inc.
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
+** the Free Software Foundation; either version 3 of the License, or
 ** (at your option) any later version.
-**  
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**  
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-**  
+**
 */
 
 
@@ -29,7 +29,7 @@
 
 /* Dump context: a structure defining the properties of dumping */
 typedef struct mix_dump_context_t mix_dump_context_t;
-struct mix_dump_context_t 
+struct mix_dump_context_t
 {
   /* flags activating dumps (see enum below) */
   guint32 options;
@@ -52,7 +52,7 @@ struct mix_dump_context_t
 #define MIX_DUMP_rI5 (1<<7)
 #define MIX_DUMP_rI6 (1<<8)
 #define MIX_DUMP_rIa MIX_DUMP_rI1|MIX_DUMP_rI2|MIX_DUMP_rI3  \
-		      |MIX_DUMP_rI4|MIX_DUMP_rI5|MIX_DUMP_rI6 
+		      |MIX_DUMP_rI4|MIX_DUMP_rI5|MIX_DUMP_rI6
 #define MIX_DUMP_rALL MIX_DUMP_rA|MIX_DUMP_rX|MIX_DUMP_rJ|MIX_DUMP_rIa
 #define MIX_DUMP_OVER (1<<9)
 #define MIX_DUMP_CMP  (1<<10)
@@ -86,6 +86,6 @@ do {						\
 extern void
 mix_vm_dump(const mix_vm_t *vm, const mix_dump_context_t *dc);
 
-  
+
 #endif /* MIX_VM_DUMP_H */
 
