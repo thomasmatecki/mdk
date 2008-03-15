@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_scanner.l :
  * Lexical scanner used by mix_parser_t
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -459,7 +459,7 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
     if (nof)
       {
         mix_parser_log_error (parser, MIX_PERR_INV_FSPEC,
-                              lineno, _("ignored"), TRUE);
+                              lineno, "ignored", TRUE);
       }
     else
       {
