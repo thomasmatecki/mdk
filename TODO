@@ -1,17 +1,14 @@
--*- mode: outline -*-
+-*- mode: org -*-
 
 * Version 1.2.4
 ** gmixvm: list of last loaded programs
-
 * Misc
 ** MIX types manipulation library in Scheme
 ** Macro recorder (implemented in Scheme)
 ** Add scheme functions to remove installed hooks
-
 ** Allow MIXAL instructions as commands at the mixvm prompt
-  (e.g. MIX > exec LDA 2000)
+   (e.g. MIX > exec LDA 2000)
 ** Add entries to concept index
-
 * Deprecated
 ** Sync docs with published book
 ** gtkhtml for help system
