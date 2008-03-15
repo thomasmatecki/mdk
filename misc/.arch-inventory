@@ -1,2 +1,0 @@
-precious ^(Makefile)$
-precious ^(Makefile\.in)$

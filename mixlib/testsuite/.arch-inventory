@@ -1,8 +1,0 @@
-junk ^(mixtypest)$
-junk ^(mixparsertest)$
-junk ^(mixinstest)$
-junk ^(mixevaltest)$
-junk ^(mixdevtest)$
-junk ^(mixvminstest)$
-precious ^(Makefile)$
-precious ^(Makefile\.in)$

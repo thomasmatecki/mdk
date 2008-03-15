@@ -1,3 +1,0 @@
-precious ^(Makefile)$
-precious ^(Makefile\.in)$
-junk ^(mixguile)$

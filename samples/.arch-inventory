@@ -1,4 +1,0 @@
-precious ^(Makefile)$
-precious ^(Makefile\.in)$
-junk (\.mix)$
-junk (\.mls)$

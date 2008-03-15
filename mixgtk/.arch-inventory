@@ -1,3 +1,0 @@
-precious ^(Makefile)$
-precious ^(gmixvm)$
-precious ^(Makefile\.in)$
