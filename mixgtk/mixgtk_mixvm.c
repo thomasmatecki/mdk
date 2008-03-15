@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_mixvm.c :
  * Implementation of the functions declared in mixgtk_mixvm.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@
 #define REGISTER_NO_ (MIXGTK_WIDGET_rI6 - MIXGTK_WIDGET_rA + 1)
 
 static GtkEntry *reg_entries_[REGISTER_NO_];
-static GtkTooltips *tips_ = NULL;
 static GtkEntry *loc_entry_;
 static GtkWidget *goto_ = NULL;
 static GtkEntry *goto_entry_ = NULL;
@@ -69,8 +68,6 @@ mixgtk_mixvm_init (mix_vm_t *vm)
   g_assert (vm != NULL);
 
   vm_ = vm;
-
-  if (!tips_) tips_ = gtk_tooltips_new ();
 
   for (k = 0; k < REGISTER_NO_; ++k)
     {
@@ -407,9 +404,8 @@ update_register_ (mixgtk_widget_id_t reg)
   gtk_entry_set_text (reg_entries_[reg - MIXGTK_WIDGET_rA], BUFFER);
   g_snprintf (BUFFER, 20, "%s%ld", mix_word_is_negative (tipval)? "-" : "",
               mix_word_magnitude (tipval));
-  gtk_tooltips_set_tip (tips_,
-			GTK_WIDGET (reg_entries_[reg - MIXGTK_WIDGET_rA]),
-			BUFFER, NULL);
+  gtk_widget_set_tooltip_text (
+    GTK_WIDGET (reg_entries_[reg - MIXGTK_WIDGET_rA]), BUFFER);
 
 }
 
