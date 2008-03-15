@@ -17,6 +17,5 @@ info_TEXINFOS = mdk.texi
 mdk_TEXINFOS = mdk_intro.texi mdk_ack.texi mdk_tut.texi mdk_gstart.texi \
                mdk_mixvm.texi mdk_emacs.texi mdk_mixasm.texi mdk_bugs.texi \
                mdk_index.texi mdk_gmixvm.texi mdk_install.texi \
-               mdk_mixguile.texi mdk_copying.texi mdk_findex.texi \
-	       gpl.texi fdl.texi
+               mdk_mixguile.texi mdk_copying.texi mdk_findex.texi
 
