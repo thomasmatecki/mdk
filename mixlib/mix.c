@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix.c :
  * Implementation of the functions declared in mix.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2005, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ mix_release_lib (void)
 }
 
 const char *MIX_GPL_LICENSE =
-"Copyright (C) 2000-2006 Free Software Foundation, Inc.\n"
+"Copyright (C) 2000-2008 Free Software Foundation, Inc.\n"
 "There is NO warranty.  You may redistribute this software\n"
 "under the terms of the GNU General Public License.\n"
 "For more information about these matters, see the files named COPYING.\n";
