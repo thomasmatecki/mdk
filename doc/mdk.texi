@@ -7,9 +7,9 @@
 @setchapternewpage odd
 @c %**end of header
 
-@set UPDATED August, 2006
-@set EDITION 1.2.2
-@set VERSION 1.2.3
+@set UPDATED March, 2008
+@set EDITION 1.2.3
+@set VERSION 1.2.4
 @set JAO Jose Antonio Ortega Ruiz
 @set PHILIP Philip E. King
 @set PIETER Pieter E. J. Pareit
@@ -20,7 +20,7 @@ This manual is for GNU MDK (version @value{VERSION}, @value{UPDATED}),
 a set of utilities for developing programs using Donald Knuth's MIX
 mythical computer and MIXAL, its assembly language.
 
-Copyright @copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+Copyright @copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -31,9 +31,9 @@ Front-Cover Texts being ``A GNU Manual,'' and with the Back-Cover Texts
 as in (a) below. A copy of the license is included in the section
 entitled ``GNU Free Documentation License''.
 
-(a) The FSF's Back-Cover Text is: ``You are free to copy and modify this
-GNU Manual. Buying copies from GNU Press supports the FSF in developing
-GNU and promoting software freedom.''
+(a) The FSF's Back-Cover Text is: ``You have the freedom to
+copy and modify this GNU manual.  Buying copies from the FSF
+supports it in developing GNU and promoting software freedom.''
 @end quotation
 @end copying
 
