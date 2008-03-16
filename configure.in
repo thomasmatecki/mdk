@@ -123,7 +123,7 @@ esac],[gui=true])
 
 dnl Check for gtk+
 if test x$gui = xtrue; then
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0 libglade-2.0 >= 2.0.0 pango >= 1.4,
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6.0 libglade-2.0 >= 2.0.0 pango >= 1.4,
                   [LIBS="$LIBS $GTK_LIBS" AM_CFLAGS="$AM_CFLAGS $GTK_CFLAGS"],
                   [AC_MSG_WARN(Cannot find GTK+/Glade/Pango: the GUI shall not be built)
                   gui=false])
