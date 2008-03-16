@@ -53,7 +53,7 @@
 		      <accelerator key="O" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image504">
+			<widget class="GtkImage" id="image582">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -76,7 +76,7 @@
 		      <accelerator key="E" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image505">
+			<widget class="GtkImage" id="image583">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -99,7 +99,7 @@
 		      <accelerator key="B" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image506">
+			<widget class="GtkImage" id="image584">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-execute</property>
 			  <property name="icon_size">1</property>
@@ -113,7 +113,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator2">
+		    <widget class="GtkSeparatorMenuItem" id="separator5">
 		      <property name="visible">True</property>
 		    </widget>
 		  </child>
@@ -128,7 +128,7 @@
 		      <accelerator key="Q" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image507">
+			<widget class="GtkImage" id="image585">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-quit</property>
 			  <property name="icon_size">1</property>
@@ -164,7 +164,7 @@
 		      <accelerator key="R" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image508">
+			<widget class="GtkImage" id="image586">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-go-forward</property>
 			  <property name="icon_size">1</property>
@@ -187,7 +187,7 @@
 		      <accelerator key="N" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image509">
+			<widget class="GtkImage" id="image587">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-goto-last</property>
 			  <property name="icon_size">1</property>
@@ -210,7 +210,7 @@
 		      <accelerator key="C" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image510">
+			<widget class="GtkImage" id="image588">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-clear</property>
 			  <property name="icon_size">1</property>
@@ -233,7 +233,7 @@
 		      <accelerator key="Y" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image511">
+			<widget class="GtkImage" id="image589">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-index</property>
 			  <property name="icon_size">1</property>
@@ -266,7 +266,7 @@
 		      <property name="use_underline">True</property>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image512">
+			<widget class="GtkImage" id="image590">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -314,7 +314,7 @@
 				      <property name="tooltip" translatable="yes">Show only labels in toolbar buttons</property>
 				      <property name="label" translatable="yes">_Labels</property>
 				      <property name="use_underline">True</property>
-				      <property name="active">False</property>
+				      <property name="active">True</property>
 				      <property name="group">tb_style_icons</property>
 				    </widget>
 				  </child>
@@ -325,7 +325,7 @@
 				      <property name="tooltip" translatable="yes">Show both icons and labels in toolbar buttons</property>
 				      <property name="label" translatable="yes">_Both</property>
 				      <property name="use_underline">True</property>
-				      <property name="active">False</property>
+				      <property name="active">True</property>
 				      <property name="group">tb_style_icons</property>
 				    </widget>
 				  </child>
@@ -335,7 +335,7 @@
 				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">_Sideways</property>
 				      <property name="use_underline">True</property>
-				      <property name="active">False</property>
+				      <property name="active">True</property>
 				      <property name="group">tb_style_icons</property>
 				    </widget>
 				  </child>
@@ -355,7 +355,7 @@
 		      <property name="use_underline">True</property>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image513">
+			<widget class="GtkImage" id="image591">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-dnd-multiple</property>
 			  <property name="icon_size">1</property>
@@ -420,7 +420,7 @@
 		      <property name="use_underline">True</property>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image514">
+			<widget class="GtkImage" id="image592">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-select-font</property>
 			  <property name="icon_size">1</property>
@@ -517,7 +517,7 @@
 		      <signal name="activate" handler="on_devform_activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image515">
+			<widget class="GtkImage" id="image593">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-zoom-100</property>
 			  <property name="icon_size">1</property>
@@ -538,7 +538,7 @@
 		      <signal name="activate" handler="on_devdir_activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image516">
+			<widget class="GtkImage" id="image594">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-home</property>
 			  <property name="icon_size">1</property>
@@ -559,7 +559,7 @@
 		      <signal name="activate" handler="on_external_programs_activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image517">
+			<widget class="GtkImage" id="image595">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -587,7 +587,7 @@
 		      <signal name="activate" handler="on_save_activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image518">
+			<widget class="GtkImage" id="image596">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-save</property>
 			  <property name="icon_size">1</property>
@@ -632,7 +632,7 @@
 		      <signal name="activate" handler="on_about_activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image519">
+			<widget class="GtkImage" id="image597">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-help</property>
 			  <property name="icon_size">1</property>
