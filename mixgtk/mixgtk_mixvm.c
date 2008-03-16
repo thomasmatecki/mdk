@@ -45,6 +45,12 @@ static GtkLabel *progtime_;
 static GtkLabel *uptime_;
 static mix_vm_t *vm_;
 
+#define HAVE_OLD_GTK !GTK_CHECK_VERSION(2, 12, 0)
+
+#if HAVE_OLD_GTK
+static GtkTooltips *tips_ = NULL;
+#endif
+
 
 /* Static function prototypes */
 static void init_goto_ (void);
@@ -68,6 +74,10 @@ mixgtk_mixvm_init (mix_vm_t *vm)
   g_assert (vm != NULL);
 
   vm_ = vm;
+
+#if HAVE_OLD_GTK
+  if (!tips_) tips_ = gtk_tooltips_new ();
+#endif
 
   for (k = 0; k < REGISTER_NO_; ++k)
     {
@@ -404,9 +414,15 @@ update_register_ (mixgtk_widget_id_t reg)
   gtk_entry_set_text (reg_entries_[reg - MIXGTK_WIDGET_rA], BUFFER);
   g_snprintf (BUFFER, 20, "%s%ld", mix_word_is_negative (tipval)? "-" : "",
               mix_word_magnitude (tipval));
+
+#if HAVE_OLD_GTK
+  gtk_tooltips_set_tip (tips_,
+  			GTK_WIDGET (reg_entries_[reg - MIXGTK_WIDGET_rA]),
+                        BUFFER, NULL);
+#else
   gtk_widget_set_tooltip_text (
     GTK_WIDGET (reg_entries_[reg - MIXGTK_WIDGET_rA]), BUFFER);
-
+#endif
 }
 
 
