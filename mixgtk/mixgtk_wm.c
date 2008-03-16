@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_wm.c :
  * Implementation of the functions declared in mixgtk_wm.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ static void init_visibility_ (void);
 static void init_tb_ (void);
 static void init_about_ (void);
 static void init_autosave_ (void);
+static void set_tb_style_ (guint style);
 static void show_toolbars_ (gboolean show);
 static void add_page_ (GtkWidget *w, mixgtk_window_id_t id);
 static void mixvm_attach_ (void);
@@ -440,7 +441,7 @@ init_tb_ (void)
 {
   gchar *names[4];
   gint k;
-  gint tb_style = mixgtk_config_tb_style ();
+  gint style = mixgtk_config_tb_style ();
 
   tb_menu_ = GTK_CHECK_MENU_ITEM
     (mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN,
@@ -473,34 +474,37 @@ init_tb_ (void)
       g_signal_connect (G_OBJECT (item),
                         "activate",
                         G_CALLBACK (on_tb_style_), GUINT_TO_POINTER (k));
-      if (k == tb_style)
-        {
-          gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
-        }
+      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), (k == style));
     }
+  set_tb_style_ (style);
 }
 
 static void
 on_tb_style_ (GtkMenuItem *w, gpointer style)
 {
+  guint ui_style = GPOINTER_TO_UINT (style);
+  set_tb_style_ (ui_style);
+  mixgtk_config_set_tb_style (ui_style);
+}
+
+static void
+set_tb_style_ (guint style)
+{
   static const gchar *TB_NAME = "main_toolbar";
   static const gchar *TB_DNAME = "dlg_toolbar";
 
-  guint ui_style = GPOINTER_TO_UINT (style);
   gint k;
 
   GtkToolbar *tb = GTK_TOOLBAR
     (mixgtk_widget_factory_get_child_by_name (MIXGTK_MAIN, TB_NAME));
-  gtk_toolbar_set_style (tb, ui_style);
+  gtk_toolbar_set_style (tb, style);
 
   for (k = 0; k < INF_NO_; ++k)
     {
       GtkToolbar *tb = GTK_TOOLBAR
         (mixgtk_widget_factory_get_child_by_name (infos_[k].dialog, TB_DNAME));
-      gtk_toolbar_set_style (tb, ui_style);
+      gtk_toolbar_set_style (tb, style);
     }
-
-  mixgtk_config_set_tb_style (ui_style);
 }
 
 static void
