@@ -1,7 +1,7 @@
 /* -*-c-*- ---------------- mixgtk_device.c :
  * actual types for mixgtk devices
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -188,7 +188,9 @@ init_input_widgets_ (void)
   input_list_ = gtk_list_store_new (1, G_TYPE_STRING);
   gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (input_list_));
   gtk_entry_completion_set_popup_completion (completion, TRUE);
+#if GTK_CHECK_VERSION(2,8,0)
   gtk_entry_completion_set_popup_single_match (completion, TRUE);
+#endif
   gtk_entry_completion_set_inline_completion (completion, FALSE);
   gtk_entry_completion_set_minimum_key_length (completion, 1);
   gtk_entry_completion_set_text_column (completion, 0);
