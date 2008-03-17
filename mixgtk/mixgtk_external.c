@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_cmd_dispatcher.c :
  * Implementation of the functions declared in mixgtk_external.h
  * ------------------------------------------------------------------
- * Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,8 +44,6 @@ static const gchar *ext_wdg_names_[] = {
 
 static const gchar *EDITOR_KEY_ = "Editor";
 static const gchar *MIXASM_KEY_ = "Mixasm";
-static const gchar *DEFAULT_EDITOR_CMD_ = "/usr/bin/xterm -e vi %s";
-static const gchar *DEFAULT_ASM_CMD_ = "/usr/bin/mixasm";
 
 static mix_vm_cmd_dispatcher_t *dispatcher_;
 
@@ -139,7 +137,7 @@ read_config_ (void)
       while (!edit && ENV[k]) edit = getenv (ENV[k++]);
 
       if (edit) edit = g_strconcat (edit, " %s", NULL);
-      else edit = g_strdup (DEFAULT_EDITOR_CMD_);
+      else edit = g_strdup (DEFAULT_EDITOR_CMD);
 
       update_editor_ (edit);
 
@@ -150,7 +148,7 @@ read_config_ (void)
       update_editor_ (editor);
     }
 
-  update_asm_ (assem? assem : DEFAULT_ASM_CMD_);
+  update_asm_ (assem? assem : DEFAULT_ASM_CMD);
 }
 
 void

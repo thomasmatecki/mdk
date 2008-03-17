@@ -133,10 +133,17 @@ if test x$gui = xtrue; then
 AM_CFLAGS="$AM_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
 fi
 
-dnl use the provided getopt if gnu getopt is not available
-AC_REPLACE_FUNCS(getopt_long)
+dnl Are we in a darwin system?
+case "${host_os}" in
+ darwin*) darwin_system=true;;
+ *) darwin_system=false;
+esac
 
 AM_CONDITIONAL(MAKE_GUI, test x$gui = xtrue)
+AM_CONDITIONAL(DARWIN_SYSTEM, test x$darwin_system = xtrue)
+
+dnl use the provided getopt if gnu getopt is not available
+AC_REPLACE_FUNCS(getopt_long)
 
 AC_SUBST(AM_CFLAGS)
 
