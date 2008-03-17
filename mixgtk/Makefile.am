@@ -34,7 +34,7 @@ INCLUDES = -I$(includedir) -I$(top_srcdir) \
            -DGLADE_FILE=\""$(pkgdatadir)/mixgtk.glade"\"\
            -DLOCAL_GLADE_FILE=\""$(srcdir)/mixgtk.glade"\"\
 	   -DDEFAULT_EDITOR_CMD=\"$(EDITOR_CMD)\"\
-	   -DDEFAULT_ASM_CMD="\"$(bindir)/mixasm"\"\
+	   -DDEFAULT_ASM_CMD="\"$(bindir)/mixasm %s"\"\
            $(GUILED) $(EXTRA_EXECD)
 LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a\
         $(top_builddir)/mixguile/libmixguile.a $(INTLLIBS)
