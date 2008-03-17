@@ -102,6 +102,9 @@ init_widgets_ (void)
     }
 
   gtk_file_filter_add_mime_type (filter, "application/x-executable");
+#ifdef EXTRA_EXEC_MIME_TYPE
+  gtk_file_filter_add_mime_type (filter, "application/octet-stream");
+#endif
   gtk_file_chooser_set_filter
     (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_asm_chooser]), filter);
   gtk_file_chooser_set_filter

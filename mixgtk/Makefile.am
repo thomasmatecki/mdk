@@ -20,8 +20,10 @@ endif
 
 if DARWIN_SYSTEM
 EDITOR_CMD = "/usr/bin/open -a TextEdit %s"
+EXTRA_EXECD = -DEXTRA_EXEC_MIME_TYPE
 else
 EDITOR_CMD = "/usr/bin/xterm -e vi %s"
+EXTRA_EXECD =
 endif
 
 if MAKE_GUI
@@ -33,7 +35,7 @@ INCLUDES = -I$(includedir) -I$(top_srcdir) \
            -DLOCAL_GLADE_FILE=\""$(srcdir)/mixgtk.glade"\"\
 	   -DDEFAULT_EDITOR_CMD=\"$(EDITOR_CMD)\"\
 	   -DDEFAULT_ASM_CMD="\"$(bindir)/mixasm"\"\
-           $(GUILED)
+           $(GUILED) $(EXTRA_EXECD)
 LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a\
         $(top_builddir)/mixguile/libmixguile.a $(INTLLIBS)
 
