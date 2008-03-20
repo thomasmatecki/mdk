@@ -1,7 +1,7 @@
 /* -*-c-*- ---------------- mixgtk_fontsel.h :
  * Functions for handling font selection.
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@ mixgtk_fontsel_set_font (mixgtk_font_t f, GtkWidget *w);
 extern gboolean
 mixgtk_fontsel_query_font (mixgtk_font_t f, GtkWidget **ws, size_t no);
 
+extern void
+on_all_fonts_activate (void);
 
 #endif /* MIXGTK_FONTSEL_H */
 

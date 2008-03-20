@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_fontsel.c :
  * Implementation of the functions declared in mixgtk_fontsel.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ static const gchar *keys_[MIX_FONT_NO] = {
   "Symbols.font", "Default.font"
 };
 
+static const gchar *default_font_ = "Monospace 10";
 
 /* initialise the font selection dialog */
 static void
@@ -57,7 +58,7 @@ mixgtk_fontsel_set_font (mixgtk_font_t f, GtkWidget *w)
   font = mixgtk_config_get (keys_[f]);
   if (!font)
     {
-      mixgtk_config_update (keys_[f], "Monospace 10");
+      mixgtk_config_update (keys_[f], default_font_);
       font = mixgtk_config_get (keys_[f]);
       g_assert (font);
     }
@@ -87,7 +88,7 @@ mixgtk_fontsel_query_font (mixgtk_font_t f, GtkWidget **w, size_t no)
 
   current = mixgtk_config_get (keys_[f]);
   gtk_font_selection_dialog_set_font_name (fontsel_dialog_,
-                                           current? current : "Monospace 10");
+                                           current? current : default_font_);
 
   while (result == GTK_RESPONSE_APPLY)
     {
@@ -117,7 +118,7 @@ on_all_fonts_activate (void)
 
   current = mixgtk_config_get (keys_[MIX_FONT_DEFAULT]);
   gtk_font_selection_dialog_set_font_name (fontsel_dialog_,
-                                           current? current : "Monospace");
+                                           current? current : default_font_);
 
   while (result == GTK_RESPONSE_APPLY)
     {
