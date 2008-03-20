@@ -1,9 +1,19 @@
 * GNU MDK -- History of visible changes.
 
-Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, Free Software Foundation, Inc.
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, Free Software Foundation, Inc.
 See the end for copying conditions.
 
 Please send mdk bug reports to bug-mdk@gnu.org.
+
+---------------------------------------------------------------------------
+* Version 1.2.4 (21/03/08)
+
+** Maintenance release:
+
+   - License changed to GPLv3
+   - Compilation checked against recent versions GTK+, Glib, Glade &co.
+   - Bug fixes
+   - Darwin compatibility issues fixed (thanks to Aleix Conchillo)
 
 ---------------------------------------------------------------------------
 * Version 1.2.3 (16/08/06)
@@ -481,7 +491,7 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ---------------------------------------------------------------------------
 * Copying information:
 
-Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008 Free Software Foundation, Inc.
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
