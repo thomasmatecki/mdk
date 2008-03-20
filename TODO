@@ -1,6 +1,6 @@
 -*- mode: org -*-
 
-* Version 1.2.4
+* Version 1.2.5
 ** gmixvm: list of last loaded programs
 * Misc
 ** MIX types manipulation library in Scheme
