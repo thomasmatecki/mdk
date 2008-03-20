@@ -1,3 +1,16 @@
 /Makefile.in
+/mdk.aux
+/mdk.cp
+/mdk.cps
+/mdk.fn
+/mdk.fns
 /mdk.info
+/mdk.ky
+/mdk.log
+/mdk.pg
+/mdk.toc
+/mdk.tp
+/mdk.vr
+/mdk.vrs
 /texinfo.tex
+/manual/*
