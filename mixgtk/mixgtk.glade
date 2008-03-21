@@ -4302,7 +4302,7 @@ disk7</property>
 		  <child>
 		    <widget class="GtkLabel" id="label1442">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;small&gt;Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 
+		      <property name="label" translatable="yes">&lt;small&gt;Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2008
 Free Software Foundation, Inc&lt;/small&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
