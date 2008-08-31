@@ -1,7 +1,7 @@
 /* -*-c-*- ------------------ mix_eval_scanner.l :
  * scanner used by mix_eval_t
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,21 +44,7 @@
  } while (FALSE)
 
 static mix_word_t eval_binop_ (const gchar *op, mix_word_t x, mix_word_t y);
-
 static int unput_word_ (mix_word_t word);
-
-/*   { */
-/*     gchar *value; */
-/*     gint k, result; */
-/*     value = g_strdup_printf ("%s%ld", */
-/*                              mix_word_is_negative (word)? "-":"+", */
-/*                              mix_word_magnitude (word)); */
-/*     result = strlen (value); */
-/*     for (k = result - 1; k >= 0; --k) */
-/*       unput (value[k]); */
-/*     g_free (value); */
-/*     return result; */
-/*   } */
 
 %}
 
@@ -66,6 +52,7 @@ static int unput_word_ (mix_word_t word);
 %option caseless
 %option array
 %option stack
+%option noinput
 %option noyywrap
 %option noyy_top_state
 %option noreject
