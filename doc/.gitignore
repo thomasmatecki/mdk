@@ -1,4 +1,6 @@
+/Makefile
 /Makefile.in
+/manual/*
 /mdk.aux
 /mdk.cp
 /mdk.cps
@@ -13,4 +15,3 @@
 /mdk.vr
 /mdk.vrs
 /texinfo.tex
-/manual/*

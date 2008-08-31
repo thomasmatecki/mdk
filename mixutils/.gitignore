@@ -1,1 +1,10 @@
+/.deps
+/Makefile
 /Makefile.in
+/mixasm
+/mixasm.o
+/mixasm_comp.o
+/mixvm
+/mixvm.o
+/mixvm_command.o
+/mixvm_loop.o

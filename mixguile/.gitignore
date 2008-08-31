@@ -1,1 +1,9 @@
+/.deps
+/Makefile
 /Makefile.in
+/libmixguile.a
+/mixguile
+/mixguile.o
+/mixguile_cmd_dispatcher.o
+/mixguile_main.o
+/xmixguile_cmd_dispatcher.o
