@@ -1,4 +1,4 @@
-# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -8,8 +8,10 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-AC_INIT([GNU MDK],1.2.4,[bug-mdk@gnu.org],mdk)
-AM_INIT_AUTOMAKE(mdk,1.2.4)
+AC_INIT([GNU MDK],1.2.5,[bug-mdk@gnu.org],mdk)
+AC_CONFIG_SRCDIR([mixlib/mix.h])
+AM_INIT_AUTOMAKE
+
 AM_CONFIG_HEADER(config.h)
 
 AM_MAINTAINER_MODE
