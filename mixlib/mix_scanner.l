@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_scanner.l :
  * Lexical scanner used by mix_parser_t
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -329,13 +329,21 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
 <EQU>{
   {number}{ws}*\n   |
   {number}{ws}+.*\n {
-    mix_word_t value;
-    gint def;
-    if ( symbol == NULL ) RETURN_ERROR (MIX_PERR_MIS_SYM, NULL);
-    value = mix_word_new (atol (yytext));
-    def = mix_parser_define_symbol_value (parser, symbol, value);
-    if ( def == MIX_SYM_DUP )  RETURN_ERROR (MIX_PERR_DUP_SYMBOL, symbol);
-    if ( def == MIX_SYM_LONG )  RETURN_ERROR (MIX_PERR_LONG_SYMBOL, symbol);
+    gint def = MIX_PERR_MIS_SYM;
+    if (symbol)
+      {
+        mix_word_t value = mix_word_new (atol (yytext));
+        def = mix_parser_define_symbol_value (parser, symbol, value);
+      }
+    switch (def)
+      {
+      case MIX_SYM_DUP:  RETURN_ERROR (MIX_PERR_DUP_SYMBOL, symbol); break;
+      case MIX_SYM_LONG:  RETURN_ERROR (MIX_PERR_LONG_SYMBOL, symbol); break;
+      case MIX_PERR_MIS_SYM:
+        mix_parser_log_error (parser, def, lineno, NULL, TRUE);
+        break;
+      default: break;
+      }
     ++lineno;
     BEGIN (INITIAL);
   }

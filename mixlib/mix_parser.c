@@ -2,7 +2,7 @@
  * Implementation of the functions declared in mix_parser.h and
  * xmix_parser.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2003, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2003, 2004, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -467,13 +467,15 @@ mix_parser_err_t
 mix_parser_define_symbol_value (mix_parser_t *parser, const gchar *name,
 				mix_word_t value)
 {
-  g_assert (parser != NULL && name != NULL);
+  g_assert (parser != NULL);
+
+  if (NULL == name || strlen (name) == 0) return MIX_PERR_MIS_SYM;
 
   switch (mix_symbol_table_add (parser->symbol_table, name, value))
     {
     case MIX_SYM_OK:
-      if ( parser->status == MIX_PERR_NOCOMP )
-	update_future_refs_value_ (parser, name, value, TRUE);
+      if (parser->status == MIX_PERR_NOCOMP)
+        update_future_refs_value_ (parser, name, value, TRUE);
       return MIX_PERR_OK;
     case MIX_SYM_LONG: return MIX_PERR_LONG_SYMBOL;
     case MIX_SYM_DUP: return MIX_PERR_DUP_SYMBOL;
