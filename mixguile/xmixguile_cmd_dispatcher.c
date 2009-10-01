@@ -467,12 +467,10 @@ mix_add_hook_ (SCM cmd, SCM function, gboolean pre)
   SCM_DEFER_INTS;
   if (pre)
     mix_vm_cmd_dispatcher_pre_hook (vm_dispatcher_, command, scm_hook_,
-				    (gpointer)
-				    define_hook_procedure_ (function));
+				    (gpointer) define_hook_procedure_ (function));
   else
     mix_vm_cmd_dispatcher_post_hook (vm_dispatcher_, command, scm_hook_,
-				     (gpointer)
-				     define_hook_procedure_ (function));
+				     (gpointer) define_hook_procedure_ (function));
   SCM_ALLOW_INTS;
   return SCM_BOOL_T;
 }
@@ -487,12 +485,10 @@ mix_add_global_hook_ (SCM function, gboolean pre)
   SCM_DEFER_INTS;
   if (pre)
     mix_vm_cmd_dispatcher_global_pre_hook (vm_dispatcher_, scm_global_hook_,
-					   (gpointer)
-					   define_hook_procedure_ (function));
+					   (gpointer) define_hook_procedure_ (function));
   else
     mix_vm_cmd_dispatcher_global_post_hook (vm_dispatcher_, scm_global_hook_,
-					    (gpointer)
-					    define_hook_procedure_ (function));
+					    (gpointer) define_hook_procedure_ (function));
   SCM_ALLOW_INTS;
   return SCM_BOOL_T;
 }
