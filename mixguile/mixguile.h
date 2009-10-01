@@ -1,7 +1,7 @@
 /* -*-c-*- ---------------- mixguile.h :
  * Interface to the mixguile interpreter.
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,14 +25,15 @@
 
 #include <mixlib/mix.h>
 #include <mixlib/mix_vm_command.h>
-#include <guile/gh.h>
+#include <libguile.h>
 
 /* the main function type */
-typedef void (*main_func_t) (int argc, char *argv[]);
+typedef void (*main_func_t) (void *closure, int argc, char *argv[]);
 
 
 /* enter and do the initialisation manually inside the guile world */
-#define mixguile_enter(argc,argv,main_fun) gh_enter (argc, argv, main_fun)
+#define mixguile_enter(argc,argv,main_fun) \
+  scm_boot_guile (argc, argv, main_fun, 0)
 
 /* load mixguile startup file */
 extern void
@@ -52,7 +53,7 @@ mixguile_set_cmd_dispatcher (mix_vm_cmd_dispatcher_t *dis);
 
 /* enter the guile repl */
 extern void
-mixguile_enter_repl (int argc, char *argv[]);
+mixguile_enter_repl (void *closure,int argc, char *argv[]);
 
 /* access the comand dispatcher */
 extern mix_vm_cmd_dispatcher_t *

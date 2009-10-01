@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- xmixguile_cmd_dispatcher.c :
  * Implementation of the functions declared in xmixguile_cmd_dispatcher.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,9 +39,11 @@ register_scm_commands_ (const scm_command_t *commands)
   g_return_if_fail (commands != NULL);
   while (commands[k].name)
     {
-      gh_new_procedure (commands[k].name, commands[k].func,
-			commands[k].argno, commands[k].opt_argno,
-			commands[k].restp);
+      scm_c_define_gsubr (commands[k].name,
+                          commands[k].argno,
+                          commands[k].opt_argno,
+                          commands[k].restp,
+                          commands[k].func);
       ++k;
     }
 }
@@ -61,7 +63,6 @@ static SCM
 mixvm_cmd_ (SCM cmd, SCM arg)
 {
   char *com = NULL, *argu = NULL;
-  size_t len;
   gboolean result;
 
   SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd),
@@ -70,8 +71,8 @@ mixvm_cmd_ (SCM cmd, SCM arg)
 	      arg, SCM_ARG2, "mixvm-cmd");
 
   SCM_DEFER_INTS;
-  com = gh_scm2newstr (cmd, &len);
-  argu = gh_scm2newstr (arg, &len);
+  com =  scm_to_locale_string (cmd);
+  argu = scm_to_locale_string (arg);
   result = mix_vm_cmd_dispatcher_dispatch (vm_dispatcher_,
 					   mix_vm_command_from_string (com),
 					   argu);
@@ -86,13 +87,13 @@ mixvm_cmd_ (SCM cmd, SCM arg)
 static SCM
 mixvm_status_ (void)
 {
-  return gh_long2scm (mix_vm_get_run_status (vm_));
+  return scm_from_long (mix_vm_get_run_status (vm_));
 }
 
 static SCM
 mix_last_result_ (void)
 {
-  return gh_bool2scm (mix_vm_cmd_dispatcher_get_last_result (vm_dispatcher_));
+  return scm_from_bool (mix_vm_cmd_dispatcher_get_last_result (vm_dispatcher_));
 }
 
 static long
@@ -113,14 +114,13 @@ static SCM
 mix_reg_ (SCM reg)
 {
   char *regis;
-  size_t len;
   long val = MIX_WORD_MAX + 1;
 
   SCM_ASSERT (SCM_STRINGP (reg) || SCM_SYMBOLP (reg), reg, SCM_ARG1, "mix-reg");
 
   SCM_DEFER_INTS;
   if (SCM_SYMBOLP (reg)) reg = scm_symbol_to_string (reg);
-  regis = gh_scm2newstr (reg, &len);
+  regis = scm_to_locale_string (reg);
   switch (regis[0])
     {
     case 'A':
@@ -144,14 +144,13 @@ mix_reg_ (SCM reg)
 
   SCM_ASSERT (val <= MIX_WORD_MAX, reg, SCM_ARG1, "mix-reg");
 
-  return gh_long2scm (val);
+  return scm_from_long (val);
 }
 
 static SCM
 mix_set_reg_ (SCM reg, SCM value)
 {
   char *regis;
-  size_t len;
   long val;
   gboolean result = TRUE;
 
@@ -161,8 +160,8 @@ mix_set_reg_ (SCM reg, SCM value)
 
   SCM_DEFER_INTS;
   if (SCM_SYMBOLP (reg)) reg = scm_symbol_to_string (reg);
-  regis = gh_scm2newstr (reg, &len);
-  val = gh_scm2long (value);
+  regis = scm_to_locale_string (reg);
+  val = scm_to_long (value);
   switch (regis[0])
     {
     case 'A':
@@ -187,7 +186,7 @@ mix_set_reg_ (SCM reg, SCM value)
 
   SCM_ASSERT (result, reg, SCM_ARG1, "mix-set-reg!");
 
-  return gh_symbol2scm ("ok");
+  return SCM_BOOL_T;
 }
 
 static SCM
@@ -197,10 +196,10 @@ mix_cell_ (SCM no)
   long result;
 
   SCM_ASSERT (SCM_NUMBERP (no), no, SCM_ARG1, "mix-cell");
-  cell = gh_scm2int (no);
+  cell = scm_to_int (no);
   SCM_ASSERT (cell < MIX_VM_CELL_NO, no, SCM_ARG1, "mix-cell");
   result = word_to_long_ (mix_vm_get_addr_contents (vm_, cell));
-  return gh_long2scm (result);
+  return scm_from_long (result);
 }
 
 static SCM
@@ -211,30 +210,30 @@ mix_set_cell_ (SCM no, SCM val)
 
   SCM_ASSERT (SCM_NUMBERP (no), no, SCM_ARG1, "mix-set-cell!");
   SCM_ASSERT (SCM_NUMBERP (val), no, SCM_ARG2, "mix-set-cell!");
-  cell = gh_scm2int (no);
+  cell = scm_to_int (no);
   SCM_ASSERT (cell < MIX_VM_CELL_NO, no, SCM_ARG1, "mix-set-cell!");
-  result = gh_scm2long (val);
+  result = scm_to_long (val);
   mix_vm_set_addr_contents (vm_, cell, mix_word_new (result));
-  return gh_symbol2scm ("ok");
+  return SCM_BOOL_T;
 }
 
 static SCM
 mix_over_ (void)
 {
-  return gh_bool2scm (mix_vm_get_overflow (vm_));
+  return scm_from_bool (mix_vm_get_overflow (vm_));
 }
 
 static SCM
 mix_set_over_ (SCM over)
 {
-  mix_vm_set_overflow (vm_, gh_scm2bool (over));
-  return gh_symbol2scm ("ok");
+  mix_vm_set_overflow (vm_, scm_to_bool (over));
+  return SCM_BOOL_T;
 }
 
 static SCM
 mix_loc_ (void)
 {
-  return gh_long2scm (mix_vm_get_prog_count (vm_));
+  return scm_from_long (mix_vm_get_prog_count (vm_));
 }
 
 static SCM
@@ -248,21 +247,20 @@ mix_cmp_ (void)
     case mix_GREAT: result = "G"; break;
     default: g_assert_not_reached ();
     }
-  return gh_symbol2scm (result);
+  return scm_from_locale_symbol (result);
 }
 
 static SCM
 mix_set_cmp_ (SCM value)
 {
   gchar *val = NULL;
-  size_t len;
   mix_cmpflag_t result = -1;
 
   SCM_ASSERT (SCM_STRINGP (value) || SCM_SYMBOLP (value), value, SCM_ARG1,
 	      "mix-set-cmp!");
 
   SCM_DEFER_INTS;
-  val = gh_scm2newstr (value, &len);
+  val = scm_to_locale_string (value);
   if (strlen (val) == 1)
     {
       switch (val[0])
@@ -277,59 +275,59 @@ mix_set_cmp_ (SCM value)
   SCM_ALLOW_INTS;
   SCM_ASSERT (result != -1, value, SCM_ARG1, "mix-set-cmp!");
   mix_vm_set_cmpflag (vm_, result);
-  return gh_symbol2scm ("ok");
+  return SCM_BOOL_T;
 }
 
 static SCM
 mix_src_name_ (void)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_src_file_path (vm_dispatcher_);
-  return gh_str02scm (path? g_path_get_basename (path) : "");
+  return scm_from_locale_string (path? g_path_get_basename (path) : "");
 }
 
 static SCM
 mix_src_path_ (void)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_src_file_path (vm_dispatcher_);
-  return gh_str02scm (path? (char *)path : "");
+  return scm_from_locale_string (path? (char *)path : "");
 }
 
 static SCM
 mix_prog_name_ (void)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_program_path (vm_dispatcher_);
-  return gh_str02scm (path? g_path_get_basename (path) : "");
+  return scm_from_locale_string (path? g_path_get_basename (path) : "");
 }
 
 static SCM
 mix_prog_path_ (void)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_program_path (vm_dispatcher_);
-  return gh_str02scm (path? (char *)path : "");
+  return scm_from_locale_string (path? (char *)path : "");
 }
 
 static SCM
 mix_ddir_ (void)
 {
-  return gh_str02scm ((char *)mix_device_get_dir ());
+  return scm_from_locale_string ((char *)mix_device_get_dir ());
 }
 
 static SCM
 mix_uptime_ (void)
 {
-  return gh_long2scm (mix_vm_cmd_dispatcher_get_uptime (vm_dispatcher_));
+  return scm_from_long (mix_vm_cmd_dispatcher_get_uptime (vm_dispatcher_));
 }
 
 static SCM
 mix_progtime_ (void)
 {
-  return gh_long2scm (mix_vm_cmd_dispatcher_get_progtime (vm_dispatcher_));
+  return scm_from_long (mix_vm_cmd_dispatcher_get_progtime (vm_dispatcher_));
 }
 
 static SCM
 mix_laptime_ (void)
 {
-  return gh_long2scm (mix_vm_cmd_dispatcher_get_laptime (vm_dispatcher_));
+  return scm_from_long (mix_vm_cmd_dispatcher_get_laptime (vm_dispatcher_));
 }
 
 static SCM
@@ -340,7 +338,7 @@ mix_src_line_ (SCM opt)
   if (opt != SCM_UNDEFINED)
     {
       SCM_ASSERT (SCM_NUMBERP (opt), opt, SCM_ARG1, "mix-src-line");
-      no = gh_scm2long (opt);
+      no = scm_to_ulong (opt);
     }
   else
     no = mix_vm_cmd_dispatcher_get_src_file_lineno (vm_dispatcher_);
@@ -350,14 +348,14 @@ mix_src_line_ (SCM opt)
   if (no > 0)
     line = mix_vm_cmd_dispatcher_get_src_file_line (vm_dispatcher_, no, FALSE);
 
-  return gh_str02scm ((char *)line);
+  return scm_from_locale_string ((char *)line);
 }
 
 static SCM
 mix_src_line_no_ (void)
 {
   return
-    gh_long2scm (mix_vm_cmd_dispatcher_get_src_file_lineno (vm_dispatcher_));
+    scm_from_long (mix_vm_cmd_dispatcher_get_src_file_lineno (vm_dispatcher_));
 }
 
 /* ----- hook functions ---- */
@@ -367,13 +365,13 @@ static SCM
 make_arg_list_ (const gchar *arg)
 {
   gchar **arglist = g_strsplit (arg, " ", -1);
-  SCM argument = gh_list (SCM_UNDEFINED, SCM_EOL);
+  SCM argument = scm_list_n (SCM_UNDEFINED, SCM_EOL);
   if (arglist && arglist[0])
     {
       int k = 0;
       while (arglist[k])
-	argument = gh_cons (gh_str02scm (arglist[k++]), argument);
-      argument = gh_reverse (argument);
+	argument = scm_cons (scm_from_locale_string (arglist[k++]), argument);
+      argument = scm_reverse (argument);
     }
   g_strfreev (arglist);
   return argument;
@@ -394,7 +392,7 @@ static SCM
 hook_catch_body_ (void *data)
 {
   hook_data_t *h = (hook_data_t *)data;
-  return gh_call1 (h->function, h->args);
+  return scm_call_1 (h->function, h->args);
 }
 
 static void
@@ -403,13 +401,13 @@ scm_hook_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg, gpointer data)
   hook_data_t h;
   h.function = (SCM) data;
 
-  g_assert (gh_procedure_p (h.function));
+  g_assert (scm_is_true (scm_procedure_p (h.function)));
 
   h.args = make_arg_list_ (arg);
-  g_assert (gh_list_p (h.args));
+  g_assert (scm_is_true (scm_list_p (h.args)));
 
-  gh_catch (SCM_BOOL_T, hook_catch_body_, &h,
-	    scm_handle_by_message_noexit, dis);
+  scm_internal_catch (SCM_BOOL_T, hook_catch_body_, &h,
+                      scm_handle_by_message_noexit, dis);
 }
 
 /* global hook auxiliar functions and types */
@@ -424,7 +422,7 @@ static SCM
 global_hook_catch_body_ (void *data)
 {
   global_hook_data_t *h = (global_hook_data_t *)data;
-  return gh_call2 (h->function, h->cmd, h->args);
+  return scm_call_2 (h->function, h->cmd, h->args);
 }
 
 static void
@@ -433,10 +431,10 @@ scm_global_hook_ (mix_vm_cmd_dispatcher_t *dis, mix_vm_command_t cmd,
 {
   global_hook_data_t h;
   h.function = (SCM) data;
-  h.cmd = gh_str02scm ((char *)mix_vm_command_to_string (cmd));
+  h.cmd = scm_from_locale_string ((char *)mix_vm_command_to_string (cmd));
   h.args = make_arg_list_ (arg);
-  gh_catch (SCM_BOOL_T, global_hook_catch_body_, &h,
-	    scm_handle_by_message_noexit, NULL);
+  scm_internal_catch (SCM_BOOL_T, global_hook_catch_body_, &h,
+                      scm_handle_by_message_noexit, NULL);
 }
 
 static SCM
@@ -447,8 +445,8 @@ define_hook_procedure_ (SCM function)
   static const gchar *PATTERN = "____mix__hook__%d____";
   static int K = 0;
   g_snprintf (BUFFER, BUFF_SIZE, PATTERN, K++);
-  /* gh_define (name, val) returns a pair: (symbol . symbol-value) */
-  return gh_cdr (gh_define ((char *)BUFFER, function));
+  /* scm_c__define (name, val) returns a pair: (symbol . symbol-value) */
+  return scm_cdr (scm_c_define ((char *)BUFFER, function));
 }
 
 static SCM
@@ -456,13 +454,12 @@ mix_add_hook_ (SCM cmd, SCM function, gboolean pre)
 {
   gchar *cmdstr = NULL;
   mix_vm_command_t command;
-  size_t len;
   const gchar *fun = pre? "mix-add-pre-hook" : "mix-add-post-hook";
 
   SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd), cmd, SCM_ARG1, fun);
-  SCM_ASSERT (gh_procedure_p (function), function, SCM_ARG2, fun);
+  SCM_ASSERT (scm_is_true (scm_procedure_p (function)), function, SCM_ARG2, fun);
   SCM_DEFER_INTS;
-  cmdstr = gh_scm2newstr (cmd, &len);
+  cmdstr = scm_to_locale_string (cmd);
   command = mix_vm_command_from_string (cmdstr);
   g_free (cmdstr);
   SCM_ALLOW_INTS;
@@ -477,7 +474,7 @@ mix_add_hook_ (SCM cmd, SCM function, gboolean pre)
 				     (gpointer)
 				     define_hook_procedure_ (function));
   SCM_ALLOW_INTS;
-  return gh_symbol2scm ("ok");
+  return SCM_BOOL_T;
 }
 
 static SCM
@@ -486,7 +483,7 @@ mix_add_global_hook_ (SCM function, gboolean pre)
   const gchar *fun =
     pre? "mix-add-global-pre-hook" : "mix-add-global-post-hook";
 
-  SCM_ASSERT (gh_procedure_p (function), function, SCM_ARG1, fun);
+  SCM_ASSERT (scm_is_true (scm_procedure_p (function)), function, SCM_ARG1, fun);
   SCM_DEFER_INTS;
   if (pre)
     mix_vm_cmd_dispatcher_global_pre_hook (vm_dispatcher_, scm_global_hook_,
@@ -497,7 +494,7 @@ mix_add_global_hook_ (SCM function, gboolean pre)
 					    (gpointer)
 					    define_hook_procedure_ (function));
   SCM_ALLOW_INTS;
-  return gh_symbol2scm ("ok");
+  return SCM_BOOL_T;
 }
 
 static SCM

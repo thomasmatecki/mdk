@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixguile.c :
  * Implementation of the functions declared in mixguile.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,14 +33,14 @@ static gboolean init_file_;
 /* do local initialisation and enter the user provided main */
 
 static void
-real_main_ (int argc, char *argv[])
+real_main_ (void *closure, int argc, char *argv[])
 {
   if (vm_dispatcher_)
     {
       mixguile_set_cmd_dispatcher (vm_dispatcher_);
       mixguile_load_bootstrap (init_file_);
     }
-  (*main_fun_)(argc, argv);
+  (*main_fun_)(NULL, argc, argv);
 }
 
 /*
@@ -55,7 +55,7 @@ mixguile_init (int argc, char *argv[], gboolean initfile,
   main_fun_ = main_fun;
   vm_dispatcher_ = dis;
   init_file_ = initfile;
-  gh_enter (argc, argv, real_main_);
+  scm_boot_guile (argc, argv, real_main_, 0);
 }
 
 /* load bootstrap file */
@@ -85,9 +85,9 @@ mixguile_load_bootstrap (gboolean loadlocal)
 
 /* enter the guile repl */
 void
-mixguile_enter_repl (int argc, char *argv[])
+mixguile_enter_repl (void *closure, int argc, char *argv[])
 {
-  gh_repl (argc, argv);
+  scm_shell (argc, argv);
 }
 
 /* set the command dispatcher */

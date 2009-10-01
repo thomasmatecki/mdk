@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixguile_cmd_dispatcher.c :
  * Implementation of the functions declared in mixguile_cmd_dispatcher.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,23 +32,38 @@
 #define SCMF_CMD "scmf"
 
 /*local commands */
+
+static SCM eval_ (void *code)
+{
+  scm_c_eval_string ((char *)code);
+  return SCM_BOOL_T;
+}
+
 static gboolean
 cmd_scm_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 {
-  (void) gh_eval_str_with_catch ((char *)arg, scm_handle_by_message_noexit);
+  scm_c_catch (SCM_BOOL_T, eval_, (void*) arg,
+               scm_handle_by_message_noexit, NULL, NULL, NULL);
   return TRUE;
+}
+
+static SCM load_ (void *path)
+{
+  scm_c_primitive_load ((char *)path);
+  return SCM_BOOL_T;
 }
 
 static gboolean
 cmd_scmf_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 {
-  (void) gh_eval_file_with_catch ((char *)arg, scm_handle_by_message_noexit);
+  scm_c_catch (SCM_BOOL_T, load_, (void*) arg,
+               scm_handle_by_message_noexit, NULL, NULL, NULL);
   return TRUE;
 }
 
 static mix_vm_command_info_t commands_[] = {
   { SCM_CMD, cmd_scm_, N_("Eval Scheme command using Guile"), "scm COMMAND"},
-  { SCMF_CMD, cmd_scmf_, N_("Eval Scheme file using Guile"), "scm PATH"},
+  { SCMF_CMD, cmd_scmf_, N_("Eval Scheme file using Guile"), "scmf PATH"},
   {NULL}
 };
 
@@ -81,7 +96,6 @@ mixguile_cmd_dispatcher_new (mix_vm_cmd_dispatcher_t *dis)
 
   return result;
 }
-
 
 void
 mixguile_cmd_dispatcher_delete (mixguile_cmd_dispatcher_t *dis)
