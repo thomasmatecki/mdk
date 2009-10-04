@@ -29,6 +29,7 @@
 #include "mixgtk_mixal.h"
 #include "mixgtk_widgets.h"
 #include "mixgtk_cmd_dispatcher.h"
+#include "mixgtk_gen_handlers.h"
 #include "mixgtk.h"
 
 
@@ -326,6 +327,11 @@ init_signals_ (void)
                         G_CALLBACK (on_attach_toggled), NULL);
     }
 
+  GtkWindow *mainw =
+    GTK_WINDOW (mixgtk_widget_factory_get_dialog (MIXGTK_MAIN));
+
+  g_signal_connect (mainw, "destroy",
+                    G_CALLBACK (on_file_exit_activate), NULL);
 }
 
 static void
