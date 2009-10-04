@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_cmd_dispatcher.c :
  * Implementation of the functions declared in mixgtk_external.h
  * ------------------------------------------------------------------
- * Copyright (C) 2006, 2007, 2008 Free Software Foundation, Inc.
+ * Copyright (C) 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,6 @@ mixgtk_external_init (mix_vm_cmd_dispatcher_t *dispatcher)
   dispatcher_ = dispatcher;
   init_widgets_ ();
   read_config_ ();
-  update_dialog_ ();
 }
 
 void
