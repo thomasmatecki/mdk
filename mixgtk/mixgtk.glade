@@ -1421,7 +1421,6 @@ disk7</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
                     <property name="use_preview_label">False</property>
-                    <property name="create_folders">False</property>
                     <property name="preview_widget_active">False</property>
                   </widget>
                   <packing>
@@ -1459,7 +1458,6 @@ disk7</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
                     <property name="use_preview_label">False</property>
-                    <property name="create_folders">False</property>
                     <property name="preview_widget_active">False</property>
                     <property name="title" translatable="yes">Select mixasm executable</property>
                   </widget>

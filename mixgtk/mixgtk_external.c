@@ -108,6 +108,13 @@ init_widgets_ (void)
     (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_asm_chooser]), filter);
   gtk_file_chooser_set_filter
     (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_ed_chooser]), filter);
+
+#if GTK_CHECK_VERSION (2,18,0)
+  gtk_file_chooser_set_create_folders
+    (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_asm_chooser]), FALSE);
+  gtk_file_chooser_set_create_folders
+    (GTK_FILE_CHOOSER (ext_wdg_[ext_wdg_ed_chooser]), FALSE);
+#endif // GTK_CHECK_VERSION
 }
 
 void
