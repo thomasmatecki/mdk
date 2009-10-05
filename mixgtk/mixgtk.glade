@@ -793,7 +793,6 @@
     </child>
   </widget>
   <widget class="GtkDialog" id="word_dialog">
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Enter value</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -1040,7 +1039,6 @@
     </child>
   </widget>
   <widget class="GtkDialog" id="goto_dialog">
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Go to memory cell</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -1138,7 +1136,6 @@
   </widget>
   <widget class="GtkFontSelectionDialog" id="fontsel_dialog">
     <property name="border_width">4</property>
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Select Font</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
@@ -1178,7 +1175,6 @@
     </child>
   </widget>
   <widget class="GtkDialog" id="devform_dialog">
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Device output format</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
@@ -1373,7 +1369,6 @@ disk7</property>
   </widget>
   <widget class="GtkDialog" id="external_dialog">
     <property name="border_width">1</property>
-    <property name="type">popup</property>
     <property name="title" translatable="yes">External programs</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -1917,7 +1912,6 @@ disk7</property>
     </child>
   </widget>
   <widget class="GtkDialog" id="devdir_dialog">
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Devices directory</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -2841,7 +2835,6 @@ disk7</property>
   </widget>
   <widget class="GtkDialog" id="input_dialog">
     <property name="visible">True</property>
-    <property name="type">popup</property>
     <property name="title" translatable="yes">MIX Console input</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -2924,7 +2917,6 @@ disk7</property>
   </widget>
   <widget class="GtkDialog" id="about_dialog">
     <property name="border_width">2</property>
-    <property name="type">popup</property>
     <property name="title" translatable="yes">About gmixvm</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
