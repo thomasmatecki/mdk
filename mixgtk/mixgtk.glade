@@ -11,6 +11,7 @@
       <widget class="GtkVBox" id="main_vbox">
         <property name="visible">True</property>
         <property name="border_width">2</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkMenuBar" id="mainmenubar">
@@ -44,6 +45,7 @@
                         <property name="label">gtk-edit</property>
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Edit a MIXAL source file</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_file_edit_activate"/>
                         <accelerator key="E" signal="activate" modifiers="GDK_CONTROL_MASK"/>
@@ -729,6 +731,7 @@
             <child>
               <widget class="GtkVBox" id="prompt_vbox">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkScrolledWindow" id="mixlog_scrolledwindow">
                     <property name="visible">True</property>
@@ -801,6 +804,7 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkFixed" id="word_layout">
             <property name="visible">True</property>
@@ -1045,10 +1049,12 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox6">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
             <property name="border_width">12</property>
+            <property name="orientation">vertical</property>
             <child>
               <widget class="GtkLabel" id="label225">
                 <property name="visible">True</property>
@@ -1180,6 +1186,7 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox8">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkFixed" id="fixed2">
             <property name="visible">True</property>
@@ -1372,9 +1379,11 @@ disk7</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox9">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="homogeneous">True</property>
             <child>
               <widget class="GtkFixed" id="fixed3">
@@ -1411,6 +1420,7 @@ disk7</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
                     <property name="create_folders">False</property>
+                    <property name="preview_widget_active">False</property>
                   </widget>
                   <packing>
                     <property name="x">8</property>
@@ -1447,6 +1457,7 @@ disk7</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
                     <property name="create_folders">False</property>
+                    <property name="preview_widget_active">False</property>
                     <property name="title" translatable="yes">Select mixasm executable</property>
                   </widget>
                   <packing>
@@ -1539,6 +1550,7 @@ disk7</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox10">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow26">
             <property name="visible">True</property>
@@ -1630,6 +1642,7 @@ disk7</property>
     <child>
       <widget class="GtkVBox" id="vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkHandleBox" id="tb_handle">
             <property name="visible">True</property>
@@ -1787,6 +1800,7 @@ disk7</property>
     <child>
       <widget class="GtkVBox" id="vbox4">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkHandleBox" id="tb_handle">
             <property name="visible">True</property>
@@ -1904,6 +1918,7 @@ disk7</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox11">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
@@ -2008,6 +2023,7 @@ disk7</property>
     <child>
       <widget class="GtkVBox" id="vbox8">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkHandleBox" id="tb_handle">
             <property name="visible">True</property>
@@ -2074,6 +2090,7 @@ disk7</property>
                   <widget class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
                     <property name="border_width">1</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">1</property>
                     <child>
                       <widget class="GtkFrame" id="frame3">
@@ -2823,10 +2840,12 @@ disk7</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox12">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox7">
             <property name="visible">True</property>
             <property name="border_width">3</property>
+            <property name="orientation">vertical</property>
             <property name="homogeneous">True</property>
             <child>
               <widget class="GtkLabel" id="label1438">
@@ -2905,6 +2924,7 @@ disk7</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox13">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkFrame" id="frame7">
             <property name="visible">True</property>
@@ -2918,6 +2938,7 @@ disk7</property>
                   <widget class="GtkVBox" id="vbox9">
                     <property name="visible">True</property>
                     <property name="border_width">15</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">10</property>
                     <child>
                       <widget class="GtkLabel" id="label1441">
