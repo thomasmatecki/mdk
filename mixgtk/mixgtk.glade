@@ -797,6 +797,7 @@
     <property name="title" translatable="yes">Enter value</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy" handler="gtk_widget_hide"/>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
@@ -1041,7 +1042,9 @@
   <widget class="GtkDialog" id="goto_dialog">
     <property name="type">popup</property>
     <property name="title" translatable="yes">Go to memory cell</property>
+    <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy" handler="gtk_widget_hide"/>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
@@ -1138,6 +1141,7 @@
     <property name="type">popup</property>
     <property name="title" translatable="yes">Select Font</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy" handler="gtk_widget_hide"/>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
@@ -1177,6 +1181,7 @@
     <property name="type">popup</property>
     <property name="title" translatable="yes">Device output format</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="default_width">320</property>
     <property name="default_height">140</property>
     <property name="type_hint">dialog</property>
@@ -1372,6 +1377,7 @@ disk7</property>
     <property name="title" translatable="yes">External programs</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy" handler="gtk_widget_hide"/>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
@@ -1419,6 +1425,7 @@ disk7</property>
                     <property name="width_request">151</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
+                    <property name="use_preview_label">False</property>
                     <property name="create_folders">False</property>
                     <property name="preview_widget_active">False</property>
                   </widget>
@@ -1456,6 +1463,7 @@ disk7</property>
                     <property name="width_request">151</property>
                     <property name="height_request">31</property>
                     <property name="visible">True</property>
+                    <property name="use_preview_label">False</property>
                     <property name="create_folders">False</property>
                     <property name="preview_widget_active">False</property>
                     <property name="title" translatable="yes">Select mixasm executable</property>
@@ -1911,6 +1919,8 @@ disk7</property>
   <widget class="GtkDialog" id="devdir_dialog">
     <property name="type">popup</property>
     <property name="title" translatable="yes">Devices directory</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy" handler="gtk_widget_hide"/>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
@@ -2833,7 +2843,9 @@ disk7</property>
     <property name="visible">True</property>
     <property name="type">popup</property>
     <property name="title" translatable="yes">MIX Console input</property>
+    <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <signal name="destroy_event" handler="gtk_widget_hide"/>
     <signal name="close" handler="gtk_widget_hide"/>
@@ -2914,6 +2926,7 @@ disk7</property>
     <property name="border_width">2</property>
     <property name="type">popup</property>
     <property name="title" translatable="yes">About gmixvm</property>
+    <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
