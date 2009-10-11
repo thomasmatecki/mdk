@@ -12,7 +12,7 @@ FILE=mixlib
 
 DIE=0
 
-grep "^AM_GNU_GETTEXT" $srcdir/configure.in >/dev/null && {
+grep "^AM_GNU_GETTEXT" $srcdir/configure.ac >/dev/null && {
   (gettext --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`gettext' installed to compile $PROJECT."
