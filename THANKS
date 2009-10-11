@@ -11,10 +11,10 @@ list of these people. Help me keep it complete and exempt of errors.
      `mixvm' and influenced the `gmixvm' GUI design with insightful
      comments and prototypes.
 
-   * Aleix Conchillo has been following MDK's development for
-     many years, indefatigably chasing and fixing bugs, and suggesting
-     many improvements. He's also the author of the Fink and Macports
-     ports.
+   * Aleix Conchillo (<aleix@member.fsf.org>) has been following MDK's
+     development for many years, indefatigably chasing and fixing
+     bugs, and suggesting many improvements. He's also the author of
+     the Fink and Macports ports.
 
    * Pieter E.J. Pareit (<pieter.pareit@skynet.be>) is the author of
      the Emacs MIXAL mode, and has also contributed many bug fixes.
@@ -35,11 +35,10 @@ list of these people. Help me keep it complete and exempt of errors.
      for different operating systems.
 
    * Jason Uhlenkott, Andrew Hood (<ajhood@fl.net.au>), Radu Butnaru
-     (<rbb@email.ro>), Aleix Conchillo (<aleix@member.fsf.org>),
-     Ruslan Batdalov (<linnando@tolkien.ru>), WeiZheng
-     (<pro_zw@lol365.com>), Sascha Wilde, Michael Vernov and Xiaofeng
-     Zhao reported (sometimes with suggested fixes) several bugs in
-     MDK.
+     (<rbb@email.ro>) Ruslan Batdalov (<linnando@tolkien.ru>),
+     WeiZheng (<pro_zw@lol365.com>), Sascha Wilde, Michael Vernov and
+     Xiaofeng Zhao reported (sometimes with suggested fixes) several
+     bugs in MDK.
 
    * Nelson H. F. Beebe (<beebe@math.utah.edu>,
      http://www.math.utah.edu/~beebe) has tested MDK in a lot of Unix

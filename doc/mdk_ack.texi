@@ -20,7 +20,7 @@ with the Emacs port of @code{mixvm} and influenced the @code{gmixvm} GUI
 design with insightful comments and prototypes.
 
 @item Aleix Conchillo
-has been following @sc(mdk}'s development for many years, indefatigably
+has been following @sc{mdk}'s development for many years, indefatigably
 chasing and fixing bugs, and suggesting many improvements. He's also the
 author of the Fink and Macports ports.
 
@@ -46,13 +46,13 @@ enhancements to the source code.
 ported @sc{mdk} to different platforms, and created and/or maintain
 packages for it.
 
-@item Jason Uhlenkott, Andrew Hood, Aleix Conchillo, Radu Butnaru, Ruslan Batdalov, WeiZheng, Sascha Wilde, Michael Vernov and Xiaofeng Zhao
+@item Jason Uhlenkott, Andrew Hood, Radu Butnaru, Ruslan Batdalov, WeiZheng, Sascha Wilde, Michael Vernov and Xiaofeng Zhao
 reported bugs and suggested fixes to them.
 
 @item Eli Bendersky, Milan Bella and Jens Seidel reported bugs on the documentation.
 
 @item Christoph von Nathusius, Stephen Ramsay  and Johan Swanljung
-tested @sc{mdk} on different platforms, and helped fix the configuration
+tested @sc{mdk} on different platforms, and helped fixing the configuration
 process in them.
 
 @item Richard Stallman
