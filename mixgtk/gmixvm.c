@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- gmixvm.c :
  * Main function of the mix gtk front-end
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ static gboolean initfile_ = TRUE;
 #  include <mixguile/mixguile.h>
 #  include "mixgtk_cmd_dispatcher.h"
 static void
-inner_main_ (int argc, char *argv[])
+inner_main_ (void *closure, int argc, char *argv[])
 {
   mixgtk_init (argc, argv);
   mixguile_set_cmd_dispatcher (mixgtk_cmd_dispatcher_get_mix_dispatcher ());

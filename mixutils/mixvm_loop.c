@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixvm_loop.c :
  * Implementation of mix vm command loop.
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007, 2009 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,7 +118,7 @@ mix_vmloop_set_prompt (const gchar *prompt)
 }
 
 static void
-loop_ (int argc, char *argv[])
+loop_ (void *closure, int argc, char *argv[])
 {
   while ( mixvm_cmd_exec (rl_gets ()) )
     ;

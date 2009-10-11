@@ -44,7 +44,10 @@ mixguile_load_bootstrap (gboolean localinit);
   main function.
 */
 extern void
-mixguile_init (int argc, char *argv[], gboolean initfile, main_func_t main_fun,
+mixguile_init (int argc,
+               char *argv[],
+               gboolean initfile,
+               main_func_t main_fun,
 	       mix_vm_cmd_dispatcher_t *dis);
 
 /* set the command dispatcher */
@@ -53,7 +56,7 @@ mixguile_set_cmd_dispatcher (mix_vm_cmd_dispatcher_t *dis);
 
 /* enter the guile repl */
 extern void
-mixguile_enter_repl (void *closure,int argc, char *argv[]);
+mixguile_enter_repl (void *closure, int argc, char *argv[]);
 
 /* access the comand dispatcher */
 extern mix_vm_cmd_dispatcher_t *
