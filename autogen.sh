@@ -12,6 +12,12 @@ FILE=mixlib
 
 DIE=0
 
+echo "Generating ChangeLog..."
+touch ChangeLog
+(git log --summary --stat > ChangeLog) || {
+    echo "Error generating ChangeLog. The file won't be up to date."
+}
+
 grep "^AM_GNU_GETTEXT" $srcdir/configure.ac >/dev/null && {
   (gettext --version) < /dev/null > /dev/null 2>&1 || {
     echo

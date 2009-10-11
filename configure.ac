@@ -149,7 +149,7 @@ AC_REPLACE_FUNCS(getopt_long)
 
 AC_SUBST(AM_CFLAGS)
 
-AC_CONFIG_FILES(
+AC_CONFIG_FILES([
 Makefile
 doc/Makefile
 doc/img/Makefile
@@ -164,7 +164,7 @@ samples/Makefile
 samples/tests/Makefile
 po/Makefile.in
 intl/Makefile
-)
+])
 
 AC_OUTPUT
 
