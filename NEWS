@@ -1,9 +1,23 @@
 * GNU MDK -- History of visible changes.
 
-Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, Free Software Foundation, Inc.
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, Free Software Foundation, Inc.
 See the end for copying conditions.
 
 Please send mdk bug reports to bug-mdk@gnu.org.
+
+---------------------------------------------------------------------------
+* Version 1.2.5 (11/10/09):
+
+** Bug fixes:
+
+   - MIXAL: EQU directives without a LOC don't cause an error (#23816).
+   - gmixvm: startup time reduced.
+
+** Maintenance:
+
+   - Guile API modernized (deprecated gh_* calls are gone).
+   - Migration to latest Glade tool.
+   - Miscellaneous infrastructure improvements (thanks to Aleix Conchillo).
 
 ---------------------------------------------------------------------------
 * Version 1.2.4 (21/03/08)
