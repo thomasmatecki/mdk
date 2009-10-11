@@ -5,14 +5,16 @@ Acknowledgements
 suggesting various improvements, or submitting actual code. Here is a
 list of these people. Help me keep it complete and exempt of errors.
 
-   * Richard Stallman (<rms@gnu.org>) suggested various improvements to
-     the documentation and has always kept an eye on every MDK release.
-
    * Philip Ellis King (<pking@pdq.net>) provided MIXAL test programs
      pinpointing bugs in the first MDK release, and useful discussions
      as well. Philip has also contributed with the Emacs port of
      `mixvm' and influenced the `gmixvm' GUI design with insightful
      comments and prototypes.
+
+   * Aleix Conchillo has been following MDK's development for
+     many years, indefatigably chasing and fixing bugs, and suggesting
+     many improvements. He's also the author of the Fink and Macports
+     ports.
 
    * Pieter E.J. Pareit (<pieter.pareit@skynet.be>) is the author of
      the Emacs MIXAL mode, and has also contributed many bug fixes.
@@ -51,6 +53,9 @@ list of these people. Help me keep it complete and exempt of errors.
    * Eli Bendersky (<spur4444@yahoo.com>), Milan Bella
      (<milanbella@hotmail.com>) and Jens Seidel reported several
      documentation bugs.
+
+   * Richard Stallman (<rms@gnu.org>) suggested various improvements to
+     the documentation and has always kept an eye on every MDK release.
 
    * MDK was inspired by Darius Bacon's MIXAL program
      (http://www.accesscom.com/~darius/).

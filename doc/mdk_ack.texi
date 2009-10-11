@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -13,15 +13,16 @@ suggesting various improvements, or submitting actual code. Here is
 a list of these people. Help me keep it complete and exempt of errors.
 
 @itemize @bullet
-@item Richard Stallman
-suggested various improvements to the documentation and has always
-kept an eye on each @sc{mdk} release.
-
 @item Philip Ellis King
 provided MIXAL test programs pinpointing bugs in the first @sc{mdk}
 release, and useful discussions as well. Philip has also contributed
 with the Emacs port of @code{mixvm} and influenced the @code{gmixvm} GUI
 design with insightful comments and prototypes.
+
+@item Aleix Conchillo
+has been following @sc(mdk}'s development for many years, indefatigably
+chasing and fixing bugs, and suggesting many improvements. He's also the
+author of the Fink and Macports ports.
 
 @item Pieter E J Pareit
 is the author of the Emacs MIXAL mode, and has also contributed many
@@ -53,6 +54,10 @@ reported bugs and suggested fixes to them.
 @item Christoph von Nathusius, Stephen Ramsay  and Johan Swanljung
 tested @sc{mdk} on different platforms, and helped fix the configuration
 process in them.
+
+@item Richard Stallman
+suggested various improvements to the documentation and has always
+kept an eye on each @sc{mdk} release.
 
 @item @sc{mdk} was inspired by Darius Bacon's
 @uref{http://www.accesscom.com/@/~darius/, MIXAL program}.
