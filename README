@@ -17,7 +17,7 @@ GUD buffer.
 
 Using these interfaces, you can debug your MIXAL programs at source
 code level, and read/modify the contents of all the components of the
-MIX computer (including block devices, which are simultated using the
+MIX computer (including block devices, which are simulated using the
 file system).
 
 Project homepage: http://www.gnu.org/software/mdk/mdk.html
