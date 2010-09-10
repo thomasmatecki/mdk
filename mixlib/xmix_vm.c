@@ -1,7 +1,7 @@
 /* ---------------------- xmix_vm.c :
  * Implementation of the functions declared in xmix_vm.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2007, 2010 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -199,24 +199,28 @@ sla_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
 static gboolean
 mov_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
 {
-  mix_short_t from = get_M_ (vm,ins),
-    to = mix_word_to_short_fast (get_rI_ (vm,1));
+  mix_short_t from = get_M_ (vm,ins);
+  mix_short_t to = mix_word_to_short_fast (get_rI_ (vm,1));
   guint k, delta = ins->fspec;
 
   g_assert (ins->opcode == mix_opMOVE);
-  if (mix_short_is_positive (from)
-      && mix_short_is_positive (to)
-      && MEMOK_ (from + delta -1)
-      && MEMOK_ (to + delta - 1))
+
+  gboolean result = (delta == 0)
+    || (mix_short_is_positive (from)
+        && mix_short_is_positive (to)
+        && MEMOK_ (from + delta -1)
+        && MEMOK_ (to + delta - 1));
+
+  if (result && delta > 0)
     {
       for (k = 0; k < delta; ++k)
         set_cell_ (vm, to+k, get_cell_ (vm, from+k));
       set_rI_ (vm, 1, to+delta);
-      inc_loc_ (vm);
       return TRUE;
     }
-  else
-    return FALSE;
+
+  if (result) inc_loc_ (vm);
+  return result;
 }
 
 static gboolean
