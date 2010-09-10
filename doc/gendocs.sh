@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/sh -e
 # gendocs.sh -- generate a GNU manual in many formats.  This script is
 #   mentioned in maintain.texi.  See the help message below for usage details.
 
-scriptversion=2009-09-09.22
+scriptversion=2010-07-26.16
 
-# Copyright 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Copyright 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
 # Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ unset use_texi2html
 
 version="gendocs.sh $scriptversion
 
-Copyright 2009 Free Software Foundation, Inc.
+Copyright 2010 Free Software Foundation, Inc.
 There is NO warranty.  You may redistribute this software
 under the terms of the GNU General Public License.
 For more information about these matters, see the files named COPYING."
@@ -56,6 +56,7 @@ See the GNU Maintainers document for a more extensive discussion:
   http://www.gnu.org/prep/maintain_toc.html
 
 Options:
+  -s SRCFILE  read Texinfo from SRCFILE, instead of PACKAGE.{texinfo|texi|txi}
   -o OUTDIR   write files into OUTDIR, instead of manual/.
   --email ADR use ADR as contact in generated web pages.
   --docbook   convert to DocBook too (xml, txt, html, pdf and ps).
@@ -94,16 +95,16 @@ If a manual's Texinfo sources are spread across several directories,
 first copy or symlink all Texinfo sources into a single directory.
 (Part of the script's work is to make a tar.gz of the sources.)
 
-You can set the environment variables MAKEINFO, TEXI2DVI, and DVIPS to
-control the programs that get executed, and GENDOCS_TEMPLATE_DIR to
-control where the gendocs_template file is looked for.  (With --docbook,
-the environment variables DOCBOOK2HTML, DOCBOOK2PDF, DOCBOOK2PS, and
-DOCBOOK2TXT are also respected.)
+You can set the environment variables MAKEINFO, TEXI2DVI, TEXI2HTML, and
+DVIPS to control the programs that get executed, and
+GENDOCS_TEMPLATE_DIR to control where the gendocs_template file is
+looked for.  With --docbook, the environment variables DOCBOOK2HTML,
+DOCBOOK2PDF, DOCBOOK2PS, and DOCBOOK2TXT are also respected.
 
-By default, makeinfo is run in the default (English) locale, since
-that's the language of most Texinfo manuals.  If you happen to have a
-non-English manual and non-English web site, see the SETLANG setting
-in the source.
+By default, makeinfo and texi2dvi are run in the default (English)
+locale, since that's the language of most Texinfo manuals.  If you
+happen to have a non-English manual and non-English web site, see the
+SETLANG setting in the source.
 
 Email bug reports or enhancement requests to bug-texinfo@gnu.org.
 "
@@ -119,12 +120,14 @@ PACKAGE=
 EMAIL=webmasters@gnu.org  # please override with --email
 htmlarg=
 outdir=manual
+srcfile=
 
 while test $# -gt 0; do
   case $1 in
     --email) shift; EMAIL=$1;;
     --help) echo "$usage"; exit 0;;
     --version) echo "$version"; exit 0;;
+    -s) shift; srcfile=$1;;
     -o) shift; outdir=$1;;
     --docbook) docbook=yes;;
     --html) shift; htmlarg=$1;;
@@ -146,7 +149,17 @@ while test $# -gt 0; do
   shift
 done
 
-if test -s "$srcdir/$PACKAGE.texinfo"; then
+# For most of the following, the base name is just $PACKAGE
+base=$PACKAGE
+
+if test -n "$srcfile"; then
+  # but here, we use the basename of $srcfile
+  base=`basename "$srcfile"`
+  case $base in
+    *.txi|*.texi|*.texinfo) base=`echo "$base"|sed 's/\.[texinfo]*$//'`;;
+  esac
+  PACKAGE=$base
+elif test -s "$srcdir/$PACKAGE.texinfo"; then
   srcfile=$srcdir/$PACKAGE.texinfo
 elif test -s "$srcdir/$PACKAGE.texi"; then
   srcfile=$srcdir/$PACKAGE.texi
@@ -179,7 +192,7 @@ info_tgz_size=`calcsize $outdir/$PACKAGE.info.tar.gz`
 # do not mv the info files, there's no point in having them available
 # separately on the web.
 
-cmd="${TEXI2DVI} \"$srcfile\""
+cmd="$SETLANG ${TEXI2DVI} \"$srcfile\""
 echo "Generating dvi ... ($cmd)"
 eval "$cmd"
 
@@ -195,7 +208,7 @@ gzip -f -9 $PACKAGE.dvi
 dvi_gz_size=`calcsize $PACKAGE.dvi.gz`
 mv $PACKAGE.dvi.gz $outdir/
 
-cmd="${TEXI2DVI} --pdf \"$srcfile\""
+cmd="$SETLANG ${TEXI2DVI} --pdf \"$srcfile\""
 echo "Generating pdf ... ($cmd)"
 eval "$cmd"
 pdf_size=`calcsize $PACKAGE.pdf`
@@ -268,13 +281,14 @@ else
 fi
 
 echo Making .tar.gz for sources...
-srcfiles=`ls *.texinfo *.texi *.txi *.eps 2>/dev/null`
+d=`dirname $srcfile`
+srcfiles=`ls $d/*.texinfo $d/*.texi $d/*.txi $d/*.eps 2>/dev/null` || true
 tar cvzfh $outdir/$PACKAGE.texi.tar.gz $srcfiles
 texi_tgz_size=`calcsize $outdir/$PACKAGE.texi.tar.gz`
 
 if test -n "$docbook"; then
   cmd="$SETLANG $MAKEINFO -o - --docbook \"$srcfile\" > ${srcdir}/$PACKAGE-db.xml"
-  echo "Generating docbook XML... $(cmd)"
+  echo "Generating docbook XML... ($cmd)"
   eval "$cmd"
   docbook_xml_size=`calcsize $PACKAGE-db.xml`
   gzip -f -9 -c $PACKAGE-db.xml >$outdir/$PACKAGE-db.xml.gz
@@ -302,7 +316,7 @@ if test -n "$docbook"; then
   mv $PACKAGE-db.txt $outdir/
 
   cmd="${DOCBOOK2PS} ${outdir}/$PACKAGE-db.xml"
-  echo "Generating docbook PS... $(cmd)"
+  echo "Generating docbook PS... ($cmd)"
   eval "$cmd"
   gzip -f -9 -c $PACKAGE-db.ps >$outdir/$PACKAGE-db.ps.gz
   docbook_ps_gz_size=`calcsize $outdir/$PACKAGE-db.ps.gz`

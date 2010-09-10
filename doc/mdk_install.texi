@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006, 2010
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -29,21 +29,18 @@ the following @acronym{URL}s:
 @url{ftp://ftp.gnu.org/pub/gnu/mdk}
 @item
 @uref{http://www.gnu.org/prep/ftp.html, GNU mirrors}
-@item
-@uref{http://sourceforge.net/project/showfiles.php?group_id=13897}
 @end itemize
 
 The above sites contain the latest stable releases of @sc{mdk}. The
-development branch is available as a
-@uref{http://www.gnu.org/software/gnu-arch/, GNU Arch archive} located
-at@footnote{See @uref{http://savannah.gnu.org/arch/?group=mdk,
-@sc{mdk}'s Arch page} for more information on using the unstable source
-tree. Note, however, that the rest of this manual is about the
-@emph{stable} release.}
+development branch is available as a @uref{http://git-scm.com/,Git}
+repository located at@footnote{See
+@uref{https://savannah.gnu.org/git/?group=mdk, @sc{mdk}'s Git page} for
+more information on using the unstable source tree. Note, however, that
+the rest of this manual is about the @emph{stable} release.}
 
 @itemize @bullet
 @item
-@uref{http://arch.sv.gnu.org/archives/mdk}
+@uref{git://git.savannah.gnu.org/mdk.git}
 @end itemize
 
 After you have downloaded the source tarball, unpack it in a directory
