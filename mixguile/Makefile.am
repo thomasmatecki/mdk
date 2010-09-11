@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2001 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2010 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -31,7 +31,7 @@ libmixguile_a_SOURCES = mixguile.h mixguile.c \
 bin_PROGRAMS = mixguile
 mixguile_LDADD = $(top_builddir)/mixlib/libmix.a \
                  $(top_builddir)/lib/libreplace.a \
-                 $(top_builddir)/mixguile/libmixguile.a $(INTLLIBS)
+                 libmixguile.a $(INTLLIBS)
 mixguile_SOURCES = mixguile_main.c
 
 else
