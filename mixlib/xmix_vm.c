@@ -216,7 +216,6 @@ mov_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
       for (k = 0; k < delta; ++k)
         set_cell_ (vm, to+k, get_cell_ (vm, from+k));
       set_rI_ (vm, 1, to+delta);
-      return TRUE;
     }
 
   if (result) inc_loc_ (vm);
