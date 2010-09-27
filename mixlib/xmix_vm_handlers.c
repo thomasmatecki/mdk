@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- xmix_vm_handlers.c :
  * Implementation of the functions declared in xmix_vm_handlers.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1124,7 +1124,7 @@ get_reg_pred_ (const gchar *arg)
 	  {
 	    int i = arg[1] - '1';
 	    if (i >= 0 && i < 6)
-	      pred = MIX_PRED_REG_I1 - 1 + i;
+	      pred = MIX_PRED_REG_I1 + i;
 	  }
       }
       break;

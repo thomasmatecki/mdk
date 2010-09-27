@@ -11,7 +11,8 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 ** Bug fixes:
 
    - mixvm: the instruction MOVE with F=0 is interpreted correctly as
-     a NOP (#31010)
+     a NOP (#31010).
+   - debugger: breakpoints for I register modification fixed.
    - Manual: download info updated to point to Git repositories
      (#29524).
    - Compilation without Guile works again (#28086)
