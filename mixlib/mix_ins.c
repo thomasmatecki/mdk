@@ -1,7 +1,7 @@
 /* -*-c-*- ------------------ mix_ins.c :
  * Implementation of the functions declared in mix_ins.h
  * ------------------------------------------------------------------
- * Copyright (C) 1999, 2003, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 1999, 2003, 2007, 2010 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ mix_ins_to_word (const mix_ins_t *ins)
 {
   g_return_val_if_fail (ins != NULL, MIX_WORD_ZERO);
   return  (mix_word_t)((ins->address<<18)|
-		       ((ins->index&7)<<12)|(ins->fspec<<6)|(ins->opcode));
+		       ((ins->index)<<12)|(ins->fspec<<6)|(ins->opcode));
 }
 
 mix_ins_id_t

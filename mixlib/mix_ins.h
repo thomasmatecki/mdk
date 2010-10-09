@@ -2,7 +2,7 @@
  * This file declares types and functions for manipulating MIX
  * instructions
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2006, 2007, 2010 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,7 +155,7 @@ mix_word_to_ins(mix_word_t w, mix_ins_t *ins);
 /* unchecked versions for speed */
 #define mix_ins_to_word_uncheck(ins)					\
  (mix_word_t)(((ins).address<<18)|					\
-	      (((ins).index&7)<<12)|((ins).fspec<<6)|((ins).opcode))
+	      (((ins).index)<<12)|((ins).fspec<<6)|((ins).opcode))
 
 #define mix_word_to_ins_uncheck(word,ins)	\
   do {						\

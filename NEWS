@@ -6,17 +6,18 @@ See the end for copying conditions.
 Please send mdk bug reports to bug-mdk@gnu.org.
 
 ---------------------------------------------------------------------------
-* Version 1.2.6 ():
+* Version 1.2.6 (10/10/10):
 
 ** Bug fixes:
 
    - mixvm: the instruction MOVE with F=0 is interpreted correctly as
      a NOP (#31010).
+   - mixasm: no longer limit the index field to 3 bits (#5652)
    - debugger: breakpoints for I register modification fixed.
    - Manual: download info updated to point to Git repositories
      (#29524).
-   - Compilation without Guile works again (#28086)
-   - Parallel compilation with `make -jn' now works (#31018)
+   - Compilation without Guile works again (#28086).
+   - Parallel compilation with `make -jn' now works (#31018).
 
 ---------------------------------------------------------------------------
 * Version 1.2.5 (11/10/09):
