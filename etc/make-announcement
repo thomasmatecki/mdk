@@ -1,0 +1,8 @@
+#!/bin/bash
+announce_gen=/usr/share/gnulib/build-aux/announce-gen
+url="http://ftp.gnu.org/gnu/mdk/v$2"
+${announce_gen} --release-type=stable --package-name=mdk \
+                --previous-version=$1 --current-version=$2 \
+	        --gpg-key-id=5343A3EC --url-directory=$url \
+	        --bootstrap-tools=autoconf,automake,flex
+

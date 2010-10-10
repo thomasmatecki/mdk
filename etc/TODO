@@ -1,8 +1,7 @@
 -*- mode: org -*-
 
-* Version 1.2.5
+* New features
 ** gmixvm: list of last loaded programs
-* Misc
 ** MIX types manipulation library in Scheme
 ** Macro recorder (implemented in Scheme)
 ** Add scheme functions to remove installed hooks

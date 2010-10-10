@@ -1,0 +1,6 @@
+#!/bin/sh
+
+upload=/usr/share/gnulib/build-aux/gnupload 
+
+$upload --to "ftp.gnu.org:mdk/v$1" --user 5343A3EC mdk-$1.tar.gz
+
