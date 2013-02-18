@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006, 2010
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2006, 2010, 2013
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -77,7 +77,7 @@ libraries installed in your system:
 Readline}
 (optional)
 @item
-@uref{http://www.gnu.org/software/guile, GNU Libguile 1.8} (optional)
+@uref{http://www.gnu.org/software/guile, GNU Libguile 2.0} (optional)
 @end itemize
 
 If present, readline and history are used to provide command completion

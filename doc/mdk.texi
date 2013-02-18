@@ -7,8 +7,8 @@
 @setchapternewpage odd
 @c %**end of header
 
-@set UPDATED September, 2010
-@set EDITION 1.2.4
+@set UPDATED February, 2013
+@set EDITION 1.2.7
 @set VERSION 1.2.7
 @set JAO Jose Antonio Ortega Ruiz
 @set PHILIP Philip E. King

@@ -45,7 +45,7 @@ libraries installed in your system:
      (http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html)
      (optional)
 
-   - GNU Libguile 1.6 (http://www.gnu.org/software/guile) (optional)
+   - GNU Libguile 2.0.x (http://www.gnu.org/software/guile) (optional)
 
    If present, readline and history are used to provide command
 completion and history management to the command line MIX virtual
@@ -333,4 +333,3 @@ package recognizes.
 find the X include and library files automatically, but if it doesn't,
 you can use the `configure' options `--x-includes=DIR' and
 `--x-libraries=DIR' to specify their locations.
-
