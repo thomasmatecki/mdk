@@ -1,0 +1,13 @@
+The file MIX.DOC, as well as the samples in elevator.mixal and mistery.mixal
+are a contribution from Eric S. Raymond's MIXAL.  They contain the actual
+text of TAOCP vol 1 describing MIXAL and two verbatim programs from the book.
+Donald Knuth and Addison Wesley granted Eric permission for distributing the
+under the following terms, which we inherit:
+
+The source code in prime.mix, mystery.mix, and elevator.mix and the
+text in MIX.DOC are excerpted from "The Art Of Computer Programming".
+Addison-Wesley and Donald Knuth have specifically granted permission
+for this material and all other MIX code examples from that book to be
+distributed in conjunction with any open-source implementation of MIX
+under the license(s) applying to that implementation.
+

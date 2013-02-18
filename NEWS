@@ -10,6 +10,8 @@ Please send mdk bug reports to bug-mdk@gnu.org.
 * Version 1.2.7
 
 - Upgrade to Guile 2.0.  Thanks to Aleix Conchillo.
+- Samples and documentation from TAOCP, via MIXAL.  Thanks to Eric
+  S. Raymond.
 
 ---------------------------------------------------------------------------
 * Version 1.2.6 (10/10/10):

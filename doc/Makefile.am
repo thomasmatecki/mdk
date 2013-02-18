@@ -19,3 +19,5 @@ mdk_TEXINFOS = mdk_intro.texi mdk_ack.texi mdk_tut.texi mdk_gstart.texi \
                mdk_index.texi mdk_gmixvm.texi mdk_install.texi \
                mdk_mixguile.texi mdk_copying.texi mdk_findex.texi
 
+EXTRA_DIST = MIX.DOC COPYING.MIX.DOC
+

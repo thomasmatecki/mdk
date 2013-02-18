@@ -12,3 +12,7 @@ Michael Scholz wrote the German translation po/de.po.
 
 Sergey Poznyakoff provided patches to mixlib/mix_scanner.l improving
 MIXAL compliance.
+
+Eric S. Raymond contributed the documentation file doc/MIX.DOC and the
+samples sample/elevator.mixal, sample/mistery.mixal from his MIXAL
+package.
