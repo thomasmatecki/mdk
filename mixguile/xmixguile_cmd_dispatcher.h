@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "mixguile_cmd_dispatcher.h"
 
 /* the cmd dispatcher type */

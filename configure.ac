@@ -90,21 +90,13 @@ AC_ARG_WITH(guile,
 esac], [wguile=true])
 
 if test x$wguile = xtrue; then
-dnl  AC_CHECK_HEADER(guile/gh.h,,wguile=false)
-  AC_MSG_CHECKING(for Guile)
-  guile-config link > /dev/null || {
-    AC_MSG_RESULT(no)
-    wguile=false
-  }
+  PKG_CHECK_MODULES(GUILE,guile-2.0 >= 2.0,[wguile=true],[wguile=false])
 fi
 
 if test x$wguile = xtrue; then
-  GUILE_CFLAGS="`guile-config compile`"
-  GUILE_LDFLAGS="`guile-config link`"
-  LIBS="$LIBS $GUILE_LDFLAGS"
+  LIBS="$LIBS $GUILE_LIBS"
   AM_CFLAGS="$AM_CFLAGS $GUILE_CFLAGS"
   AC_SUBST(MAKE_GUILE)
-  AC_MSG_RESULT(yes)
 fi
 
 AM_CONDITIONAL(MAKE_GUILE, test x$wguile = xtrue)

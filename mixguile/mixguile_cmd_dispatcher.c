@@ -24,7 +24,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "mixguile.h"
 #include "xmixguile_cmd_dispatcher.h"
 

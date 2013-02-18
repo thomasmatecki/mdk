@@ -22,7 +22,7 @@
 #include <string.h>
 
 #include <mixlib/mix.h>
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "xmixguile_cmd_dispatcher.h"
 
@@ -30,6 +30,7 @@
 static mixguile_cmd_dispatcher_t *dispatcher_;
 static mix_vm_cmd_dispatcher_t *vm_dispatcher_;
 static mix_vm_t *vm_;
+static SCM mutex_;
 
 /* register a NULL-terminated list of scm commands */
 void
@@ -56,6 +57,7 @@ register_cmd_dispatcher_ (mixguile_cmd_dispatcher_t *dis)
   dispatcher_ = dis;
   vm_dispatcher_ = mixguile_cmd_dispatcher_get_vm_dispatcher (dis);
   vm_ = (mix_vm_t *) mix_vm_cmd_dispatcher_get_vm (vm_dispatcher_);
+  mutex_ = scm_make_mutex ();
 }
 
 /* commands */
@@ -65,12 +67,12 @@ mixvm_cmd_ (SCM cmd, SCM arg)
   char *com = NULL, *argu = NULL;
   gboolean result;
 
-  SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd),
-	      cmd, SCM_ARG1, "mixvm-cmd");
-  SCM_ASSERT (SCM_STRINGP (arg) || SCM_SYMBOLP (arg),
-	      arg, SCM_ARG2, "mixvm-cmd");
+  SCM_ASSERT (scm_is_string (cmd) || scm_is_symbol (cmd),
+              cmd, SCM_ARG1, "mixvm-cmd");
+  SCM_ASSERT (scm_is_string (arg) || scm_is_symbol (arg),
+              arg, SCM_ARG2, "mixvm-cmd");
 
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   com =  scm_to_locale_string (cmd);
   argu = scm_to_locale_string (arg);
   result = mix_vm_cmd_dispatcher_dispatch (vm_dispatcher_,
@@ -79,7 +81,7 @@ mixvm_cmd_ (SCM cmd, SCM arg)
   g_free (com);
   g_free (argu);
 
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
 
   return SCM_UNSPECIFIED;
 }
@@ -116,9 +118,10 @@ mix_reg_ (SCM reg)
   char *regis;
   long val = MIX_WORD_MAX + 1;
 
-  SCM_ASSERT (SCM_STRINGP (reg) || SCM_SYMBOLP (reg), reg, SCM_ARG1, "mix-reg");
+  SCM_ASSERT (scm_is_string (reg) || scm_is_symbol (reg),
+              reg, SCM_ARG1, "mix-reg");
 
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   if (SCM_SYMBOLP (reg)) reg = scm_symbol_to_string (reg);
   regis = scm_to_locale_string (reg);
   switch (regis[0])
@@ -140,7 +143,7 @@ mix_reg_ (SCM reg)
     }
   g_free (regis);
 
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
 
   SCM_ASSERT (val <= MIX_WORD_MAX, reg, SCM_ARG1, "mix-reg");
 
@@ -154,11 +157,11 @@ mix_set_reg_ (SCM reg, SCM value)
   long val;
   gboolean result = TRUE;
 
-  SCM_ASSERT (SCM_STRINGP (reg) || SCM_SYMBOLP (reg), reg, SCM_ARG1,
-	      "mix-set-reg!");
-  SCM_ASSERT (SCM_NUMBERP (value), value, SCM_ARG2, "mix-set-reg!");
+  SCM_ASSERT (scm_is_string (reg) || scm_is_symbol (reg),
+              reg, SCM_ARG1, "mix-set-reg!");
+  SCM_ASSERT (scm_is_number (value), value, SCM_ARG2, "mix-set-reg!");
 
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   if (SCM_SYMBOLP (reg)) reg = scm_symbol_to_string (reg);
   regis = scm_to_locale_string (reg);
   val = scm_to_long (value);
@@ -182,7 +185,7 @@ mix_set_reg_ (SCM reg, SCM value)
     }
   g_free (regis);
 
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
 
   SCM_ASSERT (result, reg, SCM_ARG1, "mix-set-reg!");
 
@@ -256,10 +259,10 @@ mix_set_cmp_ (SCM value)
   gchar *val = NULL;
   mix_cmpflag_t result = -1;
 
-  SCM_ASSERT (SCM_STRINGP (value) || SCM_SYMBOLP (value), value, SCM_ARG1,
-	      "mix-set-cmp!");
+  SCM_ASSERT (scm_is_string (value) || scm_is_symbol (value),
+              value, SCM_ARG1, "mix-set-cmp!");
 
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   val = scm_to_locale_string (value);
   if (strlen (val) == 1)
     {
@@ -272,7 +275,7 @@ mix_set_cmp_ (SCM value)
 	}
     }
   g_free (val);
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
   SCM_ASSERT (result != -1, value, SCM_ARG1, "mix-set-cmp!");
   mix_vm_set_cmpflag (vm_, result);
   return SCM_BOOL_T;
@@ -456,22 +459,22 @@ mix_add_hook_ (SCM cmd, SCM function, gboolean pre)
   mix_vm_command_t command;
   const gchar *fun = pre? "mix-add-pre-hook" : "mix-add-post-hook";
 
-  SCM_ASSERT (SCM_STRINGP (cmd) || SCM_SYMBOLP (cmd), cmd, SCM_ARG1, fun);
+  SCM_ASSERT (scm_is_string (cmd) || scm_is_symbol (cmd), cmd, SCM_ARG1, fun);
   SCM_ASSERT (scm_is_true (scm_procedure_p (function)), function, SCM_ARG2, fun);
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   cmdstr = scm_to_locale_string (cmd);
   command = mix_vm_command_from_string (cmdstr);
   g_free (cmdstr);
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
   SCM_ASSERT (command != MIX_CMD_INVALID, cmd, SCM_ARG1, fun);
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   if (pre)
     mix_vm_cmd_dispatcher_pre_hook (vm_dispatcher_, command, scm_hook_,
 				    (gpointer) define_hook_procedure_ (function));
   else
     mix_vm_cmd_dispatcher_post_hook (vm_dispatcher_, command, scm_hook_,
 				     (gpointer) define_hook_procedure_ (function));
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
   return SCM_BOOL_T;
 }
 
@@ -482,14 +485,14 @@ mix_add_global_hook_ (SCM function, gboolean pre)
     pre? "mix-add-global-pre-hook" : "mix-add-global-post-hook";
 
   SCM_ASSERT (scm_is_true (scm_procedure_p (function)), function, SCM_ARG1, fun);
-  SCM_DEFER_INTS;
+  scm_lock_mutex (mutex_);
   if (pre)
     mix_vm_cmd_dispatcher_global_pre_hook (vm_dispatcher_, scm_global_hook_,
 					   (gpointer) define_hook_procedure_ (function));
   else
     mix_vm_cmd_dispatcher_global_post_hook (vm_dispatcher_, scm_global_hook_,
 					    (gpointer) define_hook_procedure_ (function));
-  SCM_ALLOW_INTS;
+  scm_unlock_mutex (mutex_);
   return SCM_BOOL_T;
 }
 
