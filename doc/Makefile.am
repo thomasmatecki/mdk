@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2000, 2001, 2003, 2004, 2006, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2003, 2004, 2006, 2008, 2013 Free Software
+#               Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -21,3 +22,5 @@ mdk_TEXINFOS = mdk_intro.texi mdk_ack.texi mdk_tut.texi mdk_gstart.texi \
 
 EXTRA_DIST = MIX.DOC COPYING.MIX.DOC
 
+gendocs: $(mdk_TEXINFOS)
+	(cd $(top_srcdir)/doc && ./gendocs.sh --email bug-mdk@gnu.org mdk 'GNU MDK User Manual')
