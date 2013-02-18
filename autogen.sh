@@ -14,7 +14,7 @@ DIE=0
 
 echo "Generating ChangeLog..."
 touch ChangeLog
-(./gitlog-to-changelog > ChangeLog) || {
+(./etc/gitlog-to-changelog > ChangeLog) || {
     echo "Error generating ChangeLog. The file won't be up to date."
 }
 
