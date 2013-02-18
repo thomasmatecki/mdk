@@ -30,3 +30,5 @@ mixgtk/mixgtk_wm.c
 mixguile/mixguile.c
 mixguile/mixguile_cmd_dispatcher.c
 
+intl/plural.c
+

@@ -9,7 +9,7 @@
 
 @set UPDATED September, 2010
 @set EDITION 1.2.4
-@set VERSION 1.2.6
+@set VERSION 1.2.7
 @set JAO Jose Antonio Ortega Ruiz
 @set PHILIP Philip E. King
 @set PIETER Pieter E. J. Pareit
@@ -20,7 +20,7 @@ This manual is for GNU MDK (version @value{VERSION}, @value{UPDATED}),
 a set of utilities for developing programs using Donald Knuth's MIX
 mythical computer and MIXAL, its assembly language.
 
-Copyright @copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010 Free Software Foundation, Inc.
+Copyright @copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2013 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -244,4 +244,3 @@ Copying
 @include mdk_findex.texi
 
 @bye
-
