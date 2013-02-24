@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009, 2013
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -38,6 +38,10 @@ provided patches to mixlib/mix_scanner.l improving MIXAL compliance.
 kindly and thoroughly reviewed the @sc{mdk} documentation, providing
 insightful advice.
 
+@item Eric S. Raymond
+contributed the documentation file @file{MIX.DOC} and the samples
+@file{elevator.mixal} and @file{mistery.mixal} from his MIXAL package.
+
 @item Nelson H. F. Beebe
 has tested @sc{mdk} in a lot of Unix platforms, suggesting portability
 enhancements to the source code.
@@ -63,4 +67,3 @@ kept an eye on each @sc{mdk} release.
 @uref{http://www.accesscom.com/@/~darius/, MIXAL program}.
 
 @end itemize
-

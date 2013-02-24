@@ -14,7 +14,8 @@ list of these people. Help me keep it complete and exempt of errors.
    * Aleix Conchillo (<aleix@member.fsf.org>) has been following MDK's
      development for many years, indefatigably chasing and fixing
      bugs, and suggesting many improvements. He's also the author of
-     the Fink and Macports ports.
+     the Fink and Macports ports, and took care of keeping Guile
+     support up to date.
 
    * Pieter E.J. Pareit (<pieter.pareit@skynet.be>) is the author of
      the Emacs MIXAL mode, and has also contributed many bug fixes.
@@ -27,6 +28,10 @@ list of these people. Help me keep it complete and exempt of errors.
 
    * Francesc Xavier Noria (<fxn@hash-ref.com>) kindly and thoroughly
      reviewed the MDK documentation, providing insightful advice.
+
+   * Eric S. Raymond contributed the documentation file doc/MIX.DOC
+     and the samples sample/elevator.mixal, sample/mistery.mixal from
+     his MIXAL package.
 
    * Agustin Navarro (<anp@cantv.net>), Ying-Chieh Liao
      (<ijliao@csie.nctu.edu.tw>), Adrian Bunk (<bunk@fs.tum.de>),
@@ -58,4 +63,3 @@ list of these people. Help me keep it complete and exempt of errors.
 
    * MDK was inspired by Darius Bacon's MIXAL program
      (http://www.accesscom.com/~darius/).
-
