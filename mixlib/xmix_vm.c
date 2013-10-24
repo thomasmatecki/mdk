@@ -1,7 +1,7 @@
 /* ---------------------- xmix_vm.c :
  * Implementation of the functions declared in xmix_vm.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004, 2007, 2010 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2007, 2010, 2013 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -439,7 +439,7 @@ jpx_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
   mix_ins_id_t id = mix_ins_id_from_ins (*ins);
   mix_word_t val;
 
-  g_assert (ins->opcode >= mix_opJAx || ins->opcode <= mix_opJXx);
+  g_assert (ins->opcode >= mix_opJAx && ins->opcode <= mix_opJXx);
   fail_if_not_ (vm, MEMOK_ (addr), MIX_VM_ERROR_BAD_ACCESS);
 
   switch (ins->opcode) {
