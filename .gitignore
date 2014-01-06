@@ -23,3 +23,5 @@
 /img
 /doc/manual/
 /autom4te.cache/
+/compile
+/test-driver
