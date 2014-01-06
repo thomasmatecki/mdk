@@ -14,7 +14,7 @@ EXTRA_DIST = getopt_long.c getopt.h
 
 noinst_LIBRARIES = libreplace.a
 if DARWIN_SYSTEM
-libreplace_a_SOURCES = dummy.c
+libreplace_a_SOURCES = darwin.c
 else
 libreplace_a_SOURCES =
 endif
