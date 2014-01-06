@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2014
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -603,15 +603,15 @@ comparison flag:
 @ftable @code
 @item JL
 Jump if @w{@code{[CM] = L}}. OPCODE = 39, MOD = 4.
-@itemx JE
+@item JE
 Jump if @w{@code{[CM] = E}}. OPCODE = 39, MOD = 5.
-@itemx JG
+@item JG
 Jump if @w{@code{[CM] = G}}. OPCODE = 39, MOD = 6.
-@itemx JGE
+@item JGE
 Jump if @code{[CM]} does not equal @code{L}. OPCODE = 39, MOD = 7.
-@itemx JNE
+@item JNE
 Jump if @code{[CM]} does not equal @code{E}. OPCODE = 39, MOD = 8.
-@itemx JLE
+@item JLE
 Jump if @code{[CM]} does not equal @code{G}. OPCODE = 39, MOD = 9.
 @end ftable
 
@@ -1314,4 +1314,3 @@ L         EQU  5
 a         CON  20-L
           END  start
 @end example
-

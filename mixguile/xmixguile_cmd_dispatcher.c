@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- xmixguile_cmd_dispatcher.c :
  * Implementation of the functions declared in xmixguile_cmd_dispatcher.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  *
  */
 
@@ -65,7 +66,6 @@ static SCM
 mixvm_cmd_ (SCM cmd, SCM arg)
 {
   char *com = NULL, *argu = NULL;
-  gboolean result;
 
   SCM_ASSERT (scm_is_string (cmd) || scm_is_symbol (cmd),
               cmd, SCM_ARG1, "mixvm-cmd");
@@ -75,9 +75,9 @@ mixvm_cmd_ (SCM cmd, SCM arg)
   scm_lock_mutex (mutex_);
   com =  scm_to_locale_string (cmd);
   argu = scm_to_locale_string (arg);
-  result = mix_vm_cmd_dispatcher_dispatch (vm_dispatcher_,
-					   mix_vm_command_from_string (com),
-					   argu);
+  (void) mix_vm_cmd_dispatcher_dispatch (vm_dispatcher_,
+                                         mix_vm_command_from_string (com),
+                                         argu);
   g_free (com);
   g_free (argu);
 
