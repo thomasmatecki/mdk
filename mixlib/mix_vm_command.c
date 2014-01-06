@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_vm_command.c :
  * Implementation of the functions declared in mix_vm_command.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2004, 2006, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
  *
  */
 
 
 #include "xmix_vm_command.h"
 #include "xmix_vm_handlers.h"
+#include "completion.h"
 
 #ifdef HAVE_LIBHISTORY
 #  include <readline/history.h>
@@ -91,16 +93,16 @@ mix_vm_command_usage (mix_vm_command_t cmd)
 }
 
 /* create a new command dispatcher */
-static GCompletion *
+static Completion *
 make_completions_ (void)
 {
   GList *cmds = NULL;
   gint k;
 
-  GCompletion *completions = g_completion_new (NULL);
+  Completion *completions = completion_new (NULL);
   for (k = 0; k < MIX_CMD_INVALID; ++k)
     cmds = g_list_append (cmds, (gpointer) mix_vm_command_to_string (k));
-  g_completion_add_items (completions, cmds);
+  completion_add_items (completions, cmds);
   return completions;
 }
 
@@ -239,7 +241,7 @@ mix_vm_cmd_dispatcher_delete (mix_vm_cmd_dispatcher_t *dis)
   g_hash_table_foreach_remove (dis->mem_preds, del_pred_, NULL);
   g_hash_table_destroy (dis->mem_preds);
   g_hash_table_destroy (dis->commands);
-  g_completion_free (dis->completions);
+  completion_free (dis->completions);
   for (k = 0; k < MIX_CMD_INVALID; ++k)
     {
       del_hook_list_ (dis->pre_hooks[k]);
@@ -260,7 +262,7 @@ mix_vm_cmd_dispatcher_register_new (mix_vm_cmd_dispatcher_t *dis,
   g_return_if_fail (cmd != NULL);
   g_hash_table_insert (dis->commands, (gpointer)cmd->name, (gpointer)cmd);
   list = g_list_append (list, (gpointer)cmd->name);
-  g_completion_add_items (dis->completions, list);
+  completion_add_items (dis->completions, list);
 }
 
 const GList *
@@ -274,7 +276,7 @@ mix_vm_cmd_dispatcher_complete (const mix_vm_cmd_dispatcher_t *dis,
   g_return_val_if_fail (cmd != NULL, NULL);
 
   cp = g_strdup (cmd);
-  result = g_completion_complete (dis->completions, cp, prefix);
+  result = completion_complete (dis->completions, cp, prefix);
   g_free (cp);
   return result;
 }
@@ -633,11 +635,10 @@ mix_vm_cmd_dispatcher_get_src_file_line (const mix_vm_cmd_dispatcher_t *dis,
     {
       enum {BUFF_SIZE = 256};
       static gchar BUFFER[BUFF_SIZE];
-      int len =
-	g_snprintf (BUFFER, BUFF_SIZE, "%s", mix_src_file_get_line (file, line));
+      int len = g_snprintf (BUFFER, BUFF_SIZE,
+                            "%s",
+                            mix_src_file_get_line (file, line));
       if (len > 0 && BUFFER[len - 1] == '\n') BUFFER[len - 1] = '\0';
       return BUFFER;
     }
 }
-
-

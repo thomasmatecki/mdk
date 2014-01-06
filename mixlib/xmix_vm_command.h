@@ -1,7 +1,7 @@
 /* -*-c-*- ---------------- xmix_vm_command.h :
  * Private type declarations form mix_vm_command
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include "mix_eval.h"
 #include "mix_predicate.h"
 #include "mix_vm_command.h"
+#include "completion.h"
 
 
 /* configuration keys */
@@ -77,7 +78,7 @@ struct mix_vm_cmd_dispatcher_t
   mix_time_t laptime;		/* last run time */
   mix_time_t progtime;		/* current program running time */
   GHashTable *commands;		/* local commands */
-  GCompletion *completions;	/* command completion list */
+  Completion *completions;	/* command completion list */
   GSList *pre_hooks[HOOKNO_];	/* Pre-command hooks */
   GSList *post_hooks[HOOKNO_];	/* Post-command hooks */
   GSList *global_pre;		/* global pre-command hook */
@@ -97,4 +98,3 @@ log_error_ (mix_vm_cmd_dispatcher_t *dis, const gchar *fmt, ...);
 #define wants_logs_(dis) (dis)->log_msg
 
 #endif /* XMIX_VM_COMMAND_H */
-

@@ -1,7 +1,7 @@
 /* -*-c-*- ---------------- mix_vm_command.h :
  * declarations for mix_vm_command_t, describing commands issued to a vm
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2006, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -251,4 +251,3 @@ mix_vm_cmd_dispatcher_get_vm (const mix_vm_cmd_dispatcher_t *dis);
 
 
 #endif /* MIX_VM_COMMAND_H */
-
