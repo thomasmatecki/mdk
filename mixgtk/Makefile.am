@@ -14,8 +14,10 @@ EXTRA_DIST = mixgtk.glade
 
 if MAKE_GUILE
 GUILED = -DMAKE_GUILE
+GUILEL = $(top_builddir)/mixguile/libmixguile.a
 else
 GUILED =
+GUILEL =
 endif
 
 if DARWIN_SYSTEM
@@ -36,8 +38,9 @@ AM_CFLAGS += -I$(includedir) -I$(top_srcdir) \
 	     -DDEFAULT_EDITOR_CMD=\"$(EDITOR_CMD)\"\
 	     -DDEFAULT_ASM_CMD="\"$(bindir)/mixasm %s"\"\
              $(GUILED) $(EXTRA_EXECD)
+
 LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a\
-        $(top_builddir)/mixguile/libmixguile.a $(INTLLIBS)
+        $(GUILEL) $(INTLLIBS)
 
 AM_LDFLAGS = -Wl,--export-dynamic
 bin_PROGRAMS = gmixvm

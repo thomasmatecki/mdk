@@ -1,5 +1,5 @@
 # Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009,
-#               2010, 2013 Free Software Foundation, Inc.
+#               2010, 2013, 2014 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -9,7 +9,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-AC_INIT([GNU MDK],1.2.7,[bug-mdk@gnu.org],mdk)
+AC_INIT([GNU MDK],1.2.8,[bug-mdk@gnu.org],mdk)
 AC_CONFIG_SRCDIR([mixlib/mix.h])
 AM_INIT_AUTOMAKE
 
@@ -80,6 +80,9 @@ dnl of rl_completion_matches
 AC_CHECK_FUNCS(rl_completion_matches,,)
 fi
 
+dnl Check for glib
+PKG_CHECK_MODULES(GLIB,glib-2.0 >= 2.0)
+
 dnl Check for guile
 AC_ARG_WITH(guile,
 [  --without-guile         build MDK without Guile support],
@@ -100,9 +103,6 @@ if test x$wguile = xtrue; then
 fi
 
 AM_CONDITIONAL(MAKE_GUILE, test x$wguile = xtrue)
-
-dnl Check for glib
-PKG_CHECK_MODULES(GLIB,glib-2.0 >= 2.0)
 
 LIBS="$LIBS $GLIB_LIBS"
 AM_CFLAGS="$AM_CFLAGS $GLIB_CFLAGS -DG_DISABLE_DEPRECATED"

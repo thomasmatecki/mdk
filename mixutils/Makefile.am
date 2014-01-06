@@ -11,14 +11,15 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 
+LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a \
+        $(INTLLIBS)
+
 if MAKE_GUILE
 AM_CFLAGS +=  -I$(includedir) -I$(top_srcdir) -DMAKE_GUILE
+LDADD += $(top_builddir)/mixguile/libmixguile.a
 else
 AM_CFLAGS += -I$(includedir) -I$(top_srcdir)
 endif
-
-LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a \
-        $(top_builddir)/mixguile/libmixguile.a $(INTLLIBS)
 
 bin_PROGRAMS = mixasm mixvm
 mixasm_SOURCES = mixasm.c mixasm_comp.h mixasm_comp.c
