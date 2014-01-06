@@ -21,9 +21,9 @@ SCM_PATHS = -DSCM_FILE=\""$(pkgdatadir)/mixguile.scm"\"\
             -DLOCAL_SCM_FILE=\"mixguile.scm\"
 
 pkgdata_DATA = $(SCM_FILES)
-INCLUDES = -I$(includedir) -I$(top_srcdir) $(SCM_PATHS)
-libmixguile_a_INCLUDES = -I$(includedir) -I$(top_srcdir) \
-                         -DG_LOG_DOMAIN=\"libmixguile\"
+AM_CFLAGS += -I$(includedir) -I$(top_srcdir) $(SCM_PATHS)
+libmixguile_a_AM_CFLAGS = -I$(includedir) -I$(top_srcdir) \
+                          -DG_LOG_DOMAIN=\"libmixguile\"
 libmixguile_a_SOURCES = mixguile.h mixguile.c \
                         mixguile_cmd_dispatcher.h mixguile_cmd_dispatcher.c \
                         xmixguile_cmd_dispatcher.h xmixguile_cmd_dispatcher.c

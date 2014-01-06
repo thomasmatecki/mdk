@@ -12,7 +12,7 @@
 
 
 SUBDIRS = testsuite
-INCLUDES = -I$(includedir) -I$(top_srcdir) -DG_LOG_DOMAIN=\"libmix\"
+AM_CFLAGS += -I$(includedir) -I$(top_srcdir) -DG_LOG_DOMAIN=\"libmix\"
 
 noinst_LIBRARIES = libmix.a
 libmix_a_SOURCES = gettext.h \

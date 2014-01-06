@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2000, 2001, 2002, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2006, 2014 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -12,9 +12,9 @@
 
 
 if MAKE_GUILE
-INCLUDES =  -I$(includedir) -I$(top_srcdir) -DMAKE_GUILE
+AM_CFLAGS +=  -I$(includedir) -I$(top_srcdir) -DMAKE_GUILE
 else
-INCLUDES = -I$(includedir) -I$(top_srcdir)
+AM_CFLAGS += -I$(includedir) -I$(top_srcdir)
 endif
 
 LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a \
