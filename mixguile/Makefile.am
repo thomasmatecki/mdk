@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2001, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2010, 2014 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -13,9 +13,9 @@
 SCM_FILES = mixguile.scm mixguile-commands.scm mixguile-vm-stat.scm
 EXTRA_DIST = $(SCM_FILES)
 
-noinst_LIBRARIES = libmixguile.a
-
 if MAKE_GUILE
+
+noinst_LIBRARIES = libmixguile.a
 
 SCM_PATHS = -DSCM_FILE=\""$(pkgdatadir)/mixguile.scm"\"\
             -DLOCAL_SCM_FILE=\"mixguile.scm\"
@@ -33,9 +33,5 @@ mixguile_LDADD = $(top_builddir)/mixlib/libmix.a \
                  $(top_builddir)/lib/libreplace.a \
                  libmixguile.a $(INTLLIBS)
 mixguile_SOURCES = mixguile_main.c
-
-else
-
-libmixguile_a_SOURCES =
 
 endif
