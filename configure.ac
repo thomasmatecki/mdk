@@ -28,7 +28,7 @@ AC_PROG_RANLIB
 dnl additional c flags
 AM_CFLAGS="$AM_CFLAGS -Wall -fno-strict-aliasing"
 AC_ARG_WITH(werror,
-[  --with-werror         treat compilation errors as warnings],
+[  --with-werror         treat compilation warnings as errors],
 [case "${withval}" in
   yes) werr=true ;;
   no)  werr=false ;;
