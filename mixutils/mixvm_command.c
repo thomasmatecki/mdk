@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixvm_command.c :
  * Implementation of the functions declared in mixvm_command.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,8 +34,6 @@
 #  ifndef HAVE_RL_COMPLETION_MATCHES /* old versions of rl don't use rl_ */
 #    define rl_completion_matches completion_matches
 #  endif
-#else  /* ! HAVE_LIBREADLINE */
-  typedef int Function ();
 #endif /* HAVE_LIBREADLINE */
 
 #include <mixlib/mix_vm.h>
@@ -80,7 +78,7 @@ mix_vm_command_info_t commands[] = {
   { "prompt", cmd_prompt_, N_("Set command prompt"), "prompt PROMPT" },
   { "shell", cmd_shell_, N_("Execute shell command"), "shell COMMAND" },
   { "quit", cmd_quit_, N_("Quit the program"), "quit" },
-  { (char *)NULL, (Function *)NULL, (char *)NULL }
+  { (char *)NULL, NULL, (char *)NULL }
 };
 
 
@@ -217,7 +215,8 @@ mixvm_cmd_init (mix_config_t *config, char *arg, gboolean use_emacs)
 
 #ifdef HAVE_LIBREADLINE
   /* Tell the completer that we want a crack first. */
-  rl_attempted_completion_function = (CPPFunction *)mixvm_cmd_completion_;
+  rl_attempted_completion_function =
+    (rl_completion_func_t *)mixvm_cmd_completion_;
 #endif /* HAVE_LIBREADLINE */
 
   /* initialise the dispatcher */
