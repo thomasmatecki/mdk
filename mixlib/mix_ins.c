@@ -261,7 +261,7 @@ void
 mix_ins_print (const mix_ins_t *ins)
 {
   g_return_if_fail (ins != NULL);
-  g_print (mix_get_string_from_id (mix_ins_id_from_ins (*ins)));
+  g_print ("%s", mix_get_string_from_id (mix_ins_id_from_ins (*ins)));
   g_print (" %s%d,%d(%d:%d)", mix_short_is_negative (ins->address) ? "-" : "+",
            mix_short_magnitude (ins->address), ins->index,
            mix_fspec_left (ins->fspec), mix_fspec_right (ins->fspec));

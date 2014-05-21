@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- xmix_vm_handlers.c :
  * Implementation of the functions declared in xmix_vm_handlers.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1360,8 +1360,8 @@ gboolean
 cmd_pprog_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_program_path (dis);
-  fprintf (dis->out, path? path : _("No program currently loaded"));
-  fprintf (dis->out, "\n");
+  fprintf (dis->out, "%s", path? path : _("No program currently loaded"));
+  fprintf (dis->out, "%s", "\n");
   return (path != NULL);
 }
 
@@ -1369,8 +1369,8 @@ gboolean
 cmd_psrc_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 {
   const gchar *path = mix_vm_cmd_dispatcher_get_src_file_path (dis);
-  fprintf (dis->out, path? path : _("No program currently loaded\n"));
-  fprintf (dis->out, "\n");
+  fprintf (dis->out, "%s", path? path : _("No program currently loaded\n"));
+  fprintf (dis->out, "%s", "\n");
   return (path != NULL);
 }
 
