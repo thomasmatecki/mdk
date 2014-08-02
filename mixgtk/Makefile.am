@@ -42,7 +42,10 @@ AM_CFLAGS += -I$(includedir) -I$(top_srcdir) \
 LDADD = $(top_builddir)/mixlib/libmix.a $(top_builddir)/lib/libreplace.a\
         $(GUILEL) $(INTLLIBS)
 
+if ! DARWIN_SYSTEM
 AM_LDFLAGS = -Wl,--export-dynamic
+endif
+
 bin_PROGRAMS = gmixvm
 gmixvm_SOURCES = gmixvm.c mixgtk.h mixgtk.c \
                  mixgtk_config.h mixgtk_config.c \
