@@ -1377,7 +1377,7 @@ cmd_psrc_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 gboolean
 cmd_pline_ (mix_vm_cmd_dispatcher_t *dis, const gchar *arg)
 {
-  gulong line = 0;
+  glong line = 0;
   const gchar *txt;
 
   if (arg && strlen (arg)) line = atoi (arg);

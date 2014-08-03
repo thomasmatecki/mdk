@@ -1,7 +1,7 @@
 /* -*-c-*- ------------------ mix_vm.c :
  * Implementation of the functions declared in mix_vm.h
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2004, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2004, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -528,8 +528,8 @@ mix_vm_get_error_string (mix_vm_error_t code)
     N_("Unknow error code")
   };
 
-  return errors[(code < 0 || code > MIX_VM_ERROR_UNEXPECTED)
-                ? MIX_VM_ERROR_UNEXPECTED + 1 : code];
+  return errors[code > MIX_VM_ERROR_UNEXPECTED ?
+                MIX_VM_ERROR_UNEXPECTED + 1 : code];
 }
 
 /* Breakpoints */

@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mixgtk_widgets.c :
  * Implementation of the functions declared in mixgtk_widgets.h
  * ------------------------------------------------------------------
- * Copyright (C) 2001, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2001, 2004, 2006, 2007, 2014 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,7 +124,7 @@ mixgtk_widget_factory_init (void)
 GtkWidget *
 mixgtk_widget_factory_get (mixgtk_dialog_id_t dlg, mixgtk_widget_id_t widget)
 {
-  g_assert (widget < WIDGET_NO_);
+  g_assert ((long)widget < WIDGET_NO_);
 
   return mixgtk_widget_factory_get_child_by_name (dlg, names_[widget]);
 }
@@ -148,5 +148,3 @@ mixgtk_widget_factory_get_child_by_name (mixgtk_dialog_id_t dlg,
   if (!xml_[dlg]) init_xml_ (dlg);
   return glade_xml_get_widget (xml_[dlg], name);
 }
-
-
