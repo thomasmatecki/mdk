@@ -8,10 +8,12 @@ See the end for copying conditions.
 Please send mdk bug reports to bug-mdk@gnu.org.
 
 ---------------------------------------------------------------------------
-* Version 1.2.8 ()
+* Version 1.2.8 (03/08/14)
 
 ** Bug fixes:
 
+   - #42818: Fixed invalid use of --export-dynamic in Darwin.
+   - #42871: Fixed tautological integer comparisons.
    - #39817: Fixed compilation with Glib > 2.35.6.
    - #41097, #4198: Fixed compilation in Darwin systems.
    - #41097: Fixed compilation with libreadline 6.3.x.
