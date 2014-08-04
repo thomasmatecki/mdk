@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009, 2013
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009, 2013, 2014
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -22,7 +22,7 @@ design with insightful comments and prototypes.
 @item Aleix Conchillo
 has been following @sc{mdk}'s development for many years, indefatigably
 chasing and fixing bugs, and suggesting many improvements. He's also the
-author of the Fink and Macports ports.
+original author of the Fink and Macports ports.
 
 @item Pieter E J Pareit
 is the author of the Emacs MIXAL mode, and has also contributed many
@@ -46,7 +46,7 @@ contributed the documentation file @file{MIX.DOC} and the samples
 has tested @sc{mdk} in a lot of Unix platforms, suggesting portability
 enhancements to the source code.
 
-@item Agustin Navarro, Ying-Chieh Liao, Adrian Bunk, Baruch Even, and Ronald Cole
+@item Ryan Schmidt, Agustin Navarro, Ying-Chieh Liao, Adrian Bunk, Baruch Even, and Ronald Cole
 ported @sc{mdk} to different platforms, and created and/or maintain
 packages for it.
 

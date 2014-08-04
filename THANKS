@@ -13,15 +13,15 @@ list of these people. Help me keep it complete and exempt of errors.
 
    * Aleix Conchillo (<aleix@member.fsf.org>) has been following MDK's
      development for many years, indefatigably chasing and fixing
-     bugs, and suggesting many improvements. He's also the author of
-     the Fink and Macports ports, and took care of keeping Guile
-     support up to date.
+     bugs, and suggesting many improvements. He's also the original
+     author of the Fink and Macports ports, and took care of keeping
+     Guile support up to date.
 
    * Pieter E.J. Pareit (<pieter.pareit@skynet.be>) is the author of
      the Emacs MIXAL mode, and has also contributed many bug fixes.
 
    * Michael Scholz (<scholz-micha@gmx.de>) is the author of the
-       German translation of MDK's user interface.
+     German translation of MDK's user interface.
 
    * Sergey Poznyakoff(<gray@gnu.org>) provided patches to
      mixlib/mix_scanner.l improving MIXAL compliance.
@@ -33,7 +33,7 @@ list of these people. Help me keep it complete and exempt of errors.
      and the samples sample/elevator.mixal, sample/mistery.mixal from
      his MIXAL package.
 
-   * Agustin Navarro (<anp@cantv.net>), Ying-Chieh Liao
+   * Ryan Schmidt, Agustin Navarro (<anp@cantv.net>), Ying-Chieh Liao
      (<ijliao@csie.nctu.edu.tw>), Adrian Bunk (<bunk@fs.tum.de>),
      Baruch Even (<baruch@debian.org>) and Ronald Cole
      (<ronald@forte-intl.com>) created and/or maintain packages of MDK
