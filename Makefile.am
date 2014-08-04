@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2000, 2001, 2004, 2006, 2013 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2004, 2006, 2013, 2014 Free Software Foundation, Inc.
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -11,7 +11,7 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 EXTRA_DIST = config.rpath ABOUT-NLS intltool-extract.in intltool-merge.in \
-             intltool-update.in ChangeLog.1 ChangeLog.2
+             autogen.sh intltool-update.in ChangeLog.1 ChangeLog.2
 SUBDIRS = po intl doc lib mixlib mixguile mixutils mixgtk misc samples
 
 distclean-local:
