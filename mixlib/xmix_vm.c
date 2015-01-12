@@ -188,6 +188,14 @@ sla_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
     mix_word_shift_right_circular (get_rA_ (vm), get_rX_ (vm), n,
                                    &get_rA_ (vm), &get_rX_ (vm));
     break;
+  case mix_SLB:
+    mix_word_shift_left_binary (get_rA_ (vm), get_rX_ (vm), n,
+                                &get_rA_ (vm), &get_rX_ (vm));
+    break;
+  case mix_SRB:
+    mix_word_shift_right_binary (get_rA_ (vm), get_rX_ (vm), n,
+                                 &get_rA_ (vm), &get_rX_ (vm));
+    break;
   default:
     fail_unexpected_ (vm);
   }
@@ -480,6 +488,12 @@ jpx_handler_ (mix_vm_t *vm, const mix_ins_t *ins)
   case mix_J4NP: case mix_J5NP: case mix_J6NP:
     jump = mix_word_magnitude (val) == MIX_WORD_ZERO
       || mix_word_is_negative (val);
+    break;
+  case mix_JAE: case mix_JXE:
+    jump = mix_word_is_even (val);
+    break;
+  case mix_JAO: case mix_JXO:
+    jump = mix_word_is_odd (val);
     break;
   default:
     fail_unexpected_ (vm);

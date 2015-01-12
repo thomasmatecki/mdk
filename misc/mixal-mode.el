@@ -101,7 +101,7 @@ value.")
 
 (defvar mixal-operation-codes
   '("NOP" "ADD" "FADD" "SUB" "FSUB" "MUL" "FMUL" "DIV" "FDIV" "NUM" "CHAR"
-    "HLT" "SLA" "SRA" "SLAX" "SRAX" "SLC" "SRC" "MOVE" "LDA" "LD1" "LD2" "LD3"
+    "HLT" "SLA" "SRA" "SLAX" "SRAX" "SLC" "SRC" "SLB" "SRB" "MOVE" "LDA" "LD1" "LD2" "LD3"
     "LD4" "LD5" "LD6" "LDX" "LDAN" "LD1N" "LD2N" "LD3N" "LD4N" "LD5N" "LD6N"
     "LDXN" "STA" "ST1" "ST2" "ST3" "ST4" "ST5" "ST6" "STX" "STJ" "STZ" "JBUS"
     "IOC" "IN" "OUT" "JRAD" "JMP" "JSJ" "JOV" "JNOV"
@@ -112,6 +112,8 @@ value.")
     "JANN" "J1NN" "J2NN" "J3NN" "J4NN" "J5NN" "J6NN" "JXNN"
     "JANZ" "J1NZ" "J2NZ" "J3NZ" "J4NZ" "J5NZ" "J6NZ" "JXNZ"
     "JANP" "J1NP" "J2NP" "J3NP" "J4NP" "J5NP" "J6NP" "JXNP"
+    "JAE"                                            "JXE"
+    "JAO"                                            "JXO"
     "INCA" "DECA" "ENTA" "ENNA" "INC1" "DEC1" "ENT1" "ENN1"
     "INC2" "DEC2" "ENT2" "ENN2" "INC3" "DEC3" "ENT3" "ENN3" "INC4" "DEC4"
     "ENT4" "ENN4" "INC5" "DEC5" "ENT5" "ENN5" "INC6" "DEC6" "ENT6" "ENN6"
@@ -824,6 +826,20 @@ been executed when there was no jump."
  1)
 
 (mixal-add-operation-code
+ 'JAE 'jump "jump A even" 40 6
+ "Jump if the content of rA is even.
+Register J is set to the value of the next instruction that would have
+been executed when there was no jump."
+ 1)
+
+(mixal-add-operation-code
+ 'JAO 'jump "jump A odd" 40 7
+ "Jump if the content of rA is odd.
+Register J is set to the value of the next instruction that would have
+been executed when there was no jump."
+ 1)
+
+(mixal-add-operation-code
  'JXN 'jump "jump X negative" 47 0
  "Jump if the content of rX is negative.
 Register J is set to the value of the next instruction that would have
@@ -866,6 +882,20 @@ been executed when there was no jump."
 (mixal-add-operation-code
  'JXNP 'jump "jump X non-positive" 47 5
  "Jump if the content of rX is non-positive.
+Register J is set to the value of the next instruction that would have
+been executed when there was no jump."
+ 1)
+
+(mixal-add-operation-code
+ 'JXE 'jump "jump X even" 47 6
+ "Jump if the content of rX is even.
+Register J is set to the value of the next instruction that would have
+been executed when there was no jump."
+ 1)
+
+(mixal-add-operation-code
+ 'JXO 'jump "jump X odd" 47 7
+ "Jump if the content of rX is odd.
 Register J is set to the value of the next instruction that would have
 been executed when there was no jump."
  1)
@@ -1196,6 +1226,16 @@ The bytes that fall off to the left will be added to the right."
  'SRC 'miscellaneous "shift right AX circularly" 6 4
  "Shift AX, M bytes right circularly.
 The bytes that fall off to the right will be added to the left."
+ 2)
+
+(mixal-add-operation-code
+ 'SLB 'miscellaneous "shift left AX binary" 6 6
+ "Shift AX, M binary places left."
+ 2)
+
+(mixal-add-operation-code
+ 'SRB 'miscellaneous "shift right AX binary" 6 7
+ "Shift AX, M binary places right."
  2)
 
 (mixal-add-operation-code

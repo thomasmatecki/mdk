@@ -245,6 +245,23 @@ test_shift_(mix_vm_t *vm, mix_dump_context_t *dc)
   test.rA_a = mix_word_new_b(0,6,7,8,3);
   test.rX_a = mix_word_new_bn(4,0,0,5,0);
   run_test_(&test, vm, dc);
+
+  mix_ins_fill_from_id(ins, mix_SLB);
+  ins.index = 0;
+  ins.address = 3;
+  fill_test_desc_(&test, vm, &ins);
+  test.rA_b = mix_word_new(06543217654);
+  test.rX_b = mix_word_new(03217654321);
+  test.rA_a = mix_word_new(05432176543);
+  test.rX_a = mix_word_new(02176543210);
+  run_test_(&test, vm, dc);
+
+  mix_ins_fill_from_id(ins, mix_SRB);
+  ins.address = 6;
+  fill_test_desc_(&test, vm, &ins);
+  test.rA_a = mix_word_new(00054321765);
+  test.rX_a = mix_word_new(04321765432);
+  run_test_(&test, vm, dc);
 }
 
 static void

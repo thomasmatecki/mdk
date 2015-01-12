@@ -463,6 +463,40 @@ mix_word_shift_right_circular (mix_word_t A, mix_word_t X, gulong count,
       | ( mix_word_magnitude (A1) >> c ) | ( MIX_WORD_MAX & (X1 << (30 - c)) );
 }
 
+void
+mix_word_shift_left_binary (mix_word_t A, mix_word_t X, gulong count,
+                            mix_word_t *pA, mix_word_t *pX)
+{
+  if ( pX != NULL ) *pX = mix_word_sign (X);
+  if ( pA != NULL ) *pA = mix_word_sign (A);
+  if (count < 30) {
+    if ( pX != NULL ) *pX |= MIX_WORD_MAX & (X << count);
+    if ( pA != NULL )
+      *pA |= MIX_WORD_MAX & ( (A << count) |
+			      (mix_word_magnitude (X) >> (30 - count)) );
+  } else if (count < 60 && pA != NULL)
+    *pA |= MIX_WORD_MAX & (X << (count - 30));
+  else
+    ;
+}
+
+void
+mix_word_shift_right_binary (mix_word_t A, mix_word_t X, gulong count,
+                             mix_word_t *pA, mix_word_t *pX)
+{
+  if ( pX != NULL ) *pX = mix_word_sign (X);
+  if ( pA != NULL ) *pA = mix_word_sign (A);
+  if (count < 30) {
+    if ( pA != NULL )
+      *pA |= mix_word_magnitude (A) >> count;
+    if ( pX != NULL )
+      *pX |= MIX_WORD_MAX & ( (mix_word_magnitude (X) >> count)
+			      | (A << (30 - count)) );
+  } else if (count < 60 && pX != NULL)
+    *pX |= mix_word_magnitude (A) >> (count - 30);
+  else
+    ;
+}
 
 /* Printable representation */
 void

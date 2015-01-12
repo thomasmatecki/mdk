@@ -136,6 +136,8 @@ mix_word_set_byte(mix_word_t *into,   /* word to be modified */
 #define mix_word_magnitude(word)     ( (word) & (MIX_WORD_SIGN_BIT - 1) )
 #define mix_word_is_positive(word)   ( mix_word_sign(word) == 0 )
 #define mix_word_is_negative(word)   ( mix_word_sign(word) != 0 )
+#define mix_word_is_even(word)       ( ((word) & 1) == 0 )
+#define mix_word_is_odd(word)        ( ((word) & 1) == 1 )
 
 
 /* Arithmetic operations */
@@ -175,10 +177,15 @@ mix_word_shift_left_circular(mix_word_t A, mix_word_t X, gulong count,
 			     mix_word_t *pA, mix_word_t *pX);
 extern void
 mix_word_shift_right_circular(mix_word_t A, mix_word_t X, gulong count,
-			     mix_word_t *pA, mix_word_t *pX);
+                              mix_word_t *pA, mix_word_t *pX);
 
+extern void
+mix_word_shift_left_binary(mix_word_t A, mix_word_t X, gulong count,
+                           mix_word_t *pA, mix_word_t *pX);
 
-
+extern void
+mix_word_shift_right_binary(mix_word_t A, mix_word_t X, gulong count,
+                            mix_word_t *pA, mix_word_t *pX);
 
 /*
  * Fields within a word: a word containing the (L:R)
