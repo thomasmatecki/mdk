@@ -625,18 +625,22 @@ using the following instructions:
 @itemx JANN
 @itemx JANZ
 @itemx JANP
+@itemx JAE
+@itemx JAO
 Jump if the content of rA is, respectively, negative, zero, positive,
-non-negative, non-zero or non-positive.
-OPCODE = 40, MOD = 0, 1, 2, 3, 4, 5.
+non-negative, non-zero, non-positive, even or odd.
+OPCODE = 40, MOD = 0, 1, 2, 3, 4, 5, 6, 7.
 @item JXN
 @itemx JXZ
 @itemx JXP
 @itemx JXNN
 @itemx JXNZ
 @itemx JXNP
+@itemx JXE
+@itemx JXO
 Jump if the content of rX is, respectively, negative, zero, positive,
-non-negative, non-zero or non-positive.
-OPCODE = 47, MOD = 0, 1, 2, 3, 4, 5.
+non-negative, non-zero, non-positive, even or odd.
+OPCODE = 47, MOD = 0, 1, 2, 3, 4, 5, 6, 7.
 @item JiN
 @itemx JiZ
 @itemx JiP
@@ -756,6 +760,17 @@ Shift rA or rAX left, right, or rAX circularly (see example below)
 left or right. M specifies the number of bytes to be shifted.
 OPCODE = 6, MOD = 0, 1, 2, 3, 4, 5.
 @end ftable
+
+@noindent
+The following instructions perform binary shifts of the contents of @samp{rA} and @samp{rX}.
+
+@ftable @code
+@item SLB
+@itemx SRB
+Shift rAX left or right binary. M specifies the number of binary places to shift.
+OPCODE = 6, MOD = 6, 7
+@end ftable
+
 @noindent
 If we begin with, say, @samp{[rA]} = @w{- 01 02 03 04 05}, we would
 have the following modifications to @samp{rA} contents when performing
@@ -766,18 +781,21 @@ the instructions on the left column:
 @item SLA 6 @tab [rA] = - 00 00 00 00 00
 @item SRA 1 @tab [rA] = - 00 01 02 03 04
 @end multitable
+
 @noindent
 Note that the sign is unaffected by shift operations. On the other
-hand, @samp{SLC}, @samp{SRC}, @samp{SLAX} and @samp{SRAX} treat
-@samp{rA} and @samp{rX} as a single 10-bytes register (ignoring again
-the signs). For instance, if we begin with @samp{[rA]} = @w{+ 01 02 03
-04 05} and @samp{[rX]} = @w{- 06 07 08 09 10}, we would have:
+hand, @samp{SLC}, @samp{SRC}, @samp{SLAX}, @samp{SRAX}, @samp{SLB} and
+@samp{SRB} treat @samp{rA} and @samp{rX} as a single 10-bytes register
+(ignoring again the signs). For instance, if we begin with @samp{[rA]}
+= @w{+ 01 02 03 04 05} and @samp{[rX]} = @w{- 06 07 08 09 10}, we
+would have:
 
 @multitable {SLC 00} {[rA] = - 00 00 00 00 00} {[rA] = - 00 00 00 00 00}
-@item SLC 3 @tab [rA] =  + 04 05 06 07 08 @tab [rX] = - 09 10 01 02 03
+@item SLC 3 @tab [rA] = + 04 05 06 07 08 @tab [rX] = - 09 10 01 02 03
 @item SLAX 3 @tab [rA] = + 04 05 06 07 08 @tab [rX] = - 09 10 00 00 00
-@item SRC 4 @tab [rA] =  + 07 08 09 10 01 @tab [rX] = - 02 03 04 05 06
-@item SRAX 4 @tab [rA] =  + 00 00 00 00 01 @tab [rX] = - 02 03 04 05 06
+@item SRC 4 @tab [rA] = + 07 08 09 10 01 @tab [rX] = - 02 03 04 05 06
+@item SRAX 4 @tab [rA] = + 00 00 00 00 01 @tab [rX] = - 02 03 04 05 06
+@item SLB 1 @tab [rA] = + 02 04 06 08 10 @tab [rX] = - 12 14 16 18 20
 @end multitable
 
 @node Miscellaneous operators, Execution times, Shift operators, MIX instruction set
