@@ -182,7 +182,7 @@ above components, and which is able to execute a rich set of
 instructions (constituting its machine language, similar to those
 commonly found in real CPUs), including arithmetic, logical, storing,
 comparison and jump instructions. Being a typical von Neumann computer,
-the MIX CPU fetchs binary instructions from memory sequentially (unless
+the MIX CPU fetches binary instructions from memory sequentially (unless
 a jump instruction is found), and stores the address of the next
 instruction to be executed in an internal register called @dfn{location
 counter} (also known as program counter in other architectures).
@@ -198,7 +198,7 @@ of the available MIX binary instructions.
 The following subsections fully describe the instruction set of the MIX
 computer. We begin with a description of the structure of binary
 instructions and the notation used to refer to their subfields. The
-remaininig subsections are devoted to describing the actual instructions
+remaining subsections are devoted to describing the actual instructions
 available to the MIX programmer.
 
 @menu
@@ -466,7 +466,7 @@ of the register @samp{A}, so that we are able to handle 10-byte numbers
 whose more significant bytes are those of @samp{rA} (the sign of this
 10-byte number is that of @samp{rA}: @samp{rX}'s sign is ignored).
 
-Addition and substraction of MIX words can give rise to overflows, since
+Addition and subtraction of MIX words can give rise to overflows, since
 the result is stored in a register with room to only 5 bytes (plus
 sign). When this occurs, the operation result modulo @w{1,073,741,823}
 (the maximum value storable in a MIX word) is stored in @samp{rA}, and
@@ -521,7 +521,7 @@ can use the binary instruction @w{+ 31 16 00 03 48}, or, symbolically,
 ENNA 2000
 @end example
 @noindent
-Used in conjuction with the store operations (@samp{STA}, @samp{STX},
+Used in conjunction with the store operations (@samp{STA}, @samp{STX},
 etc.), these instructions also allow you to set memory cells contents to
 concrete values.
 
@@ -672,7 +672,7 @@ Transfer a block of words from memory (starting at address M) to the
 specified unit.
 OPCODE = 37, MOD = I/O unit.
 @item IOC
-Perfom a control operation (given by M) on the specified unit.
+Perform a control operation (given by M) on the specified unit.
 OPCODE = 35, MOD = I/O unit.
 @item JRED
 Jump to M if the specified unit is ready.
@@ -827,9 +827,9 @@ counter, while @samp{HLT} usually marks program termination.
 @cindex time
 
 When writing MIXAL programs (or any kind of programs, for that
-matter), whe shall often be interested in their execution
-time. Loosely speaking, we will interested in the answer to the
-question: how long takes a program to execute? Of course, this
+matter), we shall often be interested in their execution
+time. Loosely speaking, we will be interested in the answer to the
+question: how long does it take a program to execute? Of course, this
 execution time will be a function of the input size, and the answer to
 our question is commonly given as the asymptotic behaviour as a
 function of the input size. At any rate, to compute this asymptotic
@@ -950,7 +950,7 @@ defaults to 0 (i.e., no use of indexing) and can only be used when
 is an expression evaluating to the mod subfield of the instruction. Its
 default value, when omitted, depends on @code{OPCODE},
 @item COMMENT
-any number of spaces after the operand mark the beggining of a comment,
+any number of spaces after the operand mark the beginning of a comment,
 i.e. any text separated by white space from the operand is ignored by
 the assembler (note that spaces are not allowed within the
 @samp{OPERAND} field).
@@ -964,8 +964,8 @@ column number at which each of these instruction parts must start. The
 MIXAL assembler included in @sc{mdk}, @code{mixasm}, does not impose
 such restriction.}.
 
-We have already listed the mnemonics associated will each MIX
-instructions; sample MIXAL instructions representing MIX instructions
+We have already listed the mnemonics associated with each MIX
+instruction; sample MIXAL instructions representing MIX instructions
 are:
 @example
 HERE     LDA  2000         HERE represents the current location counter
@@ -1014,8 +1014,8 @@ directive to mark the initial value of the assembler's location counter
 instruction). Thus, a minimal MIXAL program would be
 
 @example
-          ORIG  2000    set the initial compilation adress
-          NOP           this instruction will be loaded at adress 2000
+          ORIG  2000    set the initial compilation address
+          NOP           this instruction will be loaded at address 2000
           HLT           and this one at address 2001
           END   2000    end of program; start at address 2000
 this line is not parsed by the assembler
@@ -1065,7 +1065,7 @@ the assembler encounters the following code snippet
 it will assign to the memory cell number 1150 the contents @w{- 00 06 61
 11 49} (which corresponds to the decimal value -1823473).
 
-Finally, the @code{ALF} directive let's you specify the memory contents
+Finally, the @code{ALF} directive lets you specify the memory contents
 as a set of five (optionally quoted) characters, which are translated by
 the assembler to their byte values, conforming in that way the binary
 word that is to be stored in the corresponding memory cell. This

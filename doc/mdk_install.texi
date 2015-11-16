@@ -111,7 +111,7 @@ where the last one must be run as root.
 
 The first command, @code{configure}, will setup the makefiles for your
 system. In particular, @code{configure} will look for GTK+ and libglade,
-and, if they are present, will generate the appropiate makefiles for
+and, if they are present, will generate the appropriate makefiles for
 building the @code{gmixvm} graphical user interface. Upon completion,
 you should see a message with the configuration results like the
 following:
@@ -249,7 +249,7 @@ Solaris 2.8/gcc 2.95.3 (Stephen Ramsay)
 MS Windows 98 SE/Cygwin 1.1.8-2 (Christoph von
 Nathusius)@footnote{Caveats: Christoph has only tested @code{mixvm} and
 @code{mixasm} on this platform, using @code{gcc} 2.95.3-2, @code{GLIB}
-1.2.10 and @code{GNUreadline} 4.1-2. He has reported missing history
+1.2.10 and @code{GNU readline} 4.1-2. He has reported missing history
 functionalities on a first try. If you find problems with
 history/readline functionality, please try a newer/manually installed
 readline version.}

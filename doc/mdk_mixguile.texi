@@ -136,7 +136,7 @@ command wrappers are implemented using a generic command dispatching
 function:
 
 @defun mixvm-cmd command argument
-Dispatchs the given @var{command} to the MIX virtual appending the
+Dispatches the given @var{command} to the MIX virtual machine appending the
 provided @var{argument}. Both @var{command} and @code{argument} must be
 strings. The net result is as writing "@var{command} @var{argument}" at
 the @code{mixvm} or @code{gmixvm} command prompt.
@@ -180,7 +180,7 @@ presented in the previous section by adding error checking:
     (mix-load (cadr args))
     ;; execute it if mix-load succeeded
     (if (mix-last-result) (mix-run))
-    ;; print the contents of registers if the above commands succeded
+    ;; print the contents of registers if the above commands succeeded
     (if (mix-last-result) (mix-pall))))
 @end example
 
@@ -253,7 +253,7 @@ explicit or conditional breakpoint is found during the execution of a
 MIX program. The following functions let you install hooks:
 
 @defun mix-add-pre-hook command hook
-Adds a function to the list of pre-hooks associated with the give
+Adds a function to the list of pre-hooks associated with the given
 @var{command}. @var{command} is a string naming the corresponding @code{mixvm}
 command, and @var{hook} is a function which takes a single argument: a
 string list of the commands arguments. The following scheme code defines
@@ -273,7 +273,7 @@ corresponding command (or its associated Scheme wrapper function).
 @end defun
 
 @defun mix-add-post-hook command hook
-Adds a function to the list of pre-hooks associated with the give
+Adds a function to the list of pre-hooks associated with the given
 @var{command}. The arguments have the same meaning as in
 @code{mix-add-pre-hook}.
 @end defun
@@ -307,7 +307,7 @@ Break hook functions are entirely implemented in Scheme using regular
 post-hooks for the @code{next} and @code{run} commands. If you are
 curious, you can check the Scheme source code at
 @file{@emph{prefix}/share/mdk/mixguile-vm-stat.scm} (where @emph{prefix}
-stands for your root install directory, usualy @code{/usr} or
+stands for your root install directory, usually @code{/usr} or
 @code{/usr/local}.
 @end defun
 
@@ -331,7 +331,7 @@ functions:
 @defun mixvm-status
 @defunx mix-vm-status
 Return the current status of the virtual machine, as a number
-(@code{mixvm-status}) or as a symbol (@code{mix-vm-status}). Posible
+(@code{mixvm-status}) or as a symbol (@code{mix-vm-status}). Possible
 return values are:
 @multitable {aamixvmaastatusaa} {aamixvmastatusaaaaaaa} {return valuesaaaaaaaaaaaaaaaaaaaaaaaaaa}
 @item @code{(mixvm-status)} @tab @code{(mix-vm-status)} @tab

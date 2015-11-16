@@ -39,7 +39,7 @@ assembly language:
 *                                                        (3)
 * label ins    operand     comment                       (4)
 TERM    EQU    19          the MIX console device number (5)
-        ORIG   1000        start address                 (6)
+        ORIG   3000        start address                 (6)
 START   OUT    MSG(TERM)   output data at address MSG    (7)
         HLT                halt execution                (8)
 MSG     ALF    "MIXAL"                                   (9)
@@ -66,7 +66,7 @@ in each non-comment line are:
 an optional label, which either refers to the current memory address (as
 @code{START} and @code{MSG} in lines 7 and 9) or a defined symbol
 (@code{TERM}) (if present, the label must always start at the first
-column in its line, for the first whitespace in the line maks the
+column in its line, for the first whitespace in the line marks the
 beginning of the second field),
 @item
 an operation mnemonic, which can represent either a MIX instruction
@@ -162,7 +162,7 @@ your program into memory, execute it (producing any output due to
 MIXAL @code{OUT} instructions present in the program), and exit when
 it encounters a @code{HLT} instruction. In interactive mode, you will
 enter a shell prompt which allows you issuing commands to the running
-virtual machine. This commands will permit you to load, run and debug
+virtual machine. These commands will permit you to load, run and debug
 programs, as well as to inspect the MIX computer state (register
 contents, memory cells contents and so on).
 
@@ -220,7 +220,7 @@ MIXAL HELLO WORLD
 
 Sometimes, you will prefer to store the results of your program in MIX
 registers rather than writing them to a device. In such cases,
-@code{mixvm}'s @code{-d} flag is your friend: it makes @code{mixvm} to
+@code{mixvm}'s @code{-d} flag is your friend: it makes @code{mixvm} 
 dump the contents of its registers and flags after executing the loaded
 program. For instance, typing the following command at your shell's
 prompt
@@ -284,7 +284,7 @@ Editing,,,Readline}.)
 
 @cindex @code{load}
 Usually, the first thing you will want to do is loading a compiled MIX
-program into memory. This is acomplished by the @code{load} command,
+program into memory. This is accomplished by the @code{load} command,
 which takes as an argument the name of the @file{.mix} file to be
 loaded. Thus, typing
 
@@ -378,7 +378,7 @@ MIX >
 
 @cindex @code{help}
 @noindent
-Use the comand @code{help} to obtain a list of all available commands,
+Use the command @code{help} to obtain a list of all available commands,
 and @code{help COMMAND} for help on a specific command, e.g.
 
 @example
@@ -429,7 +429,7 @@ MIX >
 @end example
 @noindent
 (As an aside, the above sample also shows how the virtual machine
-handles cummulative time statistics and automatic program restart).
+handles cumulative time statistics and automatic program restart).
 
 @cindex @code{sbpa}
 @cindex breakpoints
@@ -499,7 +499,7 @@ MIX >
 @end example
 
 Other useful commands for debugging are @code{strace} (which turns on
-tracing of executed intructions), @code{pbt} (which prints a backtrace
+tracing of executed instructions), @code{pbt} (which prints a backtrace
 of executed instructions) and @code{weval} (which evaluates
 w-expressions on the fly). For a complete description of all available
 MIX commands, @xref{mixvm}.
@@ -596,7 +596,7 @@ advantage of the Guile interpreter.
 The @code{mix-} function counterparts of the @code{mixvm} commands don't
 return any value, and are evaluated only for their side-effects
 (possibly including informational messages to the standard output and/or
-error stream). When writting your own Scheme functions to manipulate the
+error stream). When writing your own Scheme functions to manipulate the
 MIX virtual machine within @code{mixguile} (@pxref{Defining new
 functions}), you'll probably need Scheme functions returning the value
 of the registers, memory cells and so on. Don't worry: @code{mixguile}
@@ -822,7 +822,7 @@ Stopped at line 6:             HLT
 guile>
 @end example
 
-As a second, more elaborated, example, let's define hooks which print
+As a second, more elaborate, example, let's define hooks which print
 the address and contents of a cell being modified using @code{smem}. The
 hook functions could be something like this:
 
@@ -855,7 +855,7 @@ and we can install them using
 (mix-add-post-hook 'smem smem-post-hook)
 @end example
 @noindent
-Aferwards, a sample execution of @code{mix-smem} would look like this:
+Afterwards, a sample execution of @code{mix-smem} would look like this:
 
 @example
 guile> (mix-smem 2000 100)
@@ -964,7 +964,7 @@ scripts that perform a set of commands for you. This is done using the
 accepts all the command options of @code{guile}; type @code{mixguile -h}
 for a list of all available command options). For instance, if you have
 a very useful MIX program @file{foo.mix} which you want to run often,
-you don't have to fire a MIX virtual machine, load and run it every
+you don't have to fire up a MIX virtual machine, load and run it every
 time; you can write a Scheme script instead:
 
 @example
@@ -1014,7 +1014,7 @@ script (not just running and dumping the registers). For additional
 
 In the previous section (@pxref{Using mixguile}) we have seen how the
 Guile shell @code{mixguile} offers you the possibility of using Scheme
-to manipulate a MIx virtual machine and extend the set of commands
+to manipulate a MIX virtual machine and extend the set of commands
 offered by @code{mixvm} and @code{gmixvm}. This possibility is not
 limited to the @code{mixguile} shell. Actually, both @code{mixvm} and
 @code{gmixvm} incorporate an embedded Guile interpreter, and can

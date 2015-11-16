@@ -79,7 +79,7 @@ using this option.
 @defopt -l
 @defoptx @w{--list[=list_file]}
 @cindex .mls file
-This option causes @code{mixasm} to produce, in addion to the
+This option causes @code{mixasm} to produce, in addition to the
 @file{.mix} file, an ASCII file containing a summary of the compilation
 results. The file is named after the MIXAL source file, changing its
 extension to @file{.mls} if no argument is provided; otherwise, the

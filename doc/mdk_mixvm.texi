@@ -65,7 +65,7 @@ the virtual machine's state after execution.
 
 @defopt -d
 @defoptx --dump
-This option must be used in conjuction with @code{-r}, and tells
+This option must be used in conjunction with @code{-r}, and tells
 @code{mixvm} to print the value of the virtual machine's registers,
 comparison flag and overflow toggle after executing the program named
 @var{FILE}. See @xref{Non-interactive mode}, for sample usage.
@@ -73,7 +73,7 @@ comparison flag and overflow toggle after executing the program named
 
 @defopt -t
 @defoptx --time
-This option must be used in conjuction with @code{-r}, and tells
+This option must be used in conjunction with @code{-r}, and tells
 @code{mixvm} to print virtual time statistics for the program's
 execution.
 @end defopt
@@ -128,7 +128,7 @@ already familiar with these command line editing capabilities, as they
 are present in many GNU utilities, e.g. the @code{bash}
 shell)@footnote{The readline functionality will be available if you have
 compiled @sc{mdk} with readline support, i.e., if GNU readline is
-installed in your system. This is ofte the case in GNU/Linux and BSD
+installed in your system. This is often the case in GNU/Linux and BSD
 systems}. In a nutshell, readline provides command completion using the
 @kbd{TAB} key and command history using the cursor keys. A history file
 containing the last commands typed in previous sessions is stored in the
@@ -316,7 +316,7 @@ sbpr I1
 
 @noindent
 will cause an interruption during program execution whenever the
-contents or register @code{I1} changes. A previously set breakpoint is
+contents of register @code{I1} changes. A previously set breakpoint is
 cleared using the @code{cbpr} command.
 @end deffn
 
@@ -332,7 +332,7 @@ sbpm 1000
 
 @noindent
 will cause an interruption during program execution whenever the
-contents or of the memory cell number 1000 changes. A previously set
+contents of the memory cell number 1000 changes. A previously set
 breakpoint is cleared using the @code{cbpm} command.
 @end deffn
 
@@ -488,7 +488,7 @@ New symbols can be defined using the @code{ssym} command:
 
 @deffn {debug command} ssym SYM WEXP
 Defines the symbol named @var{SYM} with the value resulting from
-evaluating @var{WEXP}, an w-expression. The newly defined symbol can be
+evaluating @var{WEXP}, a w-expression. The newly defined symbol can be
 used in subsequent @code{weval} commands, as part of the expression to
 be evaluated. E.g.,
 
@@ -571,7 +571,7 @@ rI5: + 00 00 (0000)	rI6: + 00 00 (0000)
 MIX >
 @end example
 
-As you can see in the above sample, the contents is printed as the sign
+As you can see in the above sample, the contents are printed as the sign
 plus the values of the MIX bytes stored in the register and, between
 parenthesis, the decimal representation of its module.
 
@@ -581,7 +581,7 @@ flag and overflow toggle.
 Finally, @code{sreg} Sets the contents of the given register to
 @var{value}, expressed as a decimal constant. If @var{value} exceeds the
 maximum value storable in the given register, @code{VALUE mod
-MAXIMU_VALUE} is stored, e.g.
+MAXIMUM_VALUE} is stored, e.g.
 
 @example
 MIX > sreg I1 1000
@@ -629,7 +629,7 @@ MIX > pmem 3000
 MIX >
 @end example
 
-The memory contents is displayed both as the set of five MIX bytes plus
+The memory contents are displayed both as the set of five MIX bytes plus
 sign composing the stored MIX word and, between parenthesis, the decimal
 representation of the module of the stored value.
 
@@ -728,7 +728,7 @@ double quotes (e.g., @code{prompt ">> "}).
 
 If you have compiled @sc{mdk} with @code{libguile} support
 (@pxref{Special configure flags}), @code{mixvm} will start and
-initialise an embedded Guile Scheme interpret when it is invoked. That
+initialise an embedded Guile Scheme interpreter when it is invoked. That
 means that you have at your disposal, at @code{mixvm}'s command prompt,
 all the Scheme primitives described in @ref{Using mixguile} and
 @ref{mixguile}, as well as any other function or hook that you have

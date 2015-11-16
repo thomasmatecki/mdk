@@ -11,7 +11,7 @@
 
 In his book series @cite{The Art of Computer Programming} (published by
 Addison Wesley), D. Knuth uses an imaginary computer, the MIX, and its
-associated machine-code and assembly languages to ilustrate the
+associated machine-code and assembly languages to illustrate the
 concepts and algorithms as they are presented.
 
 The MIX's architecture is a simplified version of those found in real
