@@ -1,11 +1,20 @@
 * GNU MDK -- History of visible changes.
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009,
-              2010, 2013, 2014 Free Software Foundation, Inc.
+              2010, 2013, 2014, 2015 Free Software Foundation, Inc.
 
 See the end for copying conditions.
 
 Please send mdk bug reports to bug-mdk@gnu.org.
+
+---------------------------------------------------------------------------
+* Version 1.2.9 ()
+
+** Bug fixes:
+
+   - #43985: Added missing instructions SLB,SRB,JAE,JAO,JXE,JXO (from
+     volume 2, section 4.5.2), by Sergey Litvin.
+   - #46456: Documentation fixes, by Joshua Davies.
 
 ---------------------------------------------------------------------------
 * Version 1.2.8 (03/08/14)
