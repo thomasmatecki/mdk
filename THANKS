@@ -3,7 +3,8 @@ Acknowledgements
 
    Many people have further contributed to MDK by reporting problems,
 suggesting various improvements, or submitting actual code. Here is a
-list of these people. Help me keep it complete and exempt of errors.
+list of these people. Please, help me keep it complete and exempt of
+errors.
 
    * Philip Ellis King (<pking@pdq.net>) provided MIXAL test programs
      pinpointing bugs in the first MDK release, and useful discussions
@@ -23,8 +24,11 @@ list of these people. Help me keep it complete and exempt of errors.
    * Michael Scholz (<scholz-micha@gmx.de>) is the author of the
      German translation of MDK's user interface.
 
-   * Sergey Poznyakoff(<gray@gnu.org>) provided patches to
+   * Sergey Poznyakoff (<gray@gnu.org>) provided patches to
      mixlib/mix_scanner.l improving MIXAL compliance.
+
+   * Sergey Litvin (litvindev@gmail.com) implemented the instructions
+     SLB, SRB, JAE, JAO, JXE, and JXO from volume 2 of TAOCP.
 
    * Francesc Xavier Noria (<fxn@hash-ref.com>) kindly and thoroughly
      reviewed the MDK documentation, providing insightful advice.
@@ -54,7 +58,7 @@ list of these people. Help me keep it complete and exempt of errors.
      (<sjr3a@virginia.edu>) and Johan Swanljung (<johanswa@yahoo.com>)
      tested MDK on different platforms.
 
-   * Eli Bendersky (<spur4444@yahoo.com>), Milan Bella
+   * Joshua Davies, Eli Bendersky (<spur4444@yahoo.com>), Milan Bella
      (<milanbella@hotmail.com>) and Jens Seidel reported several
      documentation bugs.
 

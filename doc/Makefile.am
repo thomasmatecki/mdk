@@ -23,4 +23,5 @@ mdk_TEXINFOS = mdk_intro.texi mdk_ack.texi mdk_tut.texi mdk_gstart.texi \
 EXTRA_DIST = MIX.DOC COPYING.MIX.DOC
 
 gendocs: $(mdk_TEXINFOS)
-	(cd $(top_srcdir)/doc && ./gendocs.sh --email bug-mdk@gnu.org mdk 'GNU MDK User Manual')
+	(cd $(top_srcdir)/doc && \
+         ./gendocs.sh --email bug-mdk@gnu.org mdk 'GNU MDK Users Manual')

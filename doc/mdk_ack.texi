@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
 @c This is part of the GNU MDK Reference Manual.
-@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009, 2013, 2014
+@c Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009, 2013, 2014, 2015
 @c   Free Software Foundation, Inc.
 @c See the file mdk.texi for copying conditions.
 
@@ -9,8 +9,9 @@
 @unnumbered Acknowledgements
 
 Many people have further contributed to @sc{mdk} by reporting problems,
-suggesting various improvements, or submitting actual code. Here is
-a list of these people. Help me keep it complete and exempt of errors.
+suggesting various improvements, or submitting actual code. Here is a
+list of these people. Please, help me keep it complete and exempt of
+errors.
 
 @itemize @bullet
 @item Philip Ellis King
@@ -34,6 +35,10 @@ is the author of the German translation of @sc{mdk}'s user interface.
 @item Sergey Poznyakoff
 provided patches to mixlib/mix_scanner.l improving MIXAL compliance.
 
+@item Sergey Litvin
+implemented the instructions @code{SLB}, @code{SRB}, @code{JAE},
+@code{JAO}, @code{JXE}, and @code{JXO} from volume 2 of TAOCP.
+
 @item Francesc Xavier Noria
 kindly and thoroughly reviewed the @sc{mdk} documentation, providing
 insightful advice.
@@ -53,7 +58,7 @@ packages for it.
 @item Jason Uhlenkott, Andrew Hood, Radu Butnaru, Ruslan Batdalov, WeiZheng, Sascha Wilde, Michael Vernov and Xiaofeng Zhao
 reported bugs and suggested fixes to them.
 
-@item Eli Bendersky, Milan Bella and Jens Seidel reported bugs on the documentation.
+@item Joshua Davies, Eli Bendersky, Milan Bella and Jens Seidel reported bugs on the documentation.
 
 @item Christoph von Nathusius, Stephen Ramsay  and Johan Swanljung
 tested @sc{mdk} on different platforms, and helped fixing the configuration

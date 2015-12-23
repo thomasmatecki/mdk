@@ -12,3 +12,6 @@ Michael Scholz wrote the German translation po/de.po.
 
 Sergey Poznyakoff provided patches to mixlib/mix_scanner.l improving
 MIXAL compliance.
+
+Sergey Litvin implemented SLB, SRB, JAE, JAO, JXE, JXE instructions in
+mixvm.
