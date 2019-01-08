@@ -481,9 +481,15 @@ wexpr   {expr}({fpart})?(,{expr}({fpart})?)*
 	ADD_INS ();
       }
   }
-  {expr}/")"  {
+
+  {expr}/")"(({ws}+.*\n)|\n)  {
     ENTER_EVAL ();
   }
+
+  {expr}")".+ {
+    RETURN_ERROR (MIX_PERR_INV_FSPEC, g_strdup_printf ("(%s", yytext));
+  }
+
   .	RETURN_ERROR (MIX_PERR_INV_FSPEC, yytext);
 }
 

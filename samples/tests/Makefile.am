@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-# Copyright (C) 2006 by Free Software Foundation, Inc.
+# Copyright (C) 2006, 2019 by Free Software Foundation, Inc.
 
 #
 # This file is free software; as a special exception the author gives
@@ -12,6 +12,6 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 EXTRA_DIST = bt.mixal cbp.mixal ldan.mixal lockonw.mixal negwrite.mixal \
+             minus_zero.mixal dup_f.mixal \
              stress0.mixal stress1.mixal stress2.mixal stress4.mixal \
              stress5.mixal stress6.mixal
-

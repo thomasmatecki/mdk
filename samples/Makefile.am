@@ -14,4 +14,4 @@ SUBDIRS = tests
 
 EXTRA_DIST = primes.result hello.mixal primes.mixal echo.mixal \
              permutations.mixal permutations.cardrd isains.mixal \
-             elevator.mixal mystery.mixal minus_zero.mixal
+             elevator.mixal mystery.mixal
