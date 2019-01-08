@@ -224,15 +224,26 @@ update_future_refs_value_ (mix_parser_t *parser, const gchar *name,
   update_future_refs_value_(parser, name, (parser)->loc_count, rem)
 
 static void
+add_raw_ (mix_parser_t *parser, mix_word_t word, guint lineno)
+{
+  if ( parser->status == MIX_PERR_NOCOMP || parser->status == MIX_PERR_OK )
+    {
+      ins_node_ *node = g_new (ins_node_, 1);
+      node->ins = word;
+      node->lineno = lineno;
+      g_tree_insert (parser->ins_table,
+                     GUINT_TO_POINTER ((guint)parser->loc_count),
+		     (gpointer)node);
+    }
+}
+
+static void
 update_ls_ (gpointer symbol, gpointer value, gpointer parser)
 { /* add an instruction on current location and update refs to it */
-  mix_ins_t ins;
   mix_word_t w = (mix_word_t) GPOINTER_TO_UINT (value);
   mix_parser_t *par = (mix_parser_t *) parser;
-
-  mix_word_to_ins_uncheck (w, ins);
   update_future_refs_ (par, (const gchar *)symbol, TRUE);
-  mix_parser_add_ins (par, &ins, 0);
+  add_raw_ (par, w, 0);
   par->loc_count++;
 }
 
@@ -542,20 +553,6 @@ mix_parser_define_ls (mix_parser_t *parser, mix_word_t value)
 }
 
 /* Compilation */
-static void
-add_raw_ (mix_parser_t *parser, mix_word_t word, guint lineno)
-{
-  if ( parser->status == MIX_PERR_NOCOMP || parser->status == MIX_PERR_OK )
-    {
-      ins_node_ *node = g_new (ins_node_, 1);
-      node->ins = word;
-      node->lineno = lineno;
-      g_tree_insert (parser->ins_table,
-                     GUINT_TO_POINTER ((guint)parser->loc_count),
-		     (gpointer)node);
-    }
-}
-
 void
 mix_parser_add_ins (mix_parser_t *parser, const mix_ins_t *new_ins,
 		    guint lineno)
@@ -606,4 +603,3 @@ mix_parser_log_error (mix_parser_t *parser, mix_parser_err_t error,
   else
     fputs ("\n", stderr);
 }
-
