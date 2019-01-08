@@ -1,7 +1,7 @@
 /* -*-c-*- ------------------ mix_types.c :
  *  Implementation file for mix_types.h declarations.
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2004, 2006, 2007, 2019 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -202,18 +202,17 @@ mix_word_add (mix_word_t x, mix_word_t y)
 	/* for instance MIX_WORD_MAX + 1 = - MIX_WORD_MAX */
 	result = MIX_WORD_MAX_SIM - result;
 	result |= mix_word_sign (mix_word_negative (x));
-      } else if ( result != 0 )
+      } else {
 	result |= mix_word_sign (x);
-      /* keep positive sign for 0 so that w - w == -w + w */
+      }
     }
   else
     {
       result = mix_word_magnitude (x) -  mix_word_magnitude (y);
       if (result < 0)
 	result = -result|mix_word_sign (y);
-      else if (result > 0)
+      else
 	result = result|mix_word_sign (x);
-      /* keep positive sign for 0 so that w - w == -w + w */
     }
 
   g_assert ( result >= 0 );
@@ -266,10 +265,8 @@ mix_word_add_and_carry (mix_word_t x, mix_word_t y,
 	  gint32 dif = mix_word_magnitude (x) -  mix_word_magnitude (y);
 	  if ( dif < 0)
 	    *l = (-dif)|mix_word_sign (y);
-	  else if ( dif > 0)
+	  else
 	    *l = dif|mix_word_sign (x);
-	  else /* keep positive sign for 0 so that w - w == -w + w */
-	    *l = MIX_WORD_ZERO;
 	}
     }
 
@@ -595,7 +592,3 @@ mix_short_print_to_buffer (mix_short_t s, gchar *buf)
 	   mix_byte_new (s>>6), mix_byte_new (s));
   /* g_print ("(%04d)", mix_short_magnitude (s));*/
 }
-
-
-
-

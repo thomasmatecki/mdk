@@ -1,0 +1,8 @@
+                ORIG    3000
+START           ENTA    1
+                STA     1000
+                LDA     0
+                DECA    1
+                ADD     1000
+                HLT
+                END 3000

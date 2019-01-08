@@ -135,6 +135,18 @@ test_arithmetics_(mix_vm_t *vm, mix_dump_context_t *dc)
   test.rA_a = mix_word_new_b(20,54,6,3,8);
   run_test_(&test, vm, dc);
 
+  mix_vm_set_rA(vm, mix_word_new_bn(0,0,0,0,1));
+  mix_vm_set_addr_contents(vm, 1000, mix_word_new_b(0,0,0,0,1));
+  fill_test_desc_(&test,vm,&ins);
+  test.rA_a = MIX_WORD_MINUS_ZERO;
+  run_test_(&test, vm, dc);
+
+  mix_vm_set_rA(vm, mix_word_new_b(0,0,0,0,1));
+  mix_vm_set_addr_contents(vm, 1000, mix_word_new_bn(0,0,0,0,1));
+  fill_test_desc_(&test,vm,&ins);
+  test.rA_a = MIX_WORD_ZERO;
+  run_test_(&test, vm, dc);
+
   mix_ins_fill_from_id(ins,mix_SUB);
   mix_vm_set_rA(vm,mix_word_new_bn(19,18,0,0,9));
   mix_vm_set_addr_contents(vm,1000,mix_word_new_bn(31,16,2,22,0));
@@ -519,4 +531,3 @@ main(int argc, const char **argv)
 
   return EXIT_SUCCESS;
 }
-
