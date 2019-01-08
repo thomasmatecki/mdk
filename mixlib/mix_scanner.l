@@ -1,7 +1,7 @@
 /* -*-c-*- -------------- mix_scanner.l :
  * Lexical scanner used by mix_parser_t
  * ------------------------------------------------------------------
- * Copyright (C) 2000, 2003, 2004, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+ * Copyright (C) 2000, 2003, 2004, 2006, 2007, 2008, 2009, 2019 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,7 +118,6 @@ static void unput_word_ (mix_word_t word);
 %option stack
 %option noyywrap
 %option noyy_top_state
-%option noreject
 %option outfile="lex.yy.c"
 
 %s  LOC
